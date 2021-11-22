@@ -5,5 +5,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CourseDao extends BaseDao<Course>{
-
+    Course getCourseById(int id);
 }

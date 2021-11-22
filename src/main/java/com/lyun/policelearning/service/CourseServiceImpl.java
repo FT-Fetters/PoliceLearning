@@ -23,14 +23,40 @@ public class CourseServiceImpl implements CourseService{
         List<JSONObject> courses = new ArrayList<>();
         List<Course> courseList = courseDao.findAll();
         for (Course course : courseList) {
-            JSONObject tmp = new JSONObject();
-            tmp.put("id" , course.getId());
-            tmp.put("name",  course.getName());
-            tmp.put("introduce",course.getIntroduce());
-            JSONArray catalogue = JSONArray.parseArray(course.getCatalogue());
-            tmp.put("catalogue",catalogue);
+            JSONObject tmp = courseToJson(course);
             courses.add(tmp);
         }
         return courses;
+    }
+
+    @Override
+    public JSONObject getCourseById(int id) {
+        Course course = courseDao.getCourseById(id);
+        return courseToJson(course);
+    }
+
+    private JSONObject courseToJson(Course course) {
+        JSONObject res = new JSONObject();
+        res.put("id",course.getId());
+        res.put("name",course.getName());
+        res.put("introduce",course.getIntroduce());
+        res.put("type",course.getType());
+        JSONArray catalogue = JSONArray.parseArray(course.getCatalogue());
+        res.put("catalogue",catalogue);
+        return res;
+    }
+
+    @Override
+    public JSONArray getCatalogue(int id) {
+        if (getCourseById(id) == null)
+            return null;
+        return JSONArray.parseArray(getCourseById(id).getString("catalogue"));
+    }
+
+    @Override
+    public String getIntroduce(int id) {
+        if (getCourseById(id) == null)
+            return null;
+        return getCourseById(id).getString("introduce");
     }
 }

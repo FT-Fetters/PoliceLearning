@@ -8,4 +8,5 @@ public class Course {
     private String name;
     private String introduce;
     private String catalogue;
+    private String type;
 }
