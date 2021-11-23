@@ -32,6 +32,7 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public JSONObject getCourseById(int id) {
         Course course = courseDao.getCourseById(id);
+        if (course == null)return null;
         return courseToJson(course);
     }
 
@@ -58,5 +59,43 @@ public class CourseServiceImpl implements CourseService{
         if (getCourseById(id) == null)
             return null;
         return getCourseById(id).getString("introduce");
+    }
+
+    @Override
+    public boolean changeType(int id, String type) {
+        if (getCourseById(id) == null)return false;
+        Course course = new Course();
+        JSONObject courseJson = getCourseById(id);
+        course.setId(courseJson.getInteger("id"));
+        course.setType(type);
+        course.setCatalogue(courseJson.getString("catalogue"));
+        course.setName(courseJson.getString("name"));
+        course.setIntroduce(courseJson.getString("introduce"));
+        courseDao.update(course);
+        return true;
+    }
+
+    @Override
+    public JSONArray getByType(String type) {
+        List<Course> courses = courseDao.getByType(type);
+        JSONArray res = new JSONArray();
+        for (Course course : courses) {
+            res.add(courseToJson(course));
+        }
+        return res;
+    }
+
+    @Override
+    public boolean changeIntroduce(int id,String introduce) {
+        if (getCourseById(id) == null)return false;
+        Course course = new Course();
+        JSONObject courseJson = getCourseById(id);
+        course.setId(courseJson.getInteger("id"));
+        course.setType(courseJson.getString("type"));
+        course.setCatalogue(courseJson.getString("catalogue"));
+        course.setName(courseJson.getString("name"));
+        course.setIntroduce(introduce);
+        courseDao.update(course);
+        return false;
     }
 }

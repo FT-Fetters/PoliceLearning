@@ -12,4 +12,5 @@ public class Information {
     private Date date;
     private String content;
     private String other;
+    private int views;
 }

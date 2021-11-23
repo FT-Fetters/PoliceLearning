@@ -12,4 +12,7 @@ public interface CourseService {
     JSONObject getCourseById(int id);
     JSONArray getCatalogue(int id);
     String getIntroduce(int id);
+    boolean changeType(int id,String type);
+    JSONArray getByType(String type);
+    boolean changeIntroduce(int id,String introduce);
 }

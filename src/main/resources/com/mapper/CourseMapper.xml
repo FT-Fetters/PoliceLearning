@@ -3,4 +3,11 @@
 <mapper namespace="com.lyun.policelearning.dao.CourseDao">
     <select id="findAll" resultType="Course">SELECT * FROM course</select>
     <select id="getCourseById" resultType="Course">SELECT * FROM course WHERE id=#{id}</select>
+    <update id="update">UPDATE course SET
+                  id=#{course.id},name=#{course.name},
+                  introduce=#{course.introduce},
+                  catalogue=#{course.catalogue},
+                  type=#{course.type}
+                  WHERE id=#{course.id}</update>
+    <select id="getByType" resultType="Course">SELECT * FROM course WHERE type=#{type}</select>
 </mapper>

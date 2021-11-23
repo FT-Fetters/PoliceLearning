@@ -40,7 +40,7 @@ public class CourseApi {
         if (res != null){
             return new ResultBody<>(true,200,res);
         }else {
-            return new ResultBody<>(false,501,"not found this id");
+            return new ResultBody<>(false,501,"unknown id");
         }
     }
 
