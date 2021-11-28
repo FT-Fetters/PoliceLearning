@@ -2,16 +2,32 @@ package com.lyun.policelearning.controller.course;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.handler.NonStaticResourceHttpRequestHandler;
 import com.lyun.policelearning.service.CourseService;
+import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/course")
+@AllArgsConstructor
 public class CourseApi {
 
     @Autowired
@@ -72,6 +88,28 @@ public class CourseApi {
             return new ResultBody<>(true,200,res);
         }else {
             return new ResultBody<>(false,501,"not found this id");
+        }
+    }
+
+
+
+
+    private final NonStaticResourceHttpRequestHandler nonStaticResourceHttpRequestHandler;
+    @SneakyThrows
+    @RequestMapping(value = "/video",method = RequestMethod.GET)
+    public void playVideo(@RequestParam String id, HttpServletRequest request, HttpServletResponse response){
+        String realPath = PathTools.getRunPath() + "/video/"+id+".mp4";
+        Path filePath = Paths.get(realPath);
+        if (Files.exists(filePath)){
+            String mimeType = Files.probeContentType(filePath);
+            if (!StringUtils.isEmpty(mimeType)){
+                response.setContentType(mimeType);
+            }
+            request.setAttribute(NonStaticResourceHttpRequestHandler.ATTR_FILE,filePath);
+            nonStaticResourceHttpRequestHandler.handleRequest(request,response);
+        }else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
         }
     }
 }

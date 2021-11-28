@@ -37,6 +37,7 @@ public class CourseServiceImpl implements CourseService{
     }
 
     private JSONObject courseToJson(Course course) {
+        if (course == null)return null;
         JSONObject res = new JSONObject();
         res.put("id",course.getId());
         res.put("name",course.getName());
@@ -86,6 +87,11 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
+    public JSONObject getCourseByName(String name) {
+        return courseToJson(courseDao.getCourseByName(name));
+    }
+
+    @Override
     public boolean changeIntroduce(int id,String introduce) {
         if (getCourseById(id) == null)return false;
         Course course = new Course();
@@ -98,4 +104,16 @@ public class CourseServiceImpl implements CourseService{
         courseDao.update(course);
         return false;
     }
+
+    @Override
+    public boolean publish(String name, String introduce, String type) {
+        if (getCourseByName(name) == null){
+            courseDao.publish(name,introduce,type);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
 }
