@@ -8,4 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface LawDao extends BaseDao<Law>{
+    List<Law> findContent(String title);
+    List<Law> findContentById(int id);
+    void updateKeyword(int id,String str);
+    Law findLawById(int id);
 }

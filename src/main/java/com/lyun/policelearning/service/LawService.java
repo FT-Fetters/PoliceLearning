@@ -8,4 +8,7 @@ public interface LawService {
     List<JSONObject> findAll();
     JSONObject findAllType();
     JSONObject findTitleByName(String name);
+    JSONObject findContent(String title);
+    JSONObject findContentById(int id);
+    boolean updateKeyword(String name,String explain,int id);
 }
