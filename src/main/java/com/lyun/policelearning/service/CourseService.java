@@ -16,4 +16,7 @@ public interface CourseService {
     JSONObject getCourseByName(String name);
     boolean changeIntroduce(int id,String introduce);
     boolean publish(String name,String introduce,String type);
+    boolean changeCatalogue(int id,JSONArray catalogue);
+    boolean changeCatalogue(String name,JSONArray catalogue);
+
 }

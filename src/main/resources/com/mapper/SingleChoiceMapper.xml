@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.question.SingleChoiceDao">
+    <select id="findAll" resultType="SingleChoice">SELECT * FROM single_choice</select>
+    <select id="getById" resultType="SingleChoice">SELECT * FROM single_choice WHERE id=#{id}</select>
+    <insert id="newQuestion">INSERT INTO single_choice (problem,option_a,option_b,option_c,option_d,answer) VALUES (#{singleChoice.problem},#{singleChoice.option_a},#{singleChoice.option_b},#{singleChoice.option_c},#{singleChoice.option_d},#{singleChoice.answer})</insert>
+    <update id="updateQuestion">
+        UPDATE single_choice SET problem = #{singleChoice.problem},option_a=#{singleChoice.option_a},option_b=#{singleChoice.option_b},option_c=#{singleChoice.option_c},option_d=#{singleChoice.option_d},answer=#{singleChoice.answer} WHERE id = #{singleChoice.id}
+    </update>
+</mapper>

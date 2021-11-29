@@ -112,6 +112,7 @@ public class CourseManageApi {
         tmp.put("id",DigestUtils.md5DigestAsHex((courseName+videoName).getBytes(StandardCharsets.UTF_8)));
         catalogue.add(tmp);
         //改变catalogue
+        courseService.changeCatalogue(courseName,catalogue);
         return new ResultBody<>(true,200,null);
     }
 

@@ -102,7 +102,7 @@ public class CourseServiceImpl implements CourseService{
         course.setName(courseJson.getString("name"));
         course.setIntroduce(introduce);
         courseDao.update(course);
-        return false;
+        return true;
     }
 
     @Override
@@ -113,6 +113,32 @@ public class CourseServiceImpl implements CourseService{
         }else {
             return false;
         }
+    }
+
+    @Override
+    public boolean changeCatalogue(int id, JSONArray catalogue) {
+        if (getCourseById(id) == null)return false;
+        Course course = new Course();
+        JSONObject courseJson = getCourseById(id);
+        course.setCatalogue(catalogue.toJSONString());
+        course.setName(courseJson.getString("name"));
+        course.setId(courseJson.getInteger("id"));
+        course.setType(courseJson.getString("type"));
+        courseDao.update(course);
+        return true;
+    }
+
+    @Override
+    public boolean changeCatalogue(String name, JSONArray catalogue) {
+        if (getCourseByName(name) == null)return false;
+        Course course = new Course();
+        JSONObject courseJson = getCourseByName(name);
+        course.setCatalogue(catalogue.toJSONString());
+        course.setName(courseJson.getString("name"));
+        course.setId(courseJson.getInteger("id"));
+        course.setType(courseJson.getString("type"));
+        courseDao.update(course);
+        return true;
     }
 
 
