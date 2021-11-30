@@ -35,4 +35,9 @@ public class SingleChoiceServiceImpl implements SingleChoiceService{
     public void updateQuestion(SingleChoice singleChoice) {
         singleChoiceDao.updateQuestion(singleChoice);
     }
+
+    @Override
+    public void deleteQuestion(int id) {
+        singleChoiceDao.deleteQuestion(id);
+    }
 }

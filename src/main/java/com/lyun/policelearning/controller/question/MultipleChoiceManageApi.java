@@ -1,8 +1,10 @@
 package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.dao.question.MultipleChoiceDao;
+import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
-import com.lyun.policelearning.service.question.SingleChoiceService;
+import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.utils.ResultBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@RequestMapping("/singleChoice/manage")
+@RequestMapping("/multipleChoice/manage")
 @RestController
-public class SingleChoiceManageApi {
+public class MultipleChoiceManageApi {
 
     @Autowired
-    SingleChoiceService singleChoiceService;
+    MultipleChoiceService multipleChoiceService;
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
     public Object newQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
@@ -34,17 +36,17 @@ public class SingleChoiceManageApi {
         if (option_a == null && option_b == null && option_c == null && option_d == null){
             return new ResultBody<>(false,502,"at least one option is required");
         }
-        if (answer.length() != 1){
-            return new ResultBody<>(false,503,"answer is too long");
+        if (answer.length() > 4){
+            return new ResultBody<>(false,503,"error answer len");
         }
-        SingleChoice singleChoice = new SingleChoice();
-        singleChoice.setProblem(problem);
-        singleChoice.setOption_a(option_a);
-        singleChoice.setOption_b(option_b);
-        singleChoice.setOption_c(option_c);
-        singleChoice.setOption_d(option_d);
-        singleChoice.setAnswer(answer);
-        singleChoiceService.newQuestion(singleChoice);
+        MultipleChoice multipleChoice = new MultipleChoice();
+        multipleChoice.setProblem(problem);
+        multipleChoice.setOption_a(option_a);
+        multipleChoice.setOption_b(option_b);
+        multipleChoice.setOption_c(option_c);
+        multipleChoice.setOption_d(option_d);
+        multipleChoice.setAnswer(answer);
+        multipleChoiceService.newQuestion(multipleChoice);
         return new ResultBody<>(true,200,null);
     }
 
@@ -57,7 +59,7 @@ public class SingleChoiceManageApi {
         String option_c = data.getString("option_c");
         String option_d = data.getString("option_d");
         String answer = data.getString("answer");
-        if (singleChoiceService.getById(id) == null){
+        if (multipleChoiceService.getById(id) == null){
             return new ResultBody<>(false,500,"id not found");
         }
         if (problem == null){
@@ -66,15 +68,15 @@ public class SingleChoiceManageApi {
         if (option_a == null && option_b == null && option_c == null && option_d == null){
             return new ResultBody<>(false,502,"at least one option is required");
         }
-        SingleChoice singleChoice = singleChoiceService.getById(id);
-        singleChoice.setId(id);
-        singleChoice.setProblem(problem);
-        singleChoice.setOption_a(option_a);
-        singleChoice.setOption_b(option_b);
-        singleChoice.setOption_c(option_c);
-        singleChoice.setOption_d(option_d);
-        singleChoice.setAnswer(answer);
-        singleChoiceService.updateQuestion(singleChoice);
+        MultipleChoice multipleChoice = multipleChoiceService.getById(id);
+        multipleChoice.setId(id);
+        multipleChoice.setProblem(problem);
+        multipleChoice.setOption_a(option_a);
+        multipleChoice.setOption_b(option_b);
+        multipleChoice.setOption_c(option_c);
+        multipleChoice.setOption_d(option_d);
+        multipleChoice.setAnswer(answer);
+        multipleChoiceService.updateQuestion(multipleChoice);
         return new ResultBody<>(true,200,null);
     }
 
@@ -87,8 +89,7 @@ public class SingleChoiceManageApi {
         if (id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
-        singleChoiceService.deleteQuestion(id);
+        multipleChoiceService.deleteQuestion(id);
         return new ResultBody<>(true,200,null);
     }
-
 }

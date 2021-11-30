@@ -11,4 +11,5 @@ public interface SingleChoiceService {
     SingleChoice getById(int id);
     void newQuestion(SingleChoice singleChoice);
     void updateQuestion(SingleChoice singleChoice);
+    void deleteQuestion(int id);
 }

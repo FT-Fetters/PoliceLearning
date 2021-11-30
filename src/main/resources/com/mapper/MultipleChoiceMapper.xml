@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.question.MultipleChoiceDao">
+    <select id="findAll" resultType="MultipleChoice">SELECT * FROM multiple_choice</select>
+    <select id="getById" resultType="MultipleChoice">SELECT * FROM multiple_choice WHERE id=#{id}</select>
+    <insert id="newQuestion">INSERT INTO multiple_choice (problem,option_a,option_b,option_c,option_d,answer) VALUES (#{multipleChoice.problem},#{multipleChoice.option_a},#{multipleChoice.option_b},#{multipleChoice.option_c},#{multipleChoice.option_d},#{multipleChoice.answer})</insert>
+    <update id="updateQuestion">
+        UPDATE multiple_choice SET problem = #{multipleChoice.problem},option_a=#{multipleChoice.option_a},option_b=#{multipleChoice.option_b},option_c=#{multipleChoice.option_c},option_d=#{multipleChoice.option_d},answer=#{multipleChoice.answer} WHERE id = #{multipleChoice.id}
+    </update>
+    <delete id="deleteQuestion">DELETE FROM multiple_choice WHERE id=#{id}</delete>
+</mapper>

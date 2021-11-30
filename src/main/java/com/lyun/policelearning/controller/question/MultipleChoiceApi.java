@@ -1,7 +1,9 @@
 package com.lyun.policelearning.controller.question;
 
+import com.lyun.policelearning.dao.question.MultipleChoiceDao;
+import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
-import com.lyun.policelearning.service.question.SingleChoiceService;
+import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.utils.ResultBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,21 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequestMapping("/multipleChoice")
 @RestController
-@RequestMapping("/singleChoice")
-public class SingleChoiceApi {
+public class MultipleChoiceApi {
 
     @Autowired
-    SingleChoiceService singleChoiceService;
+    MultipleChoiceService multipleChoiceService;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Object list(){
-        List<SingleChoice> singleChoices = singleChoiceService.findAll();
-        List<Integer> singleChoiceId = new ArrayList<>();
-        for (SingleChoice singleChoice : singleChoices) {
-            singleChoiceId.add(singleChoice.getId());
+        List<MultipleChoice> multipleChoices = multipleChoiceService.findAll();
+        List<Integer> multipleChoiceId = new ArrayList<>();
+        for (MultipleChoice multipleChoice : multipleChoices) {
+            multipleChoiceId.add(multipleChoice.getId());
         }
-        return new ResultBody<>(true,200,singleChoiceId);
+        return new ResultBody<>(true,200,multipleChoiceId);
     }
 
     @RequestMapping(value = "/get",method = RequestMethod.GET)
@@ -34,10 +36,11 @@ public class SingleChoiceApi {
         if (id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
-        SingleChoice res = singleChoiceService.getById(id);
+        MultipleChoice res = multipleChoiceService.getById(id);
         if (res == null){
             return new ResultBody<>(false,501,"id not found");
         }
         return new ResultBody<>(true,200,res);
     }
+
 }

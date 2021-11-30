@@ -7,4 +7,5 @@
     <update id="updateQuestion">
         UPDATE single_choice SET problem = #{singleChoice.problem},option_a=#{singleChoice.option_a},option_b=#{singleChoice.option_b},option_c=#{singleChoice.option_c},option_d=#{singleChoice.option_d},answer=#{singleChoice.answer} WHERE id = #{singleChoice.id}
     </update>
+    <delete id="deleteQuestion">DELETE FROM single_choice WHERE id=#{id}</delete>
 </mapper>

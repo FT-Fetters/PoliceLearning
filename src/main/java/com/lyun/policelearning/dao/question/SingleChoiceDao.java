@@ -10,4 +10,5 @@ public interface SingleChoiceDao extends BaseDao<SingleChoice> {
     SingleChoice getById(int id);
     void newQuestion(@Param("singleChoice") SingleChoice singleChoice);
     void updateQuestion(@Param("singleChoice") SingleChoice singleChoice);
+    void deleteQuestion(int id);
 }
