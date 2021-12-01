@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyun.policelearning.dao.question.JudgmentDao">
     <select id="findAll" resultType="Judgment">SELECT * FROM judgment</select>
+    <select id="getById" resultType="Judgment">SELECT * FROM judgment WHERE id=#{id}</select>
+    <insert id="newQuestion">INSERT INTO judgment (problem,option_true,option_false,answer) VALUES (#{judgment.problem},#{judgment.option_true},#{judgment.option_false},#{judgment.answer})</insert>
+    <update id="updateQuestion">
+        UPDATE judgment SET problem = #{judgment.problem},option_a=#{judgment.option_true},option_b=#{judgment.false},option_c=#{judgment.answer}} WHERE id = #{judgment.id}
+    </update>
+    <delete id="deleteQuestion">DELETE FROM judgment WHERE id=#{id}</delete>
 </mapper>

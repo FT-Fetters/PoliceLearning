@@ -1,10 +1,8 @@
 package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lyun.policelearning.dao.question.MultipleChoiceDao;
-import com.lyun.policelearning.entity.question.MultipleChoice;
-import com.lyun.policelearning.entity.question.SingleChoice;
-import com.lyun.policelearning.service.question.MultipleChoiceService;
+import com.lyun.policelearning.entity.question.Judgment;
+import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.utils.ResultBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,71 +13,62 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@RequestMapping("/multipleChoice/manage")
+@RequestMapping("/judgment/manage")
 @RestController
-public class MultipleChoiceManageApi {
+public class JudgmentManageApi {
+
 
     @Autowired
-    MultipleChoiceService multipleChoiceService;
+    JudgmentService judgmentService;
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
     public Object newQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
         String problem = data.getString("problem");
-        String option_a = data.getString("option_a");
-        String option_b = data.getString("option_b");
-        String option_c = data.getString("option_c");
-        String option_d = data.getString("option_d");
+        String option_true = data.getString("option_true");
+        String option_false = data.getString("option_false");
         String answer = data.getString("answer");
         if (problem == null){
             return new ResultBody<>(false,501,"problem can not null");
         }
-        if (option_a == null && option_b == null && option_c == null && option_d == null){
+        if (option_false == null && option_true == null){
             return new ResultBody<>(false,502,"at least one option is required");
         }
-        if (answer.length() > 4){
-            return new ResultBody<>(false,503,"error answer len");
+        if (answer.length() != 1){
+            return new ResultBody<>(false,503,"answer is too long");
         }
-        MultipleChoice multipleChoice = new MultipleChoice();
-        multipleChoice.setProblem(problem);
-        multipleChoice.setOption_a(option_a);
-        multipleChoice.setOption_b(option_b);
-        multipleChoice.setOption_c(option_c);
-        multipleChoice.setOption_d(option_d);
-        multipleChoice.setAnswer(answer);
-        multipleChoiceService.newQuestion(multipleChoice);
+        Judgment judgment = new Judgment();
+        judgment.setProblem(problem);
+        judgment.setOption_false(option_false);
+        judgment.setOption_true(option_true);
+        judgment.setAnswer(answer);
+        judgmentService.newQuestion(judgment);
         return new ResultBody<>(true,200,null);
     }
-
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Object updateQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
         Integer id = data.getInteger("id");
         String problem = data.getString("problem");
-        String option_a = data.getString("option_a");
-        String option_b = data.getString("option_b");
-        String option_c = data.getString("option_c");
-        String option_d = data.getString("option_d");
+        String option_true = data.getString("option_true");
+        String option_false = data.getString("option_false");
         String answer = data.getString("answer");
-        if (multipleChoiceService.getById(id) == null){
+        if (judgmentService.getById(id) == null){
             return new ResultBody<>(false,500,"id not found");
         }
         if (problem == null){
             return new ResultBody<>(false,501,"problem can not null");
         }
-        if (option_a == null && option_b == null && option_c == null && option_d == null){
+        if (option_false == null && option_true == null){
             return new ResultBody<>(false,502,"at least one option is required");
         }
-        MultipleChoice multipleChoice = multipleChoiceService.getById(id);
-        multipleChoice.setId(id);
-        multipleChoice.setProblem(problem);
-        multipleChoice.setOption_a(option_a);
-        multipleChoice.setOption_b(option_b);
-        multipleChoice.setOption_c(option_c);
-        multipleChoice.setOption_d(option_d);
-        multipleChoice.setAnswer(answer);
-        multipleChoiceService.updateQuestion(multipleChoice);
+        Judgment judgment = new Judgment();
+        judgment.setId(id);
+        judgment.setProblem(problem);
+        judgment.setOption_false(option_false);
+        judgment.setOption_true(option_true);
+        judgment.setAnswer(answer);
+        judgmentService.updateQuestion(judgment);
         return new ResultBody<>(true,200,null);
     }
-
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Object deleteQuestion(@RequestBody JSONObject data){
         Integer id = data.getInteger("id");
@@ -89,7 +78,7 @@ public class MultipleChoiceManageApi {
         if (id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
-        multipleChoiceService.deleteQuestion(id);
+        judgmentService.deleteQuestion(id);
         return new ResultBody<>(true,200,null);
     }
 }
