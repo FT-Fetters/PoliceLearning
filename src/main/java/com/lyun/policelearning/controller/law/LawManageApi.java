@@ -2,15 +2,22 @@ package com.lyun.policelearning.controller.law;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.service.LawService;
+import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.ResultBody;
+import com.lyun.policelearning.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/law/manage")
 public class LawManageApi {
     @Autowired
     LawService lawService;
+
+    @Autowired
+    UserService userService;
     /**
      * 获取所有的法律类型
      * @return 返回法律类型这一列表
@@ -27,7 +34,10 @@ public class LawManageApi {
      * @return 返回对应的title目录
      */
     @RequestMapping(value = "/catalogue",method = RequestMethod.GET)
-    public Object getCatalogueByType(@RequestParam String lawtype){
+    public Object getCatalogueByType(@RequestParam String lawtype, HttpServletRequest request){
+        if (!UserUtils.checkPower(request,5,userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
         if(lawtype == null){
             return new ResultBody<>(false,500,"error type");
         }
