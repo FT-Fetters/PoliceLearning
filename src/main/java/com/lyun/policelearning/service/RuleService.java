@@ -1,18 +1,17 @@
 package com.lyun.policelearning.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 
 import java.util.List;
 
-public interface InformationService {
+public interface RuleService {
     List<JSONObject> findAll();
-    JSONObject getInformationById(int id);
+    JSONObject getRuleById(int id);
     PageResult findPage(PageRequest pageRequest);
-    boolean insertInformation(Information information);
+    boolean insertRule(Rule rule);
     boolean deleteById(int id);
-    boolean updateById(Information information);
+    boolean updateById(Rule rule);
 }
