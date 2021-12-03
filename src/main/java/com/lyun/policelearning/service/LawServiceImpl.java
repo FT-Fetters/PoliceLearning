@@ -103,9 +103,6 @@ public class LawServiceImpl implements LawService{
         res.put("conten",law.getContent());
         res.put("explaination",law.getExplaination());
         res.put("crime",law.getCrime());
-        //用JSONArray去装目录，然后再将这个array作为一个整体放入json中
-        //parseArray:将JSONObject转化成JSONArray
-        //law.getKeyword()得到的不就是JSONArray吗？为什么还需要进行转化？
         JSONArray keyWord = JSONArray.parseArray(law.getKeyword());
         res.put("keyWord",keyWord);
         return res;

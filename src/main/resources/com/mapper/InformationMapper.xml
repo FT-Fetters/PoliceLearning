@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyun.policelearning.dao.InformationDao">
     <select id="findAll" resultType="Information">SELECT * FROM information</select>
+    <select id="getInformationById" resultType="Information">SELECT * FROM information WHERE id=#{id}</select>
+    <select id="selectPage" resultType="Information" >SELECT * FROM information</select>
+    <select id="insertInformation">INSERT INTO information(title,content,view,date) VALUES (#{information.title},#{information.content},#{information.view},#{information.date})</select>
+    <delete id="deleteById">DELETE FROM information WHERE id=#{id}</delete>
+    <update id="updateById">UPDATE information SET title=#{information.title},content=#{information.content},view=#{information.view},date=#{information.date} WHERE id=#{information.id}</update>
 </mapper>

@@ -32,7 +32,6 @@ public class LawApi {
     public Object getAllLawType(){
         return new ResultBody<>(true,200,lawService.findAll());
     }
-
     /**
      * 根据法律的类型查询对应的title有哪些
      * @param lawtype

@@ -76,7 +76,7 @@ public class LawManageApi {
      * 实现新增词类功能
      * @return
      */
-    @RequestMapping(value = "/updateKeyword",method = RequestMethod.POST)
+    @RequestMapping(value = "/content/updateKeyword",method = RequestMethod.POST)
     public Object updateKeyword(@RequestBody JSONObject data,@RequestParam int id){
         String name = data.getString("name");
         String explain = data.getString("explain");

@@ -6,11 +6,10 @@ import java.sql.Date;
 
 
 @Data
-public class Information {
+public class Rule {
     private int id;
     private String title;
     private String content;
-    private Date date;
     private int view;
-    private boolean istop;
+    private Date date;
 }
