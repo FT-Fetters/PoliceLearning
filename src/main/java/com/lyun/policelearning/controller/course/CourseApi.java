@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.handler.NonStaticResourceHttpRequestHandler;
 import com.lyun.policelearning.service.CourseService;
+import com.lyun.policelearning.utils.IpUtils;
+import com.lyun.policelearning.utils.LogUtils;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import lombok.AllArgsConstructor;
@@ -48,10 +50,11 @@ public class CourseApi {
      * @return 指定的课程
      */
     @RequestMapping(value = "/get",method = RequestMethod.GET)
-    public Object get(@RequestParam int id){
+    public Object get(@RequestParam int id, HttpServletRequest request){
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
+        LogUtils.log("get course list","get",true,request);
         JSONObject res = courseService.getCourseById(id);
         if (res != null){
             return new ResultBody<>(true,200,res);
@@ -66,10 +69,11 @@ public class CourseApi {
      * @return 指定id的课程的目录
      */
     @RequestMapping(value = "/catalogue",method = RequestMethod.GET)
-    public Object getCourseCatalogue(@RequestParam int id){
+    public Object getCourseCatalogue(@RequestParam int id, HttpServletRequest request){
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
+        LogUtils.log(  "get course catalogue","get",true,request);
         JSONArray res = courseService.getCatalogue(id);
         if (res != null){
             return new ResultBody<>(true,200,res);
