@@ -2,8 +2,10 @@ package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.entity.question.SingleChoice;
+import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.question.SingleChoiceService;
 import com.lyun.policelearning.utils.ResultBody;
+import com.lyun.policelearning.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +22,14 @@ public class SingleChoiceManageApi {
     @Autowired
     SingleChoiceService singleChoiceService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/new",method = RequestMethod.POST)
     public Object newQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
+        if (!UserUtils.checkPower(request,5,userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
         String problem = data.getString("problem");
         String option_a = data.getString("option_a");
         String option_b = data.getString("option_b");
@@ -50,6 +58,9 @@ public class SingleChoiceManageApi {
 
     @RequestMapping("/update")
     public Object updateQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
+        if (!UserUtils.checkPower(request,5,userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
         Integer id = data.getInteger("id");
         String problem = data.getString("problem");
         String option_a = data.getString("option_a");
@@ -79,7 +90,10 @@ public class SingleChoiceManageApi {
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Object deleteQuestion(@RequestBody JSONObject data){
+    public Object deleteQuestion(@RequestBody JSONObject data,HttpServletRequest request){
+        if (!UserUtils.checkPower(request,5,userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
         Integer id = data.getInteger("id");
         if (id == null){
             return new ResultBody<>(false,500,"missing parameter");

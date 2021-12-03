@@ -7,9 +7,6 @@ import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.utils.ResultBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 

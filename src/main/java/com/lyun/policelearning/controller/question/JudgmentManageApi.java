@@ -2,8 +2,10 @@ package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.entity.question.Judgment;
+import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.utils.ResultBody;
+import com.lyun.policelearning.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +23,14 @@ public class JudgmentManageApi {
     @Autowired
     JudgmentService judgmentService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/new",method = RequestMethod.POST)
     public Object newQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
+        if (!UserUtils.checkPower(request,5,userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
         String problem = data.getString("problem");
         String option_true = data.getString("option_true");
         String option_false = data.getString("option_false");
@@ -46,6 +54,9 @@ public class JudgmentManageApi {
     }
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Object updateQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
+        if (!UserUtils.checkPower(request,5,userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
         Integer id = data.getInteger("id");
         String problem = data.getString("problem");
         String option_true = data.getString("option_true");
@@ -70,7 +81,10 @@ public class JudgmentManageApi {
         return new ResultBody<>(true,200,null);
     }
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Object deleteQuestion(@RequestBody JSONObject data){
+    public Object deleteQuestion(@RequestBody JSONObject data,HttpServletRequest request){
+        if (!UserUtils.checkPower(request,5,userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
         Integer id = data.getInteger("id");
         if (id == null){
             return new ResultBody<>(false,500,"missing parameter");
