@@ -82,6 +82,11 @@ public class RuleServiceImpl implements RuleService{
         }
     }
 
+    @Override
+    public void updateView(int id) {
+        ruleDao.updateView(id);
+    }
+
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();

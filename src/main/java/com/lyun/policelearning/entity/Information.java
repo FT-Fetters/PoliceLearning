@@ -1,5 +1,4 @@
 package com.lyun.policelearning.entity;
-
 import lombok.Data;
 
 import java.sql.Date;
@@ -12,5 +11,5 @@ public class Information {
     private String content;
     private Date date;
     private int view;
-    private boolean istop;
+    private int istop;
 }

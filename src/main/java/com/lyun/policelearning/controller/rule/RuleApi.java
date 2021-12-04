@@ -45,6 +45,9 @@ public class RuleApi {
      */
     @RequestMapping(value = "/content",method = RequestMethod.GET)
     public Object getRuleById(@RequestParam int id){
+        //更新数据库中的view值
+        ruleService.updateView(id);
+
         JSONObject res = ruleService.getRuleById(id);
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
