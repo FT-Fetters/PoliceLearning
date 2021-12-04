@@ -9,6 +9,7 @@ import java.util.List;
 @Mapper
 public interface RuleDao extends BaseDao<Rule>{
     Rule getRuleById(int id);
+    void updateView(int id);
     //管理员部分
     List<Rule> selectPage();
     void insertRule(@Param("rule") Rule rule);

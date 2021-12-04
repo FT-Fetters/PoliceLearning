@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class RuleManageApi {
     @Autowired
     RuleService ruleService;
-
     /**
      * 根据传入的PageRequest对象，返回分页之后的信息
      * @param pageQuery

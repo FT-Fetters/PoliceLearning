@@ -9,4 +9,5 @@
     <select id="insertRule">INSERT INTO rule(title,content,view,date) VALUES (#{rule.title},#{rule.content},#{rule.view},#{rule.date})</select>
     <delete id="deleteById">DELETE FROM rule WHERE id=#{id}</delete>
     <update id="updateById">UPDATE rule SET title=#{rule.title},content=#{rule.content},view=#{rule.view},date=#{rule.date} WHERE id=#{rule.id}</update>
+    <update id="updateView">UPDATE rule SET view = view + 1 WHERE id=#{id}</update>
 </mapper>

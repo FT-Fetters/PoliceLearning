@@ -26,13 +26,23 @@ public class InformationServiceImpl implements InformationService{
     @Override
     public List<JSONObject> findAll() {
         List<JSONObject> informationList = new ArrayList<>();
-        List<Information> list = new ArrayList<>();
-        for(Information information : informationDao.findAll()){
+        //先将istop为true的数据放进去
+        for(Information information : informationDao.findTop()){
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id",information.getId());
             jsonObject.put("title",information.getTitle());
             jsonObject.put("view",information.getView());
             jsonObject.put("date",information.getDate());
+            jsonObject.put("istop",information.getIstop());
+            informationList.add(jsonObject);
+        }
+        for(Information information : informationDao.findNotTop()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",information.getId());
+            jsonObject.put("title",information.getTitle());
+            jsonObject.put("view",information.getView());
+            jsonObject.put("date",information.getDate());
+            jsonObject.put("istop",information.getIstop());
             informationList.add(jsonObject);
         }
         return informationList;
@@ -87,6 +97,17 @@ public class InformationServiceImpl implements InformationService{
         }
     }
 
+    @Override
+    public boolean updateTopById(int id, int istop) {
+       informationDao.updateTopById(id,istop);
+       return true;
+    }
+
+    @Override
+    public void updateView(int id) {
+        informationDao.updateView(id);
+    }
+
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
@@ -95,4 +116,5 @@ public class InformationServiceImpl implements InformationService{
         List<Information> informationList = informationDao.selectPage();
         return new PageInfo<>(informationList);
     }
+
 }

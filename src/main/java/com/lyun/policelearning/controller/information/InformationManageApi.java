@@ -53,7 +53,7 @@ public class InformationManageApi {
      * @param information
      * @return
      */
-    @RequestMapping(value = "getPage/insert",method = RequestMethod.POST)
+    @RequestMapping(value = "/getPage/insert",method = RequestMethod.POST)
     public Object insertInformation(@RequestBody Information information){
         if(informationService.insertInformation(information)){
             return new ResultBody<>(true,200,null);
@@ -67,7 +67,7 @@ public class InformationManageApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "getPage/delete",method = RequestMethod.GET)
+    @RequestMapping(value = "/getPage/delete",method = RequestMethod.GET)
     public Object deleteById(@RequestParam int id){
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
@@ -83,13 +83,34 @@ public class InformationManageApi {
      * @param information
      * @return
      */
-    @RequestMapping(value = "getPage/update",method = RequestMethod.POST)
+    @RequestMapping(value = "/getPage/update",method = RequestMethod.POST)
     public Object updateById(@RequestBody Information information){
         if(information == null){
             return new ResultBody<>(false,500,"error id or error rule");
         }if(informationService.updateById(information)){
             return new ResultBody<>(true,200,null);
         }else {
+            return new ResultBody<>(false,501,"can't update");
+        }
+    }
+
+    /**
+     * 实现置顶和取消置顶的功能
+     * @param id
+     * @param istop 1为置顶  0为不置顶
+     * @return
+     */
+    @RequestMapping(value = "/getPage/setTop",method = RequestMethod.GET)
+    public Object setTop(@RequestParam int id,@RequestParam int istop){
+        if(id <= 0){
+            return new ResultBody<>(false,500,"error id");
+        }
+        if(istop != 1 && istop != 0){
+            return new ResultBody<>(false,500,"error istop");
+        }
+        if(informationService.updateTopById(id,istop)){
+            return new ResultBody<>(true,200,null);
+        }else{
             return new ResultBody<>(false,501,"can't update");
         }
     }

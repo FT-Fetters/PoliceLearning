@@ -14,4 +14,5 @@ public interface RuleService {
     boolean insertRule(Rule rule);
     boolean deleteById(int id);
     boolean updateById(Rule rule);
+    void updateView(int id);
 }
