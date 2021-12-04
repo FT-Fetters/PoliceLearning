@@ -71,4 +71,5 @@ public class User {
     private String nickname;
     private String password;
     private int power;
+    private String realname;
 }
