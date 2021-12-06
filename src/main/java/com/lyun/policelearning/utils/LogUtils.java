@@ -29,10 +29,10 @@ public class LogUtils {
         boolean writeable = logFile.setWritable(true, false);
         String logStr = timeFormat.format(date) + " [" + type + "] ";
         if (enableIp)logStr += IpUtils.getIpAddr(request) + " ";
-        logStr+=log;
-        System.out.println(logStr);
+        logStr+=log+"\n";
+        System.out.print(logStr);
         if (logFile.exists()){
-            FileWriter fileWriter = new FileWriter(logFile);
+            FileWriter fileWriter = new FileWriter(logFile,true);
             fileWriter.append(logStr);
             fileWriter.close();
         }else {
