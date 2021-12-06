@@ -26,6 +26,8 @@ import java.util.Map;
 @RestController
 public class MockExaminationApi {
 
+    private static final int QUESTION_NUM = 10;
+
 
     @Autowired
     SingleChoiceService singleChoiceService;
@@ -37,10 +39,10 @@ public class MockExaminationApi {
     JudgmentService judgmentService;
 
     @RequestMapping("/sample")
-    public Object sample(@RequestParam int single, @RequestParam int multiple, @RequestParam int judgment, HttpServletRequest request){
-        List<JSONObject> singleChoiceList = QuestionUtils.sampleSingle(singleChoiceService,single);
-        List<JSONObject> multipleChoiceList = QuestionUtils.sampleMultiple(multipleChoiceService,multiple);
-        List<JSONObject> judgmentList = QuestionUtils.sampleJudgment(judgmentService,judgment);
+    public Object sample(HttpServletRequest request){
+        List<JSONObject> singleChoiceList = QuestionUtils.sampleSingle(singleChoiceService,QUESTION_NUM);
+        List<JSONObject> multipleChoiceList = QuestionUtils.sampleMultiple(multipleChoiceService,QUESTION_NUM);
+        List<JSONObject> judgmentList = QuestionUtils.sampleJudgment(judgmentService,QUESTION_NUM);
         JSONObject res = new JSONObject();
         res.put("single",singleChoiceList);
         res.put("multiple",multipleChoiceList);
