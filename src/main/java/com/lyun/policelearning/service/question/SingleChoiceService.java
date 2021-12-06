@@ -12,4 +12,5 @@ public interface SingleChoiceService {
     void newQuestion(SingleChoice singleChoice);
     void updateQuestion(SingleChoice singleChoice);
     void deleteQuestion(int id);
+    boolean check(int id,String answer);
 }

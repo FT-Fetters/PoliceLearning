@@ -10,4 +10,5 @@ public interface JudgmentService {
     void newQuestion(Judgment judgment);
     void updateQuestion(Judgment judgment);
     void deleteQuestion(int id);
+    boolean check(int id,String answer);
 }

@@ -11,4 +11,5 @@ public interface MultipleChoiceService {
     void newQuestion(MultipleChoice multipleChoice);
     void updateQuestion(MultipleChoice multipleChoice);
     void deleteQuestion(int id);
+    boolean check(int id,String answer);
 }

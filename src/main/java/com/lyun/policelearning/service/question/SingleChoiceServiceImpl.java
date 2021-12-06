@@ -40,4 +40,10 @@ public class SingleChoiceServiceImpl implements SingleChoiceService{
     public void deleteQuestion(int id) {
         singleChoiceDao.deleteQuestion(id);
     }
+
+    @Override
+    public boolean check(int id, String answer) {
+        SingleChoice singleChoice = singleChoiceDao.getById(id);
+        return singleChoice.getAnswer().equals(answer);
+    }
 }

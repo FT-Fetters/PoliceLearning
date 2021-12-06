@@ -39,4 +39,10 @@ public class JudgmentServiceImpl implements JudgmentService{
     public void deleteQuestion(int id) {
         judgmentDao.deleteQuestion(id);
     }
+
+    @Override
+    public boolean check(int id, String answer) {
+        Judgment judgment = judgmentDao.getById(id);
+        return judgment.getAnswer().equals(answer);
+    }
 }
