@@ -31,4 +31,14 @@ public class UserServiceImpl implements UserService {
     public int getPower(String username) {
         return userDao.getPower(username);
     }
+
+    @Override
+    public User getByUsername(String username) {
+        return userDao.getByUsername(username);
+    }
+
+    @Override
+    public User getById(int id) {
+        return userDao.getById(id);
+    }
 }

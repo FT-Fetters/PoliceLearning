@@ -40,4 +40,10 @@ public class MultipleChoiceServiceImpl implements MultipleChoiceService{
     public void deleteQuestion(int id) {
         multipleChoiceDao.deleteQuestion(id);
     }
+
+    @Override
+    public boolean check(int id, String answer) {
+        MultipleChoice multipleChoice = multipleChoiceDao.getById(id);
+        return multipleChoice.getAnswer().equals(answer);
+    }
 }

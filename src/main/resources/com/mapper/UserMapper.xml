@@ -4,4 +4,5 @@
     <select id="findAll" resultType="User">SELECT * FROM user</select>
     <select id="getByUsername" resultType="User">SELECT * FROM user WHERE username=#{username}</select>
     <select id="getPower">SELECT power FROM user WHERE username=#{username}</select>
+    <select id="getById" resultType="User">SELECT * FROM user WHERE id=#{id}</select>
 </mapper>

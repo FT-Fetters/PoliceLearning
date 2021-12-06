@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.CommentDao">
+    <select id="findAll" resultType="Comment">SELECT * FROM comment</select>
+    <select id="findComment" resultType="Comment">SELECT * FROM comment WHERE hostId=#{hostId} AND type=#{type} AND parentId is null</select>
+    <select id="findSecondComment" resultType="Comment">SELECT * FROM comment WHERE hostId=#{hostId} AND type=#{type} AND parentId=#{parentId}</select>
+    <insert id="comment">INSERT INTO comment (userId,date,content,type,hostId) VALUES (#{userId},#{date},#{content},#{type},#{hostId})</insert>
+    <insert id="secondComment">INSERT INTO comment (userId,partentId,date,content,type,hostId) VALUES (#{userId},#{partentId},#{date},#{content},#{type},#{hostId})</insert>
+</mapper>
