@@ -80,7 +80,7 @@ public class RuleManageApi {
      * @param rule
      * @return
      */
-    @RequestMapping(value = "getPage/update",method = RequestMethod.POST)
+    @RequestMapping(value = "getPage/content/update",method = RequestMethod.POST)
     public Object updateById(@RequestBody Rule rule){
         if(rule == null){
             return new ResultBody<>(false,500,"error id or error rule");

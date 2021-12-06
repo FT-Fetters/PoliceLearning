@@ -83,15 +83,10 @@ public class InformationManageApi {
      * @param information
      * @return
      */
-    @RequestMapping(value = "/getPage/update",method = RequestMethod.POST)
+    @RequestMapping(value = "/getPage/content/update",method = RequestMethod.POST)
     public Object updateById(@RequestBody Information information){
-        if(information == null){
-            return new ResultBody<>(false,500,"error id or error rule");
-        }if(informationService.updateById(information)){
-            return new ResultBody<>(true,200,null);
-        }else {
-            return new ResultBody<>(false,501,"can't update");
-        }
+        informationService.updateById(information);
+        return new ResultBody<>(true,200,null);
     }
 
     /**
