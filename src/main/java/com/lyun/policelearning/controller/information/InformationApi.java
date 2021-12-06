@@ -22,7 +22,7 @@ public class InformationApi {
     InformationService informationService;
 
     /**
-     * 根据起始和长度返回新规
+     * 根据起始和长度返回资讯
      * @param start 开始  可以从0开始
      * @param len   返回的个数
      * @return 返回资讯

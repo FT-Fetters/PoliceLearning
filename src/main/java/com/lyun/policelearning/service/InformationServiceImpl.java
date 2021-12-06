@@ -88,13 +88,8 @@ public class InformationServiceImpl implements InformationService{
     }
 
     @Override
-    public boolean updateById( Information information) {
-        if(information == null){
-            return false;
-        }else {
+    public void updateById( Information information) {
             informationDao.updateById(information);
-            return true;
-        }
     }
 
     @Override

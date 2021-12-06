@@ -14,7 +14,7 @@ public interface InformationService {
     PageResult findPage(PageRequest pageRequest);
     boolean insertInformation(Information information);
     boolean deleteById(int id);
-    boolean updateById(Information information);
+    void updateById(Information information);
     boolean updateTopById(int id,int istop);
     void updateView(int id);
 }
