@@ -35,7 +35,7 @@ public class LawManageApi {
      */
     @RequestMapping(value = "/catalogue",method = RequestMethod.GET)
     public Object getCatalogueByType(@RequestParam String lawtype, HttpServletRequest request){
-        if (!UserUtils.checkPower(request,5,userService)){
+        if (UserUtils.checkPower(request, 5, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         if(lawtype == null){

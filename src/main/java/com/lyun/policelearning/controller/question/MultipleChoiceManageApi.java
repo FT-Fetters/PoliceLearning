@@ -1,9 +1,7 @@
 package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lyun.policelearning.dao.question.MultipleChoiceDao;
 import com.lyun.policelearning.entity.question.MultipleChoice;
-import com.lyun.policelearning.entity.question.SingleChoice;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.utils.ResultBody;
@@ -29,7 +27,7 @@ public class MultipleChoiceManageApi {
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
     public Object newQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        if (!UserUtils.checkPower(request,5,userService)){
+        if (UserUtils.checkPower(request, 5, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         String problem = data.getString("problem");
@@ -60,7 +58,7 @@ public class MultipleChoiceManageApi {
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Object updateQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        if (!UserUtils.checkPower(request,5,userService)){
+        if (UserUtils.checkPower(request, 5, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         Integer id = data.getInteger("id");
@@ -93,7 +91,7 @@ public class MultipleChoiceManageApi {
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Object deleteQuestion(@RequestBody JSONObject data,HttpServletRequest request){
-        if (!UserUtils.checkPower(request,5,userService)){
+        if (UserUtils.checkPower(request, 5, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         Integer id = data.getInteger("id");
