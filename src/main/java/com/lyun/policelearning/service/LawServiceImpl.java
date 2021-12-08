@@ -94,6 +94,29 @@ public class LawServiceImpl implements LawService{
         return true;
     }
 
+    @Override
+    public boolean insert(String lawtype, String title, String content, String explaination, String crime, JSONArray keywords) {
+        String keyword = keywords.toJSONString();
+        lawDao.insert(lawtype,title,content,explaination,crime,keyword);
+        return true;
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        if(id <= 0){
+            return false;
+        }
+        lawDao.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public boolean updateById(int id, String title,String lawtype, String content, String explaination, String crime, JSONArray keyword) {
+        String keywords = keyword.toJSONString();
+        lawDao.updateById(id,lawtype,title,content,explaination,crime,keywords);
+        return true;
+    }
+
 
     private JSONObject lawToJson(Law law) {
         JSONObject res = new JSONObject();
