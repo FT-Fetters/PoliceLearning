@@ -11,8 +11,8 @@ import com.lyun.policelearning.entity.LawType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 @Service
 public class LawServiceImpl implements LawService{
     @Autowired
@@ -36,12 +36,12 @@ public class LawServiceImpl implements LawService{
     @Override
     public JSONObject findAllType() {
         JSONObject lawType = new JSONObject();
-        List<Law> laws  = lawDao.findAll();;
-        List<String> lawTypes = new ArrayList<>();
-        for(Law law : laws){
-            lawTypes.add(law.getLawtype());
+        List<LawType> lawTypes  = lawTypeDao.findAll();
+        List<String> lawtypes = new ArrayList<>();
+        for(LawType lawtype : lawTypes){
+            lawtypes.add(lawtype.getLawtype());
         }
-        lawType.put("lawTypes",lawTypes);
+        lawType.put("lawTypes",lawtypes);
         return lawType;
     }
 
