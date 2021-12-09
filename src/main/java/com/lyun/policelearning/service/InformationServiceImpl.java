@@ -108,6 +108,12 @@ public class InformationServiceImpl implements InformationService{
         informationDao.updateView(id);
     }
 
+    @Override
+    public String getPictureById(int id) {
+        String path = informationDao.getPictureById(id);
+        return path;
+    }
+
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();

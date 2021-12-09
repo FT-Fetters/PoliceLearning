@@ -5,6 +5,7 @@ import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.service.InformationService;
 import com.lyun.policelearning.service.RuleService;
+import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class InformationManageApi {
     @RequestMapping(value = "/getPage/insert",method = RequestMethod.POST)
     public Object insertInformation( @RequestBody Information information,@RequestParam("file") MultipartFile file) throws IOException {
         String filename = null;
-        String filepath = System.getProperty("user.dir").toString()+"\\src\\main\\resources\\image";
+        String filepath = PathTools.getImagePath();
         filename = file.getOriginalFilename();
         //获取文件后缀名
         String suffixName = filename.substring(filename.lastIndexOf("."));
@@ -89,6 +90,13 @@ public class InformationManageApi {
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
         }if(informationService.deleteById(id)){
+            String path = informationService.getPictureById(id);
+            File file = new File(path);
+            if(file.exists()){
+                file.delete();
+            }else {
+                return new ResultBody<>(false,501,"can't delete picture");
+            }
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,501,"can't delete");

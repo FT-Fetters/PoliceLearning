@@ -20,4 +20,8 @@ public class PathTools {
         File jarFile = new File(getJarFilePath());
         return jarFile.getParent() + "/policelearing";
     }
+    public static String getImagePath(){
+        File jarFile = new File(getJarFilePath());
+        return jarFile.getParent()+"\\src\\main\\resources\\image";
+    }
 }

@@ -10,4 +10,5 @@
     <update id="updateById">UPDATE information SET title=#{information.title},content=#{information.content},view=#{information.view},date=#{information.date} WHERE id=#{information.id}</update>
     <update id="updateTopById">UPDATE information SET istop=#{istop} WHERE id=#{id}</update>
     <update id="updateView">UPDATE information SET view = view + 1 WHERE id=1</update>
+    <select id="getPictureById" resultType="String">SELECT picture FROM information WHERE id=#{id}</select>
 </mapper>

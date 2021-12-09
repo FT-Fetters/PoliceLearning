@@ -17,4 +17,5 @@ public interface InformationService {
     void updateById(Information information);
     boolean updateTopById(int id,int istop);
     void updateView(int id);
+    String getPictureById(int id);
 }

@@ -49,7 +49,6 @@ public class InformationApi {
     public Object getInformationById(@RequestParam int id){
         //更新数据库中的view值
         informationService.updateView(id);
-
         JSONObject res = informationService.getInformationById(id);
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
