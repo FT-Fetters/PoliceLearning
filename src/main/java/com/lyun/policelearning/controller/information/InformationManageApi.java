@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController()
@@ -132,6 +133,42 @@ public class InformationManageApi {
             return new ResultBody<>(true,200,null);
         }else{
             return new ResultBody<>(false,501,"can't update");
+        }
+    }
+    /**
+     * 返回三个从资讯中获取的轮播图
+     * @return
+     */
+    @RequestMapping(value = "/getPicture",method = RequestMethod.GET)
+    public Object getPicture(){
+        return new ResultBody<>(true,200,informationService.getPicture());
+    }
+
+    /**
+     * 前端设计一个下拉框从所有的资讯内容中选择
+     * @return
+     */
+    @RequestMapping(value = "/getAllPicture",method = RequestMethod.GET)
+    public Object getAllPicture(){
+        return new ResultBody<>(true,200,informationService.getAllPicture());
+    }
+
+    /**
+     * 提交改变后的轮换图
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value = "/getPicture/changePicture",method = RequestMethod.GET)
+    public Object changePicture(@RequestParam List<Integer> ids){
+        if(ids.isEmpty()){
+            return new ResultBody<>(false,500,"not found ids");
+        }
+        else {
+            //将原来的ischoose重置为0
+            informationService.updateChoose();
+            //将提交的资讯中的ischoose设置为1
+            informationService.setChangePicture(ids);
+            return new ResultBody<>(true,200,null);
         }
     }
 }

@@ -13,4 +13,5 @@ public class Information {
     private Date date;
     private int view;
     private int istop;
+    private int ischoose;
 }

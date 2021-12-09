@@ -18,4 +18,8 @@ public interface InformationService {
     boolean updateTopById(int id,int istop);
     void updateView(int id);
     String getPictureById(int id);
+    List<JSONObject> getPicture();
+    List<JSONObject> getAllPicture();
+    void updateChoose();
+    void setChangePicture(List<Integer> ids);
 }

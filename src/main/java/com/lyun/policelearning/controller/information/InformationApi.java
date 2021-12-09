@@ -59,4 +59,13 @@ public class InformationApi {
             return new ResultBody<>(false,501,"no found");
         }
     }
+
+    /**
+     * 返回三个从资讯中获取的轮播图
+     * @return
+     */
+    @RequestMapping(value = "/getPicture",method = RequestMethod.GET)
+    public Object getPicture(){
+        return new ResultBody<>(true,200,informationService.getPicture());
+    }
 }

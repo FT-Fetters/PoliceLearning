@@ -114,6 +114,47 @@ public class InformationServiceImpl implements InformationService{
         return path;
     }
 
+    @Override
+    public List<JSONObject> getPicture() {
+        List<JSONObject> res = new ArrayList<>();
+        for(Information information : informationDao.getPicture()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",information.getId());
+            jsonObject.put("title",information.getTitle());
+            jsonObject.put("picture",information.getPicture());
+            jsonObject.put("ischoose",information.getIschoose());
+            res.add(jsonObject);
+        }
+        return res;
+    }
+
+    @Override
+    public List<JSONObject> getAllPicture() {
+        List<JSONObject> res = new ArrayList<>();
+        for(Information information : informationDao.getAllPicture()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",information.getId());
+            jsonObject.put("title",information.getTitle());
+            jsonObject.put("picture",information.getPicture());
+            jsonObject.put("ischoose",information.getIschoose());
+            res.add(jsonObject);
+        }
+        return res;
+    }
+
+    @Override
+    public void updateChoose() {
+        informationDao.updateChoose();
+    }
+
+    @Override
+    public void setChangePicture(List<Integer> ids) {
+        for(Integer id : ids){
+            informationDao.setChangePicture(id);
+        }
+    }
+
+
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();

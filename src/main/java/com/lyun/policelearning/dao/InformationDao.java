@@ -13,6 +13,7 @@ public interface InformationDao extends BaseDao<Information> {
     List<Information> findNotTop();
     Information getInformationById(int id);
     void updateView(int id);
+    List<Information> getPicture();
     //管理员部分
     List<Information> selectPage();
     void insertInformation(@Param("information") Information information,String path);
@@ -20,4 +21,7 @@ public interface InformationDao extends BaseDao<Information> {
     void updateById(@Param("information") Information information);
     void updateTopById(int id,int istop);
     String getPictureById(int id);
+    List<Information> getAllPicture();
+    void updateChoose();
+    void setChangePicture(int id);
 }
