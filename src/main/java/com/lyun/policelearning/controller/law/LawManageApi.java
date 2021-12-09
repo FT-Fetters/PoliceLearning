@@ -1,10 +1,14 @@
 package com.lyun.policelearning.controller.law;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
+import com.lyun.policelearning.entity.Law;
 import com.lyun.policelearning.service.LawService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import javafx.beans.binding.ObjectExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,6 +102,62 @@ public class LawManageApi {
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,501,"unknown error");
+        }
+    }
+
+    /**
+     * 插入一条法律
+     * @param data
+     * @return
+     */
+    @RequestMapping(value = "/insert",method = RequestMethod.GET)
+    public Object insert(@RequestBody JSONObject data){
+        String lawtype = data.getString("lawtype");
+        String title = data.getString("title");
+        String content = data.getString("content");
+        String explaination = data.getString("explaination");
+        String crime = data.getString("crime");
+        JSONArray keyword = data.getJSONArray("keyword");
+        if(lawService.insert(lawtype,title,content,explaination,crime,keyword)){
+            return new ResultBody<>(true,200,null);
+        }else {
+            return new ResultBody<>(false,500,"can't insert");
+        }
+    }
+
+    /**
+     * 根据id删除法律
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    public Object delete(@RequestParam int id){
+        if(lawService.deleteById(id)){
+            return new ResultBody<>(true,200,null);
+        }else {
+            return new ResultBody<>(false,500,"error id");
+        }
+    }
+
+    /**
+     *
+     * @param
+     * @return
+     */
+    //传进来的keyword是JSONArray,所以无法用Law去承接
+    @RequestMapping(value = "/update",method = RequestMethod.GET)
+    public Object updateById(@RequestBody JSONObject data){
+        int id = data.getInteger("id");
+        String lawtype = data.getString("lawtype");
+        String title = data.getString("title");
+        String content = data.getString("content");
+        String explaination = data.getString("explaination");
+        String crime = data.getString("crime");
+        JSONArray keyword = data.getJSONArray("keyword");
+        if(lawService.updateById(id,lawtype,title,content,explaination,crime,keyword)){
+            return new ResultBody<>(true,200,null);
+        }else {
+            return new ResultBody<>(false,500,"can't update");
         }
     }
 }

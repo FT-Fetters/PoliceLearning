@@ -8,7 +8,13 @@ import com.lyun.policelearning.service.RuleService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @RestController()
 @RequestMapping("/information/manage")
@@ -50,12 +56,23 @@ public class InformationManageApi {
 
     /**
      * 根据传入information对象，对数据库进行插入操作
-     * @param information
+     * @param
      * @return
      */
     @RequestMapping(value = "/getPage/insert",method = RequestMethod.POST)
-    public Object insertInformation(@RequestBody Information information){
-        if(informationService.insertInformation(information)){
+    public Object insertInformation( @RequestBody Information information,@RequestParam("file") MultipartFile file) throws IOException {
+        String filename = null;
+        String filepath = System.getProperty("user.dir").toString()+"\\src\\main\\resources\\image";
+        filename = file.getOriginalFilename();
+        //获取文件后缀名
+        String suffixName = filename.substring(filename.lastIndexOf("."));
+        //重新命名文件
+        filename= UUID.randomUUID()+suffixName;
+        String path = filepath+"\\"+"filename";
+        File targetFile = new File(filepath);
+        File saveFile = new File(targetFile, filename);
+        file.transferTo(saveFile);
+        if(informationService.insertInformation(information,path)){
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,500,"can't insert");

@@ -15,7 +15,7 @@ public interface InformationDao extends BaseDao<Information> {
     void updateView(int id);
     //管理员部分
     List<Information> selectPage();
-    void insertInformation(@Param("information") Information information);
+    void insertInformation(@Param("information") Information information,String path);
     void deleteById(int id);
     void updateById(@Param("information") Information information);
     void updateTopById(int id,int istop);

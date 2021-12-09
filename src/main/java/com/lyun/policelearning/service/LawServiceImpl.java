@@ -1,18 +1,16 @@
 package com.lyun.policelearning.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.LawDao;
 import com.lyun.policelearning.dao.LawTypeDao;
-import com.lyun.policelearning.entity.Course;
 import com.lyun.policelearning.entity.Law;
 import com.lyun.policelearning.entity.LawType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 @Service
 public class LawServiceImpl implements LawService{
     @Autowired
@@ -36,12 +34,12 @@ public class LawServiceImpl implements LawService{
     @Override
     public JSONObject findAllType() {
         JSONObject lawType = new JSONObject();
-        List<Law> laws  = lawDao.findAll();;
-        List<String> lawTypes = new ArrayList<>();
-        for(Law law : laws){
-            lawTypes.add(law.getLawtype());
+        List<LawType> lawTypes  = lawTypeDao.findAll();
+        List<String> lawtypes = new ArrayList<>();
+        for(LawType lawtype : lawTypes){
+            lawtypes.add(lawtype.getLawtype());
         }
-        lawType.put("lawTypes",lawTypes);
+        lawType.put("lawTypes",lawtypes);
         return lawType;
     }
 
@@ -94,15 +92,41 @@ public class LawServiceImpl implements LawService{
         return true;
     }
 
+    @Override
+    public boolean insert(String lawtype, String title, String content, String explaination, String crime, JSONArray keywords) {
+        String keyword = keywords.toJSONString();
+        lawDao.insert(lawtype,title,content,explaination,crime,keyword);
+        return true;
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        if(id <= 0){
+            return false;
+        }
+        lawDao.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public boolean updateById(int id, String title,String lawtype, String content, String explaination, String crime, JSONArray keyword) {
+        String keywords = keyword.toJSONString();
+        lawDao.updateById(id,lawtype,title,content,explaination,crime,keywords);
+        return true;
+    }
+
 
     private JSONObject lawToJson(Law law) {
         JSONObject res = new JSONObject();
+        String content = changeToHtml(law.getContent());
+        String explaination = changeToHtml(law.getExplaination());
+        String crime = changeToHtml(law.getCrime());
         res.put("id",law.getId());
         res.put("lawtype",law.getLawtype());
         res.put("title",law.getTitle());
-        res.put("conten",law.getContent());
-        res.put("explaination",law.getExplaination());
-        res.put("crime",law.getCrime());
+        res.put("conten",content);
+        res.put("explaination",explaination);
+        res.put("crime",crime);
         JSONArray keyWord = JSONArray.parseArray(law.getKeyword());
         res.put("keyWord",keyWord);
         return res;
@@ -119,5 +143,14 @@ public class LawServiceImpl implements LawService{
         Law law = lawDao.findLawById(id);
         JSONArray keywords = JSONArray.parseArray(law.getKeyword());
         return keywords;
+    }
+    /**
+     * 将数据库中需要分段的内容进行修改
+     * @param str
+     * @return 返回新的文本
+     */
+    private String changeToHtml(String str){
+        str = str.replace("\n","<br>");
+        return str;
     }
 }
