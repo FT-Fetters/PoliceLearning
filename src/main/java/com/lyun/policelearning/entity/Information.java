@@ -8,6 +8,7 @@ import java.sql.Date;
 public class Information {
     private int id;
     private String title;
+    private String picture;
     private String content;
     private Date date;
     private int view;

@@ -34,6 +34,7 @@ public class InformationServiceImpl implements InformationService{
             jsonObject.put("view",information.getView());
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
+            jsonObject.put("picture",information.getPicture());
             informationList.add(jsonObject);
         }
         for(Information information : informationDao.findNotTop()){
@@ -43,6 +44,7 @@ public class InformationServiceImpl implements InformationService{
             jsonObject.put("view",information.getView());
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
+            jsonObject.put("picture",information.getPicture());
             informationList.add(jsonObject);
         }
         return informationList;
@@ -51,10 +53,13 @@ public class InformationServiceImpl implements InformationService{
     @Override
     public JSONObject getInformationById(int id) {
         JSONObject information = new JSONObject();
+        String content = informationDao.getInformationById(id).getContent();
+        content = content.replace("\n","<br>");
         information.put("title",informationDao.getInformationById(id).getTitle());
-        information.put("content",informationDao.getInformationById(id).getContent());
+        information.put("content",content);
         information.put("date",informationDao.getInformationById(id).getDate());
         information.put("view",informationDao.getInformationById(id).getView());
+        information.put("picture",informationDao.getInformationById(id).getPicture());
         return information;
     }
 
@@ -69,11 +74,11 @@ public class InformationServiceImpl implements InformationService{
     }
 
     @Override
-    public boolean insertInformation(Information information) {
-        if (information == null){
+    public boolean insertInformation(Information information,String path) {
+        if (information == null || path == null){
             return false;
         }
-        informationDao.insertInformation(information);
+        informationDao.insertInformation(information,path);
         return true;
     }
 

@@ -1,11 +1,9 @@
 package com.lyun.policelearning.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.LawDao;
 import com.lyun.policelearning.dao.LawTypeDao;
-import com.lyun.policelearning.entity.Course;
 import com.lyun.policelearning.entity.Law;
 import com.lyun.policelearning.entity.LawType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,12 +118,15 @@ public class LawServiceImpl implements LawService{
 
     private JSONObject lawToJson(Law law) {
         JSONObject res = new JSONObject();
+        String content = changeToHtml(law.getContent());
+        String explaination = changeToHtml(law.getExplaination());
+        String crime = changeToHtml(law.getCrime());
         res.put("id",law.getId());
         res.put("lawtype",law.getLawtype());
         res.put("title",law.getTitle());
-        res.put("conten",law.getContent());
-        res.put("explaination",law.getExplaination());
-        res.put("crime",law.getCrime());
+        res.put("conten",content);
+        res.put("explaination",explaination);
+        res.put("crime",crime);
         JSONArray keyWord = JSONArray.parseArray(law.getKeyword());
         res.put("keyWord",keyWord);
         return res;
@@ -142,5 +143,14 @@ public class LawServiceImpl implements LawService{
         Law law = lawDao.findLawById(id);
         JSONArray keywords = JSONArray.parseArray(law.getKeyword());
         return keywords;
+    }
+    /**
+     * 将数据库中需要分段的内容进行修改
+     * @param str
+     * @return 返回新的文本
+     */
+    private String changeToHtml(String str){
+        str = str.replace("\n","<br>");
+        return str;
     }
 }

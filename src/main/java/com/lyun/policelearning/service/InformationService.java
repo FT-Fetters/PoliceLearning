@@ -12,7 +12,7 @@ public interface InformationService {
     List<JSONObject> findAll();
     JSONObject getInformationById(int id);
     PageResult findPage(PageRequest pageRequest);
-    boolean insertInformation(Information information);
+    boolean insertInformation(Information information,String filename);
     boolean deleteById(int id);
     void updateById(Information information);
     boolean updateTopById(int id,int istop);
