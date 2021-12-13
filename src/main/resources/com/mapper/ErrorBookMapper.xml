@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.ErrorBookDao">
+    <insert id="save">INSERT INTO errorbook(userId, type, questionId, date) VALUES (#{userId},#{type},#{questionId},#{date}) </insert>
+    <select id="findAllFromBook" resultType="ErrorBook">SELECT * FROM errorbook WHERE userid=#{userid} ORDER BY date DESC</select>
+    <select id="findJudgmentById" resultType="Judgment">SELECT * FROM judgment WHERE id=#{id}</select>
+    <select id="findSingleChoiceById" resultType="SingleChoice">SELECT * FROM single_choice WHERE id=#{id}</select>
+    <select id="findMultipleChoiceById" resultType="MultipleChoice">SELECT * FROM multiple_choice WHERE id=#{id}</select>
+    <delete id="delete">DELETE FROM errorbook WHERE userId=#{userId} AND type=#{type} AND questionId=#{questionId}</delete>
+</mapper>
