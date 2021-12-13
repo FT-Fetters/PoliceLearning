@@ -65,8 +65,10 @@ public class ErrorBookApi {
         }
     }
     @RequestMapping(value = "/all/delete",method = RequestMethod.GET)
-    public Object delete(HttpServletRequest request, @RequestParam int type,@RequestParam int questionId){
+    public Object delete(HttpServletRequest request, @RequestBody JSONObject data){
         int userId = UserUtils.isLogin(request,userService);
+        Integer type = data.getInteger("type");
+        Integer questionId = data.getInteger("questionId");
         if(userId != -1){
             errorBookService.delete(userId,type,questionId);
             return new ResultBody<>(true,200,null);
