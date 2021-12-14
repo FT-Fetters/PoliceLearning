@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.question.SingleChoice;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.question.SingleChoiceService;
@@ -23,6 +24,9 @@ public class SingleChoiceApi {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtConfig jwtConfig;
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Object list(){
@@ -48,10 +52,8 @@ public class SingleChoiceApi {
 
     @RequestMapping(value = "/check",method = RequestMethod.POST)
     public Object check(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        int userId = UserUtils.isLogin(request,userService);
-        if (userId == -1){
-            return new ResultBody<>(false,500,"not login");
-        }
+        String username = UserUtils.getUsername(request,jwtConfig);
+        int userId = UserUtils.getUserId(request,jwtConfig);
         Integer id = data.getInteger("id");
         String answer = data.getString("answer");
         if (id == null || answer == null){

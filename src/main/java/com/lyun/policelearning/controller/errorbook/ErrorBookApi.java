@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.errorbook;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.ErrorBookService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.LogUtils;
@@ -23,6 +24,9 @@ public class ErrorBookApi {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtConfig jwtConfig;
+
     /**
      * 将错题加入至错题集
      * @param data
@@ -31,22 +35,19 @@ public class ErrorBookApi {
      */
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public Object addQuestion(@RequestBody JSONObject data, HttpServletRequest request){
-        int userId = UserUtils.isLogin(request,userService);
-        if(userId != -1){
-            //type: 1=判断题  2=单选题  3=多选题
-            Integer type = data.getInteger("type");
-            Integer questionId = data.getInteger("questionId");
-            if (type == null || questionId == null){
-                return new ResultBody<>(false,501,"missing parameter");
-            }
-            if (type < 1 || type > 3){
-                return new ResultBody<>(false,502,"error type");
-            }
-            errorBookService.save(userId,type,questionId);
-            return new ResultBody<>(true,200,null);
-        }else {
-            return new ResultBody<>(false,500,"no login");
+        String username = UserUtils.getUsername(request,jwtConfig);
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        //type: 1=判断题  2=单选题  3=多选题
+        Integer type = data.getInteger("type");
+        Integer questionId = data.getInteger("questionId");
+        if (type == null || questionId == null){
+            return new ResultBody<>(false,501,"missing parameter");
         }
+        if (type < 1 || type > 3){
+            return new ResultBody<>(false,502,"error type");
+        }
+        errorBookService.save(userId,type,questionId);
+        return new ResultBody<>(true,200,null);
     }
 
     /**
@@ -56,24 +57,18 @@ public class ErrorBookApi {
      */
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     public Object findAll(HttpServletRequest request){
-        int userId = UserUtils.isLogin(request,userService);
-        if(userId != -1){
-            List<JSONObject> res = errorBookService.findAll(userId);
-            return new ResultBody<>(true,200,res);
-        }else {
-            return new ResultBody<>(false,500,"no login");
-        }
+        String username = UserUtils.getUsername(request,jwtConfig);
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        List<JSONObject> res = errorBookService.findAll(userId);
+        return new ResultBody<>(true,200,res);
     }
     @RequestMapping(value = "/all/delete",method = RequestMethod.GET)
     public Object delete(HttpServletRequest request, @RequestBody JSONObject data){
-        int userId = UserUtils.isLogin(request,userService);
+        String username = UserUtils.getUsername(request,jwtConfig);
+        int userId = UserUtils.getUserId(request,jwtConfig);
         Integer type = data.getInteger("type");
         Integer questionId = data.getInteger("questionId");
-        if(userId != -1){
-            errorBookService.delete(userId,type,questionId);
-            return new ResultBody<>(true,200,null);
-        }else {
-            return new ResultBody<>(false,500,"no login");
-        }
+        errorBookService.delete(userId,type,questionId);
+        return new ResultBody<>(true,200,null);
     }
 }

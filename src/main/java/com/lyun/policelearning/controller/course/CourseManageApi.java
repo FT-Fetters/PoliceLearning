@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.course;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.CourseService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.PathTools;
@@ -31,9 +32,12 @@ public class CourseManageApi {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtConfig jwtConfig;
+
     @RequestMapping(value = "/change/type",method = RequestMethod.POST)
     public Object changeType(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, userService)){
+        if (UserUtils.checkPower(request, 5,jwtConfig, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         Integer id = data.getInteger("id");
@@ -58,7 +62,7 @@ public class CourseManageApi {
 
     @RequestMapping(value = "/change/introduce",method = RequestMethod.POST)
     public Object changeIntroduce(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, userService)){
+        if (UserUtils.checkPower(request, 5,jwtConfig, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         Integer id = data.getInteger("id");
@@ -85,7 +89,7 @@ public class CourseManageApi {
      */
     @RequestMapping("/publish")
     public Object publishCourse(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, userService)){
+        if (UserUtils.checkPower(request, 5,jwtConfig, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         String name = data.getString("name");
@@ -104,7 +108,7 @@ public class CourseManageApi {
     @SneakyThrows
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
     public Object addVideo(@RequestParam("file") MultipartFile file,@RequestParam("courseName") String courseName,@RequestParam("videoName") String videoName,HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, userService)){
+        if (UserUtils.checkPower(request, 5, jwtConfig,userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         if (!file.isEmpty()){

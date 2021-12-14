@@ -1,6 +1,8 @@
 package com.lyun.policelearning.controller.collect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.CollectService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.LogUtils;
@@ -25,27 +27,26 @@ public class CollectApi {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtConfig jwtConfig;
+
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object collect(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        int userId = UserUtils.isLogin(request,userService);
-        if (userId != -1){
-            String username = UserUtils.getUsername(request);
-            Integer type = data.getInteger("type");
-            Integer articleId = data.getInteger("articleId");
-            if (type == null || articleId == null){
-                LogUtils.log("collect but missing parameter","collect",true,request);
-                return new ResultBody<>(false,501,"missing parameter");
-            }
-            if (type < 1 || type > 3){
-                LogUtils.log(username+" collect but type is error","collect",false,request);
-                return new ResultBody<>(false,502,"error type");
-            }
-            collectService.collect(type,articleId,userId);
-            LogUtils.log(username+" collect article id " + articleId + ", type is " + type,"collect",false,request);
-            return new ResultBody<>(true,200,null);
-        }else {
-            LogUtils.log("collect but not login","collect",true,request);
-            return new ResultBody<>(false,500,"not login");
+        String username = UserUtils.getUsername(request,jwtConfig);
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        Integer type = data.getInteger("type");
+        Integer articleId = data.getInteger("articleId");
+        if (type == null || articleId == null){
+            LogUtils.log("collect but missing parameter","collect",true,request);
+            return new ResultBody<>(false,501,"missing parameter");
         }
+        if (type < 1 || type > 3){
+            LogUtils.log(username+" collect but type is error","collect",false,request);
+            return new ResultBody<>(false,502,"error type");
+        }
+        collectService.collect(type,articleId,userId);
+        LogUtils.log(username+" collect article id " + articleId + ", type is " + type,"collect",false,request);
+        return new ResultBody<>(true,200,null);
     }
+
 }

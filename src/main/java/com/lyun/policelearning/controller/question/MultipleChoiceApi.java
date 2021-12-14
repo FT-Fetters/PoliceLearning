@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.dao.question.MultipleChoiceDao;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
@@ -26,6 +27,9 @@ public class MultipleChoiceApi {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtConfig jwtConfig;
+
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Object list(){
         List<MultipleChoice> multipleChoices = multipleChoiceService.findAll();
@@ -50,10 +54,8 @@ public class MultipleChoiceApi {
 
     @RequestMapping(value = "/check",method = RequestMethod.POST)
     public Object check(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        int userId = UserUtils.isLogin(request,userService);
-        if (userId == -1){
-            return new ResultBody<>(false,500,"not login");
-        }
+        String username = UserUtils.getUsername(request,jwtConfig);
+        int userId = UserUtils.getUserId(request,jwtConfig);
         Integer id = data.getInteger("id");
         String answer = data.getString("answer");
         if (id == null || answer == null){

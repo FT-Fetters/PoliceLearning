@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller;
 
 
+import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.LogUtils;
 import com.lyun.policelearning.utils.PathTools;
@@ -22,9 +23,12 @@ public class LogApi {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtConfig jwtConfig;
+
     @RequestMapping("/list")
     public Object list(HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, userService)){
+        if (UserUtils.checkPower(request, 5,jwtConfig, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         LogUtils.log("get logs list","get",true,request);

@@ -3,6 +3,7 @@ package com.lyun.policelearning.controller.law;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
+import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.Law;
 import com.lyun.policelearning.service.LawService;
 import com.lyun.policelearning.service.UserService;
@@ -22,6 +23,9 @@ public class LawManageApi {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtConfig jwtConfig;
     /**
      * 获取所有的法律类型
      * @return 返回法律类型这一列表
@@ -39,7 +43,7 @@ public class LawManageApi {
      */
     @RequestMapping(value = "/catalogue",method = RequestMethod.GET)
     public Object getCatalogueByType(@RequestParam String lawtype, HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, userService)){
+        if (UserUtils.checkPower(request, 5,jwtConfig, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         if(lawtype == null){

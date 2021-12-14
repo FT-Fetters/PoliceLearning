@@ -1,12 +1,14 @@
 package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.question.Judgment;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import org.apache.catalina.webresources.JarWarResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,9 @@ public class JudgmentApi {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtConfig jwtConfig;
 
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
@@ -50,10 +55,8 @@ public class JudgmentApi {
 
     @RequestMapping(value = "/check",method = RequestMethod.POST)
     public Object check(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        int userId = UserUtils.isLogin(request,userService);
-        if (userId == -1){
-            return new ResultBody<>(false,500,"not login");
-        }
+        String username = UserUtils.getUsername(request,jwtConfig);
+        int userId = UserUtils.getUserId(request,jwtConfig);
         Integer id = data.getInteger("id");
         String answer = data.getString("answer");
         if (id == null || answer == null){

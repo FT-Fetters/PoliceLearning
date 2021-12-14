@@ -18,3 +18,9 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+config:
+  jwt:
+    secret: policelearning
+    expire: 3600
+    header: token
