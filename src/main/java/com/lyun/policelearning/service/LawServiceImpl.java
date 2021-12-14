@@ -119,6 +119,13 @@ public class LawServiceImpl implements LawService{
     private JSONObject lawToJson(Law law) {
         JSONObject res = new JSONObject();
         String content = changeToHtml(law.getContent());
+        if(!content.contains("<br><br>")){
+            content = content.replace("<br>","<br><br>&nbsp&nbsp&nbsp&nbsp&nbsp");
+            content = "&nbsp&nbsp&nbsp&nbsp&nbsp"+content;
+        }else {
+            content = content.replace("<br><br>","<br><br>&nbsp&nbsp&nbsp&nbsp&nbsp");
+            content = "&nbsp&nbsp&nbsp&nbsp&nbsp"+content;
+        }
         String explaination = changeToHtml(law.getExplaination());
         String crime = changeToHtml(law.getCrime());
         res.put("id",law.getId());

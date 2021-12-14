@@ -43,7 +43,7 @@ public class QuestionUtils {
                 option_d.put("content",singleChoice.getOption_d());
                 option.add(option_d);
                 tmp.put("option",option);
-                tmp.put("type",1);
+                tmp.put("type",2);
                 res.add(tmp);
             }
         }else {
@@ -72,7 +72,7 @@ public class QuestionUtils {
                     option_d.put("content",singleChoice.getOption_d());
                     option.add(option_d);
                     tmp.put("option",option);
-                    tmp.put("type",1);
+                    tmp.put("type",2);
                     res.add(tmp);
                 }
             }
@@ -107,7 +107,7 @@ public class QuestionUtils {
                 option_d.put("content",multipleChoice.getOption_d());
                 option.add(option_d);
                 tmp.put("option",option);
-                tmp.put("type",2);
+                tmp.put("type",3);
                 res.add(tmp);
             }
         }else {
@@ -137,7 +137,7 @@ public class QuestionUtils {
                     option_d.put("content",multipleChoice.getOption_d());
                     option.add(option_d);
                     tmp.put("option",option);
-                    tmp.put("type",2);
+                    tmp.put("type",3);
                     res.add(tmp);
                 }
             }
@@ -164,7 +164,7 @@ public class QuestionUtils {
                 option_true.put("content",judgment.getOption_false());
                 option.add(option_false);
                 tmp.put("option",option);
-                tmp.put("type",3);
+                tmp.put("type",1);
                 res.add(tmp);
             }
         }else {
@@ -178,7 +178,7 @@ public class QuestionUtils {
                     tmp.put("problem",judgment.getProblem());
                     tmp.put("option_true",judgment.getOption_true());
                     tmp.put("option_false",judgment.getOption_false());
-                    tmp.put("type",4);
+                    tmp.put("type",1);
                     res.add(tmp);
                 }
             }
