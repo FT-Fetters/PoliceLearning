@@ -115,6 +115,19 @@ public class LawServiceImpl implements LawService{
         return true;
     }
 
+    @Override
+    public List<JSONObject> findTitleByNameForManage(String title) {
+        List<JSONObject> res = new ArrayList<>();
+        List<Law> laws = lawDao.findLawByTitle(title);
+        for(Law law : laws){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",law.getId());
+            jsonObject.put("title",law.getTitle());
+            res.add(jsonObject);
+        }
+        return res;
+    }
+
 
     private JSONObject lawToJson(Law law) {
         JSONObject res = new JSONObject();

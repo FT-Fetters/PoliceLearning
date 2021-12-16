@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.entity.Law;
@@ -16,4 +17,5 @@ public interface LawService {
     boolean insert(String lawtype, String title, String content, String explaination, String crime, JSONArray keywords);
     boolean deleteById(int id);
     boolean updateById(int id,String lawtype,String title,String content,String explaination,String crime,JSONArray keyword);
+    List<JSONObject> findTitleByNameForManage(String title);
 }

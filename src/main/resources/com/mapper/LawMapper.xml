@@ -11,4 +11,5 @@
     <insert id="insert">INSERT into law(lawtype,title,content,explaination,crime,keyword) VALUES (#{lawtype},#{title},#{content},#{explaination},#{crime},#{keywords})</insert>
     <delete id="deleteById">DELETE FROM law WHERE id=#{id}</delete>
     <update id="updateById">UPDATE law SET lawtype=#{lawtype},title=#{title},content=#{content},explaination=#{explaination},crime=#{crime},keyword=#{keyword} WHERE id=#{id}</update>
+    <select id="findLawByTitle" resultType="Law">SELECT * FROM law WHERE lawtype=#{lawtype}</select>
 </mapper>

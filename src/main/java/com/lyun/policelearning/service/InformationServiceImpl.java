@@ -5,7 +5,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lyun.policelearning.dao.InformationDao;
 import com.lyun.policelearning.entity.Information;
+import com.lyun.policelearning.utils.ImageTools;
+import com.lyun.policelearning.utils.LogUtils;
 import com.lyun.policelearning.utils.PathTools;
+import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
@@ -14,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +41,10 @@ public class InformationServiceImpl implements InformationService{
             jsonObject.put("view",information.getView());
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
-            jsonObject.put("picture", PathTools.getImagePath()+"\\"+information.getPicture());
+            String imagePath = PathTools.getImagePath()+"/"+information.getPicture();
+            BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
+            String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+            jsonObject.put("picture", imgBase64);
             informationList.add(jsonObject);
         }
         for(Information information : informationDao.findNotTop()){
@@ -45,7 +54,10 @@ public class InformationServiceImpl implements InformationService{
             jsonObject.put("view",information.getView());
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
-            jsonObject.put("picture",PathTools.getImagePath()+"\\"+information.getPicture());
+            String imagePath = PathTools.getImagePath()+"/"+information.getPicture();
+            BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
+            String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+            jsonObject.put("picture", imgBase64);
             informationList.add(jsonObject);
         }
         return informationList;
@@ -59,7 +71,10 @@ public class InformationServiceImpl implements InformationService{
         information.put("content", StringFileter.filterSring(content));
         information.put("date",informationDao.getInformationById(id).getDate());
         information.put("view",informationDao.getInformationById(id).getView());
-        information.put("picture",PathTools.getImagePath()+"\\"+informationDao.getInformationById(id).getPicture());
+        String imagePath = PathTools.getImagePath()+"/"+informationDao.getInformationById(id).getPicture();
+        BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
+        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+        information.put("picture", imgBase64);
         return information;
     }
 
@@ -120,7 +135,11 @@ public class InformationServiceImpl implements InformationService{
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id",information.getId());
             jsonObject.put("title",information.getTitle());
-            jsonObject.put("picture",PathTools.getImagePath()+"\\"+information.getPicture());
+            //返回base64格式的图片
+            String imagePath = PathTools.getImagePath()+"/"+information.getPicture();
+            BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
+            String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+            jsonObject.put("picture",imgBase64);
             jsonObject.put("ischoose",information.getIschoose());
             res.add(jsonObject);
         }

@@ -91,7 +91,7 @@ public class InformationManageApi {
             return new ResultBody<>(false,500,"error id");
         }
         String path = informationService.getPictureById(id);
-        path = PathTools.getImagePath() +"\\"+ path;
+        path = PathTools.getImagePath() +"/"+ path;
         File file = new File(path);
         if(file.exists()){
             file.delete();
@@ -127,7 +127,7 @@ public class InformationManageApi {
         }else {
             //删除
             String filename = informationService.getPictureById(id);
-            String path = PathTools.getImagePath() +"\\"+ filename;
+            String path = PathTools.getImagePath() +"/"+ filename;
             File file1 = new File(path);
             if(file1.exists()){
                 file1.delete();
@@ -157,7 +157,7 @@ public class InformationManageApi {
             return new ResultBody<>(false,500,"error id");
         }else {
             String filename = informationService.getPictureById(id);
-            String path = PathTools.getImagePath() +"\\"+ filename;
+            String path = PathTools.getImagePath() +"/"+ filename;
             File file1 = new File(path);
             if(file1.exists()){
                 file1.delete();

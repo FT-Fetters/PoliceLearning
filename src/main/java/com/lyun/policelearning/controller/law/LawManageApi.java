@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/law/manage")
@@ -49,7 +50,7 @@ public class LawManageApi {
         if(lawtype == null){
             return new ResultBody<>(false,500,"error type");
         }
-        JSONObject res = lawService.findTitleByName(lawtype);
+        List<JSONObject> res = lawService.findTitleByNameForManage(lawtype);
         if (res != null){
             return new ResultBody<>(true,200,res);
         }else {
