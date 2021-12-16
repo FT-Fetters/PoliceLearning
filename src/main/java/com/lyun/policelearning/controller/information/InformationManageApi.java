@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +44,7 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getPage/content",method = RequestMethod.GET)
-    public Object getRuleById(@RequestParam int id){
+    public Object getRuleById(@RequestParam int id) throws Exception {
         JSONObject res = informationService.getInformationById(id);
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
@@ -61,7 +62,7 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getPage/insert",method = RequestMethod.POST)
-    public Object insertInformation( @RequestBody Information information,@RequestParam("file") MultipartFile file) throws IOException {
+    public Object insertInformation(@RequestBody Information information,@RequestParam("file") MultipartFile file) throws IOException {
         String filename = null;
         String filepath = PathTools.getImagePath();
         filename = file.getOriginalFilename();
@@ -69,11 +70,10 @@ public class InformationManageApi {
         String suffixName = filename.substring(filename.lastIndexOf("."));
         //重新命名文件
         filename= UUID.randomUUID()+suffixName;
-        String path = filepath+"\\"+"filename";
         File targetFile = new File(filepath);
         File saveFile = new File(targetFile, filename);
         file.transferTo(saveFile);
-        if(informationService.insertInformation(information,path)){
+        if(informationService.insertInformation(information,filename)){
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,500,"can't insert");
@@ -89,14 +89,16 @@ public class InformationManageApi {
     public Object deleteById(@RequestParam int id){
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
-        }if(informationService.deleteById(id)){
-            String path = informationService.getPictureById(id);
-            File file = new File(path);
-            if(file.exists()){
-                file.delete();
-            }else {
-                return new ResultBody<>(false,501,"can't delete picture");
-            }
+        }
+        String path = informationService.getPictureById(id);
+        path = PathTools.getImagePath() +"\\"+ path;
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }else {
+            return new ResultBody<>(false,501,"can't delete picture");
+        }
+        if(informationService.deleteById(id)){
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,501,"can't delete");
@@ -114,6 +116,56 @@ public class InformationManageApi {
         return new ResultBody<>(true,200,null);
     }
 
+    /**
+     * 更换图片
+     * @return
+     */
+    @RequestMapping(value = "/getPage/content/updatePicture",method = RequestMethod.POST)
+    public Object updatePicById(int id,@RequestParam("file") MultipartFile file) throws IOException {
+        if(id <= 0){
+            return new ResultBody<>(false,500,"error id");
+        }else {
+            //删除
+            String filename = informationService.getPictureById(id);
+            String path = PathTools.getImagePath() +"\\"+ filename;
+            File file1 = new File(path);
+            if(file1.exists()){
+                file1.delete();
+            }
+            //更新
+            filename = file.getOriginalFilename();
+            //获取文件后缀名
+            String suffixName = filename.substring(filename.lastIndexOf("."));
+            //重新命名文件
+            filename= UUID.randomUUID()+suffixName;
+            File targetFile = new File(PathTools.getImagePath());
+            File saveFile = new File(targetFile, filename);
+            file.transferTo(saveFile);
+            //修改数据库中的文件名
+            informationService.updatePicture(id,filename);
+            return new ResultBody<>(true,200,null);
+        }
+    }
+    /**
+     * 单独删除图片
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/getPage/content/deletePicture",method = RequestMethod.GET)
+    public Object deletePicById(int id){
+        if(id <= 0){
+            return new ResultBody<>(false,500,"error id");
+        }else {
+            String filename = informationService.getPictureById(id);
+            String path = PathTools.getImagePath() +"\\"+ filename;
+            File file1 = new File(path);
+            if(file1.exists()){
+                file1.delete();
+            }
+            informationService.deletePicture(id);
+            return new ResultBody<>(true,200,null);
+        }
+    }
     /**
      * 实现置顶和取消置顶的功能
      * @param id
@@ -139,7 +191,7 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getPicture",method = RequestMethod.GET)
-    public Object getPicture(){
+    public Object getPicture() throws Exception {
         return new ResultBody<>(true,200,informationService.getPicture());
     }
 

@@ -20,8 +20,10 @@ public interface InformationDao extends BaseDao<Information> {
     void deleteById(int id);
     void updateById(@Param("information") Information information);
     void updateTopById(int id,int istop);
-    String getPictureById(int id);
+    Information getPictureById(int id);
     List<Information> getAllPicture();
     void updateChoose();
     void setChangePicture(int id);
+    void updatePicture(int id,String picture);
+    void deletePicture(int id);
 }

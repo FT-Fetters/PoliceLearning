@@ -1,8 +1,6 @@
 package com.lyun.policelearning.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
 import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.entity.ErrorBook;
 import com.lyun.policelearning.entity.question.Judgment;

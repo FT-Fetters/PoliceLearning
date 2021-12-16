@@ -9,8 +9,8 @@ import com.lyun.policelearning.utils.page.PageResult;
 import java.util.List;
 
 public interface InformationService {
-    List<JSONObject> findAll();
-    JSONObject getInformationById(int id);
+    List<JSONObject> findAll() throws Exception;
+    JSONObject getInformationById(int id) throws Exception;
     PageResult findPage(PageRequest pageRequest);
     boolean insertInformation(Information information,String filename);
     boolean deleteById(int id);
@@ -18,8 +18,10 @@ public interface InformationService {
     boolean updateTopById(int id,int istop);
     void updateView(int id);
     String getPictureById(int id);
-    List<JSONObject> getPicture();
+    List<JSONObject> getPicture() throws Exception;
     List<JSONObject> getAllPicture();
     void updateChoose();
     void setChangePicture(List<Integer> ids);
+    void updatePicture(int id,String picture);
+    void deletePicture(int id);
 }

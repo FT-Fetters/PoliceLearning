@@ -10,9 +10,11 @@
     <update id="updateById">UPDATE information SET title=#{information.title},content=#{information.content},view=#{information.view},date=#{information.date} WHERE id=#{information.id}</update>
     <update id="updateTopById">UPDATE information SET istop=#{istop} WHERE id=#{id}</update>
     <update id="updateView">UPDATE information SET view = view + 1 WHERE id=1</update>
-    <select id="getPictureById" resultType="String">SELECT picture FROM information WHERE id=#{itured}</select>
+    <select id="getPictureById" resultType="Information">SELECT * FROM information WHERE id=#{id}</select>
     <select id="getPicture" resultType="Information">SELECT * FROM information WHERE ischoose=1</select>
     <select id="getAllPicture" resultType="Information">SELECT * FROM information</select>
     <update id="updateChoose">UPDATE information SET ischoose=0 WHERE ischoose=1</update>
     <update id="setChangePicture">UPDATE information SET ischoose=1 WHERE id=#{id}</update>
+    <update id="updatePicture">UPDATE information SET picture=#{picture} WHERE id=#{id}</update>
+    <update id="deletePicture">UPDATE information SET picture=null WHERE id=#{id}</update>
 </mapper>

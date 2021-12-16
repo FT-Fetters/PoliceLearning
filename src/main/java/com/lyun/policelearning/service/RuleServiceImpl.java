@@ -8,6 +8,7 @@ import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
+import com.lyun.policelearning.utils.page.StringFileter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +38,8 @@ public class RuleServiceImpl implements RuleService{
     public JSONObject getRuleById(int id) {
         JSONObject rule = new JSONObject();
         String content = ruleDao.getRuleById(id).getContent();
-        content = content.replace("\n","<br>");
         rule.put("title",ruleDao.getRuleById(id).getTitle());
-        rule.put("content",content);
+        rule.put("content", StringFileter.filterSring(content));
         rule.put("date",ruleDao.getRuleById(id).getDate());
         rule.put("view",ruleDao.getRuleById(id).getView());
         return rule;

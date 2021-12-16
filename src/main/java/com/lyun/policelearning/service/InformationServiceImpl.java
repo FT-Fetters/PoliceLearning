@@ -5,10 +5,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lyun.policelearning.dao.InformationDao;
 import com.lyun.policelearning.entity.Information;
-import com.lyun.policelearning.entity.Rule;
+import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
+import com.lyun.policelearning.utils.page.StringFileter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class InformationServiceImpl implements InformationService{
     private InformationDao informationDao;
 
     @Override
-    public List<JSONObject> findAll() {
+    public List<JSONObject> findAll() throws Exception {
         List<JSONObject> informationList = new ArrayList<>();
         //先将istop为true的数据放进去
         for(Information information : informationDao.findTop()){
@@ -34,7 +35,7 @@ public class InformationServiceImpl implements InformationService{
             jsonObject.put("view",information.getView());
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
-            jsonObject.put("picture",information.getPicture());
+            jsonObject.put("picture", PathTools.getImagePath()+"\\"+information.getPicture());
             informationList.add(jsonObject);
         }
         for(Information information : informationDao.findNotTop()){
@@ -44,22 +45,21 @@ public class InformationServiceImpl implements InformationService{
             jsonObject.put("view",information.getView());
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
-            jsonObject.put("picture",information.getPicture());
+            jsonObject.put("picture",PathTools.getImagePath()+"\\"+information.getPicture());
             informationList.add(jsonObject);
         }
         return informationList;
     }
 
     @Override
-    public JSONObject getInformationById(int id) {
+    public JSONObject getInformationById(int id) throws Exception {
         JSONObject information = new JSONObject();
         String content = informationDao.getInformationById(id).getContent();
-        content = content.replace("\n","<br>");
         information.put("title",informationDao.getInformationById(id).getTitle());
-        information.put("content",content);
+        information.put("content", StringFileter.filterSring(content));
         information.put("date",informationDao.getInformationById(id).getDate());
         information.put("view",informationDao.getInformationById(id).getView());
-        information.put("picture",informationDao.getInformationById(id).getPicture());
+        information.put("picture",PathTools.getImagePath()+"\\"+informationDao.getInformationById(id).getPicture());
         return information;
     }
 
@@ -110,18 +110,17 @@ public class InformationServiceImpl implements InformationService{
 
     @Override
     public String getPictureById(int id) {
-        String path = informationDao.getPictureById(id);
-        return path;
+        return informationDao.getPictureById(id).getPicture();
     }
 
     @Override
-    public List<JSONObject> getPicture() {
+    public List<JSONObject> getPicture() throws Exception {
         List<JSONObject> res = new ArrayList<>();
         for(Information information : informationDao.getPicture()){
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id",information.getId());
             jsonObject.put("title",information.getTitle());
-            jsonObject.put("picture",information.getPicture());
+            jsonObject.put("picture",PathTools.getImagePath()+"\\"+information.getPicture());
             jsonObject.put("ischoose",information.getIschoose());
             res.add(jsonObject);
         }
@@ -152,6 +151,16 @@ public class InformationServiceImpl implements InformationService{
         for(Integer id : ids){
             informationDao.setChangePicture(id);
         }
+    }
+
+    @Override
+    public void updatePicture(int id,String picture) {
+        informationDao.updatePicture(id,picture);
+    }
+
+    @Override
+    public void deletePicture(int id) {
+        informationDao.deletePicture(id);
     }
 
 
