@@ -6,13 +6,11 @@ import com.github.pagehelper.PageInfo;
 import com.lyun.policelearning.dao.InformationDao;
 import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.utils.ImageTools;
-import com.lyun.policelearning.utils.LogUtils;
 import com.lyun.policelearning.utils.PathTools;
-import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
-import com.lyun.policelearning.utils.page.StringFileter;
+import com.lyun.policelearning.utils.StringFileter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +73,7 @@ public class InformationServiceImpl implements InformationService{
         JSONObject information = new JSONObject();
         String content = informationDao.getInformationById(id).getContent();
         information.put("title",informationDao.getInformationById(id).getTitle());
-        information.put("content", StringFileter.filterSring(content));
+        information.put("content", StringFileter.filterStringForText(content));
         information.put("date",informationDao.getInformationById(id).getDate());
         information.put("view",informationDao.getInformationById(id).getView());
         if(informationDao.getInformationById(id).getPicture() != null){

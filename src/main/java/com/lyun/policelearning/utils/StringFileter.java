@@ -1,4 +1,4 @@
-package com.lyun.policelearning.utils.page;
+package com.lyun.policelearning.utils;
 
 public class StringFileter {
     public static String filterSring(String str){
@@ -11,5 +11,10 @@ public class StringFileter {
             str = str.replace("<br>","<br>&nbsp&nbsp&nbsp&nbsp&nbsp");
             return "&nbsp&nbsp&nbsp&nbsp&nbsp" + str;
         }
+    }
+    public static String filterStringForText(String str){
+        str = str.replace("\n","<\\br>");
+        str = str.replace("\r","<\\br>");
+        return str;
     }
 }
