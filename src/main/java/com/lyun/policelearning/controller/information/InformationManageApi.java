@@ -64,7 +64,11 @@ public class InformationManageApi {
     @RequestMapping(value = "/getPage/insert",method = RequestMethod.POST)
     public Object insertInformation(@RequestBody Information information,@RequestParam("file") MultipartFile file) throws IOException {
         String filename = null;
-        String filepath = PathTools.getImagePath();
+        String filepath = PathTools.getRunPath()+"/image";
+        String savePath = PathTools.getRunPath()+"/image/";
+        if(!new File(savePath).exists()){
+            new File(savePath).mkdirs();
+        }
         filename = file.getOriginalFilename();
         //获取文件后缀名
         String suffixName = filename.substring(filename.lastIndexOf("."));
@@ -91,18 +95,23 @@ public class InformationManageApi {
             return new ResultBody<>(false,500,"error id");
         }
         String path = informationService.getPictureById(id);
-        path = PathTools.getImagePath() +"/"+ path;
+        path = PathTools.getRunPath() +"/image/"+ path;
         File file = new File(path);
         if(file.exists()){
             file.delete();
+            if(informationService.deleteById(id)){
+                return new ResultBody<>(true,200,null);
+            }else {
+                return new ResultBody<>(false,501,"can't delete");
+            }
         }else {
-            return new ResultBody<>(false,501,"can't delete picture");
+            if(informationService.deleteById(id)){
+                return new ResultBody<>(true,200,null);
+            }else {
+                return new ResultBody<>(false,501,"can't delete");
+            }
         }
-        if(informationService.deleteById(id)){
-            return new ResultBody<>(true,200,null);
-        }else {
-            return new ResultBody<>(false,501,"can't delete");
-        }
+
     }
 
     /**
@@ -127,7 +136,7 @@ public class InformationManageApi {
         }else {
             //删除
             String filename = informationService.getPictureById(id);
-            String path = PathTools.getImagePath() +"/"+ filename;
+            String path = PathTools.getRunPath() +"/image/"+ filename;
             File file1 = new File(path);
             if(file1.exists()){
                 file1.delete();
@@ -138,7 +147,11 @@ public class InformationManageApi {
             String suffixName = filename.substring(filename.lastIndexOf("."));
             //重新命名文件
             filename= UUID.randomUUID()+suffixName;
-            File targetFile = new File(PathTools.getImagePath());
+            String savePath = PathTools.getRunPath()+"/image/";
+            if(!new File(savePath).exists()){
+                new File(savePath).mkdirs();
+            }
+            File targetFile = new File(PathTools.getRunPath()+"/image");
             File saveFile = new File(targetFile, filename);
             file.transferTo(saveFile);
             //修改数据库中的文件名
@@ -157,7 +170,7 @@ public class InformationManageApi {
             return new ResultBody<>(false,500,"error id");
         }else {
             String filename = informationService.getPictureById(id);
-            String path = PathTools.getImagePath() +"/"+ filename;
+            String path = PathTools.getRunPath() +"/image/"+ filename;
             File file1 = new File(path);
             if(file1.exists()){
                 file1.delete();
