@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/comment")
@@ -103,4 +105,16 @@ public class CommentApi {
 
     }
 
+    /**
+     * 查看所有评论和回复
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
+    public Object findCommentAndReply(HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        HashMap<String, List<JSONObject>> res = new HashMap<>();
+        res = commentService.getCommentAndReply(userId);
+        return res;
+    }
 }

@@ -9,10 +9,7 @@ import com.lyun.policelearning.utils.LogUtils;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,4 +46,84 @@ public class CollectApi {
         return new ResultBody<>(true,200,null);
     }
 
+    /**
+     * 我的资讯（收藏）
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/myInformation",method = RequestMethod.GET)
+    public Object myInformation(HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        return new ResultBody<>(true,200,collectService.findCollect(1,userId));
+    }
+
+    /**
+     * 我的法律（收藏）
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/myLaw",method = RequestMethod.GET)
+    public Object myLaw(HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        return new ResultBody<>(true,200,collectService.findCollect(2,userId));
+    }
+
+    /**
+     * 我的新规（收藏）
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/myRule",method = RequestMethod.GET)
+    public Object myRule(HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        return new ResultBody<>(true,200,collectService.findCollect(3,userId));
+    }
+
+    /**
+     * 删除
+     * @param id 资讯的id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deleteMyInformation",method = RequestMethod.GET)
+    public Object deleteInformation(@RequestParam int id,HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        if(id <= 0){
+            return new ResultBody<>(false,501,"error id");
+        }
+        collectService.deleteCollect(1,id,userId);
+        return new ResultBody<>(true,200,null);
+    }
+
+    /**
+     * 删除
+     * @param id 法律的id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deleteMyLaw",method = RequestMethod.GET)
+    public Object deleteLaw(@RequestParam int id,HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        if(id <= 0){
+            return new ResultBody<>(false,501,"error id");
+        }
+        collectService.deleteCollect(2,id,userId);
+        return new ResultBody<>(true,200,null);
+    }
+
+    /**
+     * 删除
+     * @param id 新规的id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deleteMyRule",method = RequestMethod.GET)
+    public Object deleteRule(@RequestParam int id,HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        if(id <= 0){
+            return new ResultBody<>(false,501,"error id");
+        }
+        collectService.deleteCollect(3,id,userId);
+        return new ResultBody<>(true,200,null);
+    }
 }

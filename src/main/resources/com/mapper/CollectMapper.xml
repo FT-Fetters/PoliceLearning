@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyun.policelearning.dao.CollectDao">
     <select id="findAll" resultType="Collect">SELECT * FROM collect</select>
+    <insert id="collect">INSERT INTO collect(type,articleId,userId,date) VALUES (#{type},#{articleId},#{userId},#{date})</insert>
+    <select id="findInformation" resultType="Integer">SELECT articleId FROM collect WHERE userId=#{userId} AND type=1 ORDER BY date DESC</select>
+    <select id="getInformation" resultType="Information">SELECT id,title,view,date,picture FROM information WHERE id=#{id}</select>
+    <select id="findLaw" resultType="Integer">SELECT articleId FROM collect WHERE userId=#{userId} AND type=2 ORDER BY date DESC</select>
+    <select id="getLaw" resultType="Law">SELECT title FROM law WHERE id=#{id}</select>
+    <select id="findRule" resultType="Integer">SELECT articleId FROM collect WHERE userId=#{userId} AND type=3 ORDER BY date DESC</select>
+    <select id="getRule" resultType="Rule">SELECT id,title,view,date FROM rule WHERE id=#{id}</select>
+    <delete id="deleteCollect">DELETE FROM collect WHERE userId=#{userId} AND type=#{type} AND articleId=#{articleId}</delete>
 </mapper>

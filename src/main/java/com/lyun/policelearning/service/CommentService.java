@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.entity.Comment;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public interface CommentService {
@@ -13,4 +14,5 @@ public interface CommentService {
     void comment(int userId,int parentId,Date date,String content,String type,int hostId);
     JSONArray getInfComment(int id);
     JSONArray getRuleComment(int id);
+     HashMap<String,List<JSONObject>> getCommentAndReply(int userId);
 }
