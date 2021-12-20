@@ -12,9 +12,4 @@ public class StringFileter {
             return "&nbsp&nbsp&nbsp&nbsp&nbsp" + str;
         }
     }
-    public static String filterStringForText(String str){
-        str = str.replace("\n","</br>");
-        str = str.replace("\r","</br>");
-        return str;
-    }
 }

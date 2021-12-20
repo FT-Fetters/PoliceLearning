@@ -73,7 +73,7 @@ public class InformationServiceImpl implements InformationService{
         JSONObject information = new JSONObject();
         String content = informationDao.getInformationById(id).getContent();
         information.put("title",informationDao.getInformationById(id).getTitle());
-        information.put("content", StringFileter.filterStringForText(content));
+        information.put("content", StringFileter.filterSring(content));
         information.put("date",informationDao.getInformationById(id).getDate());
         information.put("view",informationDao.getInformationById(id).getView());
         if(informationDao.getInformationById(id).getPicture() != null){

@@ -181,6 +181,18 @@ base url:http://ldqc.xyz:5880/
 
 无参数
 
+## 收藏
+
+地址：/collect/add
+
+方法：post
+
+| 参数名    | 参数类型   | 参数描述                                               |
+| --------- | ---------- | ------------------------------------------------------ |
+| data      | JSONObject | 请求体                                                 |
+| type      | 整型       | 资料的类型（type=1：资讯，type=2：法律，type=3：新规） |
+| articleId | 整型       | 当前资料所在id                                         |
+
 ## 查看我收藏的资讯
 
 地址：/collect/myInformation
