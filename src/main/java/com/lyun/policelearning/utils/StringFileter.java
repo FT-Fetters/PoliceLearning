@@ -13,8 +13,8 @@ public class StringFileter {
         }
     }
     public static String filterStringForText(String str){
-        str = str.replace("\n","<\\br>");
-        str = str.replace("\r","<\\br>");
+        str = str.replace("\n","</br>");
+        str = str.replace("\r","</br>");
         return str;
     }
 }
