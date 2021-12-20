@@ -115,7 +115,7 @@ public class LawManageApi {
      * @param data
      * @return
      */
-    @RequestMapping(value = "/insert",method = RequestMethod.GET)
+    @RequestMapping(value = "/insert",method = RequestMethod.POST)
     public Object insert(@RequestBody JSONObject data){
         String lawtype = data.getString("lawtype");
         String title = data.getString("title");
@@ -150,7 +150,7 @@ public class LawManageApi {
      * @return
      */
     //传进来的keyword是JSONArray,所以无法用Law去承接
-    @RequestMapping(value = "/update",method = RequestMethod.GET)
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Object updateById(@RequestBody JSONObject data){
         int id = data.getInteger("id");
         String lawtype = data.getString("lawtype");
