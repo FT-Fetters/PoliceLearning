@@ -46,4 +46,9 @@ public class MultipleChoiceServiceImpl implements MultipleChoiceService{
         MultipleChoice multipleChoice = multipleChoiceDao.getById(id);
         return multipleChoice.getAnswer().equals(answer);
     }
+
+    @Override
+    public String getAnswer(int id) {
+        return multipleChoiceDao.getAnswer(id);
+    }
 }

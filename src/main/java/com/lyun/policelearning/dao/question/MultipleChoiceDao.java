@@ -13,4 +13,5 @@ public interface MultipleChoiceDao extends BaseDao<MultipleChoice> {
     void newQuestion(@Param("multipleChoice") MultipleChoice multipleChoice);
     void updateQuestion(@Param("multipleChoice") MultipleChoice multipleChoice);
     void deleteQuestion(int id);
+    String getAnswer(int id);
 }

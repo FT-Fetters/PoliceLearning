@@ -8,4 +8,5 @@
         UPDATE multiple_choice SET problem = #{multipleChoice.problem},option_a=#{multipleChoice.option_a},option_b=#{multipleChoice.option_b},option_c=#{multipleChoice.option_c},option_d=#{multipleChoice.option_d},answer=#{multipleChoice.answer} WHERE id = #{multipleChoice.id}
     </update>
     <delete id="deleteQuestion">DELETE FROM multiple_choice WHERE id=#{id}</delete>
+    <select id="getAnswer" resultType="String">SELECT answer FROM multiple_choice WHERE id=#{id}</select>
 </mapper>
