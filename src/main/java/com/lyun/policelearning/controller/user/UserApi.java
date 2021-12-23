@@ -113,16 +113,15 @@ public class UserApi {
         String suffix = filenameSplit[filenameSplit.length-1];
         if (suffix.equals("jpg")){
             String savePath = PathTools.getRunPath() + "/head/";
-            File saveFile = new File(savePath + userId + ".jpg");
-            if (saveFile.setWritable(true, false)){
-                OutputStream outputStream = new FileOutputStream(saveFile);
-                IOUtils.copy(file.getInputStream(),outputStream);
-                LogUtils.log(username+" upload head portrait","upload",true,request);
-                return new ResultBody<>(true,200,null);
-            }else {
-                LogUtils.log(username + " upload head portrait fail, unknown error","upload",true,request);
-                return new ResultBody<>(false,502,"unknown error");
+            File saveDir = new File(savePath);
+            if (!saveDir.exists()) {
+                boolean mkdirs = saveDir.mkdirs();
             }
+            File saveFile = new File(savePath + userId + ".jpg");
+            boolean b = saveFile.setWritable(true, false);
+            file.transferTo(saveFile);
+            LogUtils.log(username+" upload head portrait","upload",true,request);
+            return new ResultBody<>(true,200,null);
         }else {
             LogUtils.log(username + " upload head portrait fail, cause error suffix","upload",true,request);
             return new ResultBody<>(false,501,"wrong file type");
