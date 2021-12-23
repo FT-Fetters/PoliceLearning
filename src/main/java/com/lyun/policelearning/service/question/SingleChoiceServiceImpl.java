@@ -44,6 +44,6 @@ public class SingleChoiceServiceImpl implements SingleChoiceService{
     @Override
     public boolean check(int id, String answer) {
         SingleChoice singleChoice = singleChoiceDao.getById(id);
-        return singleChoice.getAnswer().equals(answer);
+        return singleChoice.getAnswer().equalsIgnoreCase(answer);
     }
 }

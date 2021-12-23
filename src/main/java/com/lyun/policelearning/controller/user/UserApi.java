@@ -56,8 +56,11 @@ public class UserApi {
         if (userService.check(username,password)){
             String userId = userService.getByUsername(username).getId() + "";
             String token = jwtConfig.createToken(userId);
+            String nickName = userService.getByUsername(username).getNickname();
             if (!token.equals("")){
                 res.put("token",token);
+                res.put("userName",username);
+                res.put("nickName",nickName);
             }
             return new ResultBody<>(true,200,res);
 
@@ -127,4 +130,5 @@ public class UserApi {
             return new ResultBody<>(false,501,"wrong file type");
         }
     }
+
 }

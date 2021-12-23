@@ -153,6 +153,38 @@ base url:http://ldqc.xyz:5880/
 | id     | 整型     | 题目的id   |
 | answer | 字符串   | 用户的答案 |
 
+## 获取学法考试的题目：
+
+地址：/exam/getExam
+
+方法：get
+
+| 参数名    | 参数类型 | 参数描述   |
+| --------- | -------- | ---------- |
+| single    | 整型     | 单选题数量 |
+| multiple  | 整型     | 多选题数量 |
+| judgement | 整型     | 判断题数量 |
+
+## 计算成绩：
+
+地址：/exam/getExam/calculate
+
+方法：post
+
+前端需要传入一个json，格式：
+
+{
+
+​       "infos":[{"type":1,"id":1,"userAnswer":"1"},{"type":2,"id":1,"userAnswer":"d"},{"type":3,"id":1,"userAnswer":"ab"},{"type":3,"id":2,"userAnswer":"ac"}]
+
+​          }
+
+| 参数名     | 参数类型 | 参数描述     |
+| ---------- | -------- | ------------ |
+| type       | 整型     | 题目类型代号 |
+| id         | 整型     | 题目的id     |
+| userAnswer | 字符串   | 用户的答案   |
+
 ## 添加题目至错题集
 
 地址：/errorBook/add
