@@ -131,6 +131,7 @@ public class InformationManageApi {
      */
     @RequestMapping(value = "/getPage/content/updatePicture",method = RequestMethod.POST)
     public Object updatePicById(int id,@RequestParam("file") MultipartFile file) throws IOException {
+
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
         }else {

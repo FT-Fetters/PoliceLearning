@@ -44,6 +44,7 @@ public class QuestionUtils {
                 option.add(option_d);
                 tmp.put("option",option);
                 tmp.put("type",2);
+                tmp.put("answer",singleChoice.getAnswer());
                 res.add(tmp);
             }
         }else {
@@ -73,6 +74,7 @@ public class QuestionUtils {
                     option.add(option_d);
                     tmp.put("option",option);
                     tmp.put("type",2);
+                    tmp.put("answer",singleChoice.getAnswer());
                     res.add(tmp);
                 }
             }
@@ -108,6 +110,7 @@ public class QuestionUtils {
                 option.add(option_d);
                 tmp.put("option",option);
                 tmp.put("type",3);
+                tmp.put("answer",multipleChoice.getAnswer());
                 res.add(tmp);
             }
         }else {
@@ -138,6 +141,7 @@ public class QuestionUtils {
                     option.add(option_d);
                     tmp.put("option",option);
                     tmp.put("type",3);
+                    tmp.put("answer",multipleChoice.getAnswer());
                     res.add(tmp);
                 }
             }
@@ -165,6 +169,7 @@ public class QuestionUtils {
                 option.add(option_false);
                 tmp.put("option",option);
                 tmp.put("type",1);
+                tmp.put("answer",judgment.getAnswer());
                 res.add(tmp);
             }
         }else {
@@ -179,6 +184,7 @@ public class QuestionUtils {
                     tmp.put("option_true",judgment.getOption_true());
                     tmp.put("option_false",judgment.getOption_false());
                     tmp.put("type",1);
+                    tmp.put("answer",judgment.getAnswer());
                     res.add(tmp);
                 }
             }

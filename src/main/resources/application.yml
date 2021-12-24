@@ -8,6 +8,10 @@ spring:
     url: jdbc:mysql://ldqc.xyz:3306/policelearning
     username: policelearing
     password: f28oa11JYLYuFF56
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
 
 mybatis:
   mapper-locations: classpath:com/mapper/*.xml

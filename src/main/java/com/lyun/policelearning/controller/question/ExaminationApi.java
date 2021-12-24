@@ -9,14 +9,11 @@ import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.service.question.SingleChoiceService;
 import com.lyun.policelearning.utils.ExamUtils;
 import com.lyun.policelearning.utils.LogUtils;
-import com.lyun.policelearning.utils.QuestionUtils;
 import com.lyun.policelearning.utils.ResultBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.List;
 @RequestMapping("/exam")
 @RestController
