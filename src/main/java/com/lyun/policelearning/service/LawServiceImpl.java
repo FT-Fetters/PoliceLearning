@@ -131,20 +131,20 @@ public class LawServiceImpl implements LawService{
 
     private JSONObject lawToJson(Law law) {
         JSONObject res = new JSONObject();
-        String content = changeToHtml(law.getContent());
+        /*String content = changeToHtml(law.getContent());
         if(!content.contains("<br><br>")){
             content = content.replace("<br>","<br><br>&nbsp&nbsp&nbsp&nbsp&nbsp");
             content = "&nbsp&nbsp&nbsp&nbsp&nbsp"+content;
         }else {
             content = content.replace("<br><br>","<br><br>&nbsp&nbsp&nbsp&nbsp&nbsp");
             content = "&nbsp&nbsp&nbsp&nbsp&nbsp"+content;
-        }
+        }*/
         String explaination = changeToHtml(law.getExplaination());
         String crime = changeToHtml(law.getCrime());
         res.put("id",law.getId());
         res.put("lawtype",law.getLawtype());
         res.put("title",law.getTitle());
-        res.put("conten",content);
+        res.put("conten",law.getContent());
         res.put("explaination",explaination);
         res.put("crime",crime);
         JSONArray keyWord = JSONArray.parseArray(law.getKeyword());

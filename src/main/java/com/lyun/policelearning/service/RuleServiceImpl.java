@@ -39,7 +39,7 @@ public class RuleServiceImpl implements RuleService{
         JSONObject rule = new JSONObject();
         String content = ruleDao.getRuleById(id).getContent();
         rule.put("title",ruleDao.getRuleById(id).getTitle());
-        rule.put("content", StringFileter.filterSring(content));
+        rule.put("content", content);
         rule.put("date",ruleDao.getRuleById(id).getDate());
         rule.put("view",ruleDao.getRuleById(id).getView());
         return rule;
