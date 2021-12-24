@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -102,6 +103,10 @@ public class CourseApi {
     @SneakyThrows
     @RequestMapping(value = "/video",method = RequestMethod.GET)
     public void playVideo(@RequestParam String id, HttpServletRequest request, HttpServletResponse response){
+        String savePath = PathTools.getRunPath()+"/video/";
+        if(!new File(savePath).exists()){
+            new File(savePath).mkdirs();
+        }
         String realPath = PathTools.getRunPath() + "/video/"+id+".mp4";
         Path filePath = Paths.get(realPath);
         if (Files.exists(filePath)){
