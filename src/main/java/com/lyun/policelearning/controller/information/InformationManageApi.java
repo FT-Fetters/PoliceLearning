@@ -166,7 +166,7 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getPage/content/deletePicture",method = RequestMethod.GET)
-    public Object deletePicById(int id){
+    public Object deletePicById(@RequestParam int id){
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
         }else {
