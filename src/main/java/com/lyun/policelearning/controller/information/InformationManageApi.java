@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-@RestController()
+@RestController
 @RequestMapping("/information/manage")
 public class InformationManageApi {
     @Autowired
@@ -29,8 +30,9 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value="/getPage",method = RequestMethod.POST)
-    public Object findPage(@RequestBody PageRequest pageQuery) {
+    public Object findPage(@RequestBody PageRequest pageQuery, HttpServletResponse response) {
         if(pageQuery.getPageSize() <= 0||pageQuery.getPageNum()<=0){
+            response.setHeader("Access-Control-Allow-Origin", "*");
             return new ResultBody<>(false,500,"error pageSize or error pageNum");
         }
         return new ResultBody<>(true,200,informationService.findPage(pageQuery));
