@@ -2,19 +2,18 @@ package com.lyun.policelearning.controller.information;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.entity.Information;
-import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.service.InformationService;
-import com.lyun.policelearning.service.RuleService;
+import com.lyun.policelearning.utils.ImageTools;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,7 +61,9 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getPage/insert",method = RequestMethod.POST)
-    public Object insertInformation(@RequestBody Information information,@RequestParam("file") MultipartFile file) throws IOException {
+    public Object insertInformation(@RequestPart Information information,@RequestPart(value = "file") MultipartFile file) throws IOException {
+        /*String img64 = information.getPicture();
+        BufferedImage file1 = ImageTools.base64ToImg(img64);*/
         String filename = null;
         String filepath = PathTools.getRunPath()+"/image";
         String savePath = PathTools.getRunPath()+"/image/";

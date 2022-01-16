@@ -82,6 +82,7 @@ public class RuleManageApi {
      */
     @RequestMapping(value = "getPage/content/update",method = RequestMethod.POST)
     public Object updateById(@RequestBody Rule rule){
+        System.out.println(rule.getTitle());
         if(rule == null){
             return new ResultBody<>(false,500,"error id or error rule");
         }if(ruleService.updateById(rule)){

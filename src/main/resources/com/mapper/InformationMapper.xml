@@ -5,7 +5,7 @@
     <select id="findNotTop" resultType="Information">SELECT * FROM information WHERE istop=0 ORDER BY date DESC</select>
     <select id="getInformationById" resultType="Information">SELECT * FROM information WHERE id=#{id}</select>
     <select id="selectPage" resultType="Information" >SELECT * FROM information</select>
-    <select id="insertInformation">INSERT INTO information(title,content,view,date,picture) VALUES (#{information.title},#{information.content},#{information.view},#{information.date},#{path})</select>
+    <select id="insertInformation">INSERT INTO information(title,content,view,date,picture,istop) VALUES (#{information.title},#{information.content},#{information.view},#{information.date},#{path},#{information.istop})</select>
     <delete id="deleteById">DELETE FROM information WHERE id=#{id}</delete>
     <update id="updateById">UPDATE information SET title=#{information.title},content=#{information.content},view=#{information.view},date=#{information.date} WHERE id=#{information.id}</update>
     <update id="updateTopById">UPDATE information SET istop=#{istop} WHERE id=#{id}</update>

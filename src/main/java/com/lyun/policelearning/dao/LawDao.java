@@ -16,6 +16,6 @@ public interface LawDao extends BaseDao<Law>{
     Law findLawById(int id);
     void insert(String lawtype,String title,String content,String explaination,String crime,String keywords);
     void deleteById(int id);
-    void updateById(int id, String lawtype,String title, String content, String explaination, String crime, String keyword);
+    void updateById(int id, String title,String lawtype, String content, String explaination, String crime, String keyword);
     List<Law> findLawByTitle(String title);
 }

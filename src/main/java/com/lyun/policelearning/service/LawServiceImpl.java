@@ -111,7 +111,7 @@ public class LawServiceImpl implements LawService{
     @Override
     public boolean updateById(int id, String title,String lawtype, String content, String explaination, String crime, JSONArray keyword) {
         String keywords = keyword.toJSONString();
-        lawDao.updateById(id,lawtype,title,content,explaination,crime,keywords);
+        lawDao.updateById(id,title,lawtype,content,explaination,crime,keywords);
         return true;
     }
 
