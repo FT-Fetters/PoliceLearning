@@ -63,7 +63,7 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getPage/insert",method = RequestMethod.POST)
-    public Object insertInformation(@RequestPart Information information) throws IOException {
+    public Object insertInformation(@RequestBody Information information) throws IOException {
         /*String img64 = information.getPicture();
         BufferedImage file1 = ImageTools.base64ToImg(img64);*/
         /*String filename = null;
@@ -82,8 +82,8 @@ public class InformationManageApi {
         file.transferTo(saveFile);*/
         if(informationService.insertInformation(information)){
             JSONObject res = new JSONObject();
-            res.put("id",informationService.getInformationByTitle(information.getTitle()));
-            return new ResultBody<>(true,200,null);
+            res.put("id",informationService.getInformationByTitle(information.getTitle()).getId());
+            return new ResultBody<>(true,200,res);
         }else {
             return new ResultBody<>(false,500,"can't insert");
         }
