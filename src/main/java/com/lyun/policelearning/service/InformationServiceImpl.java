@@ -40,7 +40,7 @@ public class InformationServiceImpl implements InformationService{
             jsonObject.put("view",information.getView());
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
-            if(!information.getPicture().equals("")) {
+            if(information.getPicture() != null) {
                 String savePath = PathTools.getRunPath()+"/image/";
                 String imagePath = savePath + information.getPicture();
                 BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
@@ -98,11 +98,11 @@ public class InformationServiceImpl implements InformationService{
     }
 
     @Override
-    public boolean insertInformation(Information information,String path) {
-        if (information == null || path == null){
+    public boolean insertInformation(Information information) {
+        if (information == null){
             return false;
         }
-        informationDao.insertInformation(information,path);
+        informationDao.insertInformation(information);
         return true;
     }
 
@@ -203,6 +203,11 @@ public class InformationServiceImpl implements InformationService{
     @Override
     public void deletePicture(int id) {
         informationDao.deletePicture(id);
+    }
+
+    @Override
+    public Information getInformationByTitle(String title) {
+        return informationDao.getInformationByTitle(title);
     }
 
 

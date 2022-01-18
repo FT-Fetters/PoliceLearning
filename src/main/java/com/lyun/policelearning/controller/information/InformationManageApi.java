@@ -63,10 +63,10 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getPage/insert",method = RequestMethod.POST)
-    public Object insertInformation(@RequestPart Information information,@RequestPart(value = "file") MultipartFile file) throws IOException {
+    public Object insertInformation(@RequestPart Information information) throws IOException {
         /*String img64 = information.getPicture();
         BufferedImage file1 = ImageTools.base64ToImg(img64);*/
-        String filename = null;
+        /*String filename = null;
         String filepath = PathTools.getRunPath()+"/image";
         String savePath = PathTools.getRunPath()+"/image/";
         if(!new File(savePath).exists()){
@@ -79,8 +79,10 @@ public class InformationManageApi {
         filename= UUID.randomUUID()+suffixName;
         File targetFile = new File(filepath);
         File saveFile = new File(targetFile, filename);
-        file.transferTo(saveFile);
-        if(informationService.insertInformation(information,filename)){
+        file.transferTo(saveFile);*/
+        if(informationService.insertInformation(information)){
+            JSONObject res = new JSONObject();
+            res.put("id",informationService.getInformationByTitle(information.getTitle()));
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,500,"can't insert");

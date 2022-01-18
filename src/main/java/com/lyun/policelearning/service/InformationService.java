@@ -12,7 +12,7 @@ public interface InformationService {
     List<JSONObject> findAll() throws Exception;
     JSONObject getInformationById(int id) throws Exception;
     PageResult findPage(PageRequest pageRequest);
-    boolean insertInformation(Information information,String filename);
+    boolean insertInformation(Information information);
     boolean deleteById(int id);
     void updateById(Information information);
     boolean updateTopById(int id,int istop);
@@ -24,4 +24,5 @@ public interface InformationService {
     void setChangePicture(List<Integer> ids);
     void updatePicture(int id,String picture);
     void deletePicture(int id);
+    Information getInformationByTitle(String title);
 }
