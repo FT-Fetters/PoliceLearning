@@ -159,7 +159,7 @@ public class LawManageApi {
         String explaination = data.getString("explaination");
         String crime = data.getString("crime");
         JSONArray keyword = data.getJSONArray("keyword");
-        if(lawService.updateById(id,lawtype,title,content,explaination,crime,keyword)){
+        if(lawService.updateById(id,title,lawtype,content,explaination,crime,keyword)){
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,500,"can't update");
