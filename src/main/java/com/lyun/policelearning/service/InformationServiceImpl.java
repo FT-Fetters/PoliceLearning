@@ -72,6 +72,7 @@ public class InformationServiceImpl implements InformationService{
     public JSONObject getInformationById(int id) throws Exception {
         JSONObject information = new JSONObject();
         String content = informationDao.getInformationById(id).getContent();
+        information.put("id",id);
         information.put("title",informationDao.getInformationById(id).getTitle());
         information.put("content",content);
         information.put("date",informationDao.getInformationById(id).getDate());
