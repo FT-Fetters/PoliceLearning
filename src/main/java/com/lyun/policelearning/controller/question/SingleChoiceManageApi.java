@@ -31,7 +31,7 @@ public class SingleChoiceManageApi {
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
     public Object newQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, jwtConfig,userService)){
+        if (!UserUtils.checkPower(request, 5, jwtConfig,userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         String problem = data.getString("problem");
@@ -62,7 +62,7 @@ public class SingleChoiceManageApi {
 
     @RequestMapping("/update")
     public Object updateQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, jwtConfig,userService)){
+        if (!UserUtils.checkPower(request, 5, jwtConfig,userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         Integer id = data.getInteger("id");
@@ -95,7 +95,7 @@ public class SingleChoiceManageApi {
 
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Object deleteQuestion(@RequestBody JSONObject data,HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5, jwtConfig,userService)){
+        if (!UserUtils.checkPower(request, 5, jwtConfig,userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         Integer id = data.getInteger("id");

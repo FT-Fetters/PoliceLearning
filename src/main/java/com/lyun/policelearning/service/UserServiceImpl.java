@@ -46,4 +46,21 @@ public class UserServiceImpl implements UserService {
     public int count() {
         return userDao.count();
     }
+
+    @Override
+    public void newUser(String username,String password,String nickname,String realname,Integer power) {
+        password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
+        userDao.newUser(username,password,nickname,realname,power);
+    }
+
+    @Override
+    public void deleteUser(Integer id) {
+        userDao.deleteUser(id);
+    }
+
+    @Override
+    public void updateUser(Integer id, String username, String password, String nickname, String realname, int power) {
+        password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
+        userDao.updateUser(id,username,password,nickname,realname,power);
+    }
 }

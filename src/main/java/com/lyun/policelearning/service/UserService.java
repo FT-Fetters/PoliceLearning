@@ -9,4 +9,7 @@ public interface UserService {
     User getByUsername(String username);
     User getById(int id);
     int count();
+    void newUser(String username,String password,String nickname,String realname,Integer power);
+    void deleteUser(Integer id);
+    void updateUser(Integer id,String username,String password,String nickname,String realname,int power);
 }

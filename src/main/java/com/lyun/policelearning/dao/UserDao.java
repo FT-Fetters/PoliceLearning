@@ -9,4 +9,7 @@ public interface UserDao extends BaseDao<User>{
     int getPower(String username);
     User getById(int id);
     Integer count();
+    void newUser(String username,String password,String nickname,String realname,int power);
+    void deleteUser(int id);
+    void updateUser(int id,String username,String password,String nickname,String realname,int power);
 }
