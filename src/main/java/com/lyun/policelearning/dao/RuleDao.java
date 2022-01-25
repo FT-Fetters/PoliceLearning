@@ -15,4 +15,5 @@ public interface RuleDao extends BaseDao<Rule>{
     void insertRule(@Param("rule") Rule rule);
     void deleteById(int id);
     void updateById(@Param("rule") Rule rule);
+    Integer count();
 }

@@ -91,4 +91,9 @@ public class RuleManageApi {
             return new ResultBody<>(false,501,"can't update");
         }
     }
+
+    @RequestMapping(value = "/count",method = RequestMethod.GET)
+    public Object count(){
+        return new ResultBody<>(true,200,ruleService.count());
+    }
 }

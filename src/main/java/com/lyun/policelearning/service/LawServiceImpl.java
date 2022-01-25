@@ -128,6 +128,11 @@ public class LawServiceImpl implements LawService{
         return res;
     }
 
+    @Override
+    public int count() {
+        return lawDao.count();
+    }
+
 
     private JSONObject lawToJson(Law law) {
         JSONObject res = new JSONObject();

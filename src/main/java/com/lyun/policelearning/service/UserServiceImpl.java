@@ -41,4 +41,9 @@ public class UserServiceImpl implements UserService {
     public User getById(int id) {
         return userDao.getById(id);
     }
+
+    @Override
+    public int count() {
+        return userDao.count();
+    }
 }

@@ -8,4 +8,5 @@ public interface UserService {
     int getPower(String username);
     User getByUsername(String username);
     User getById(int id);
+    int count();
 }

@@ -25,4 +25,5 @@ public interface InformationService {
     void updatePicture(int id,String picture);
     void deletePicture(int id);
     Information getInformationByTitle(String title);
+    int count();
 }

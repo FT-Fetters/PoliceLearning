@@ -18,4 +18,5 @@
     <update id="updatePicture">UPDATE information SET picture=#{picture} WHERE id=#{id}</update>
     <update id="deletePicture">UPDATE information SET picture=null WHERE id=#{id}</update>
     <select id="getInformationByTitle" resultType="Information">SELECT * FROM information WHERE title=#{title}</select>
+    <select id="count" resultType="Integer">SELECT COUNT(*) FROM information</select>
 </mapper>

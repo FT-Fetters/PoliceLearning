@@ -15,4 +15,5 @@ public interface RuleService {
     boolean deleteById(int id);
     boolean updateById(Rule rule);
     void updateView(int id);
+    int count();
 }

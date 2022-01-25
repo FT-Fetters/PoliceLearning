@@ -5,4 +5,5 @@
     <select id="getByUsername" resultType="User">SELECT * FROM user WHERE username=#{username}</select>
     <select id="getPower" resultType="Integer">SELECT power FROM user WHERE username=#{username}</select>
     <select id="getById" resultType="User">SELECT * FROM user WHERE id=#{id}</select>
+    <select id="count" resultType="Integer">SELECT COUNT(*) FROM user</select>
 </mapper>
