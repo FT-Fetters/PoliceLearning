@@ -83,5 +83,12 @@ public class UserManageApi {
         return new ResultBody<>(true,200,null);
     }
 
+    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    public Object getAll(HttpServletRequest request){
+        if (!UserUtils.checkPower(request, 5,jwtConfig, userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
+        return new ResultBody<>(true,200,userService.findAll());
+    }
 
 }

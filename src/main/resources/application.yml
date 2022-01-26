@@ -5,7 +5,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/policelearning
+    url: jdbc:mysql://ldqc.xyz:3306/policelearning
     username: root
     password: mysqlpwd
   servlet:
