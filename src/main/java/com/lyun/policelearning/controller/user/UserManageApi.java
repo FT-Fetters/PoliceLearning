@@ -72,14 +72,13 @@ public class UserManageApi {
         }
         Integer id = data.getInteger("id");
         String username = data.getString("username");
-        String password = data.getString("password");
         String nickname = data.getString("nickname");
         String realname = data.getString("realname");
         Integer power = data.getInteger("power");
-        if (username == null || password == null || power == null){
+        if (username == null || power == null){
             return new ResultBody<>(false,500,"miss parameter");
         }
-        userService.updateUser(id,username,password,nickname,realname,power);
+        userService.updateUser(id,username,nickname,realname,power);
         return new ResultBody<>(true,200,null);
     }
 
@@ -89,6 +88,17 @@ public class UserManageApi {
             return new ResultBody<>(false,-1,"not allow");
         }
         return new ResultBody<>(true,200,userService.findAll());
+    }
+
+
+    @RequestMapping(value = "/change/password",method = RequestMethod.POST)
+    public Object changePassword(@RequestBody JSONObject data){
+        String username = data.getString("username");
+        String password = data.getString("password");
+        if (username == null || password == null)return new ResultBody<>(false,500,"miss parameter");
+        if (userService.getByUsername(username)==null)return new ResultBody<>(false,501,"unknown username");
+        userService.changePassword(username,password);
+        return new ResultBody<>(true,200,null);
     }
 
 }

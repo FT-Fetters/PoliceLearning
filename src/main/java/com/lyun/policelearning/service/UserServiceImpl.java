@@ -60,13 +60,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Integer id, String username, String password, String nickname, String realname, int power) {
-        password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
-        userDao.updateUser(id,username,password,nickname,realname,power);
+    public void updateUser(Integer id, String username, String nickname, String realname, int power) {
+        userDao.updateUser(id,username,nickname,realname,power);
     }
 
     @Override
     public List<User> findAll() {
         return userDao.findAll();
+    }
+
+    @Override
+    public void changePassword(String username, String password) {
+        userDao.changePassword(username,DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8)));
     }
 }
