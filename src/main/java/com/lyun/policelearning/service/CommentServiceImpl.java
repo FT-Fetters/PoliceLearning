@@ -105,4 +105,9 @@ public class CommentServiceImpl implements CommentService{
         res.put("reply",reply);
         return res;
     }
+
+    @Override
+    public void deleteComment(int id) {
+        commentDao.deleteComment(id);
+    }
 }

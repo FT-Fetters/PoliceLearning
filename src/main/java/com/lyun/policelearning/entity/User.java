@@ -70,6 +70,7 @@ public class User {
     private String username;
     private String nickname;
     private String password;
-    private int power;
+    private int role;
     private String realname;
+    private String phone;
 }

@@ -10,4 +10,5 @@
     <select id="findParent" resultType="User">SELECT * FROM user WHERE id=#{parentId}</select>
     <select id="findInfTitle" resultType="Information">SELECT * FROM information WHERE id=#{hostId}</select>
     <select id="findRuleTitle" resultType="Rule">SELECT * FROM rule WHERE id=#{hostId}</select>
+    <delete id="deleteComment">DELETE FROM comment WHERE id=#{id}</delete>
 </mapper>
