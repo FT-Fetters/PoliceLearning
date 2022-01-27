@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.RoleDao">
+    <select id="findById" resultType="Role">SELECT * FROM role WHERE id=#{id}</select>
+    <select id="findAll" resultType="Role">SELECT * FROM role</select>
+    <insert id="newRole">INSERT INTO role(name,power) VALUES (#{name},#{power})</insert>
+    <delete id="deleteRole">DELETE FROM role WHERE id=#{id}</delete>
+    <update id="updateRole">UPDATE role SET name=#{name},power=#{power} WHERE id=#{id}</update>
+
+</mapper>

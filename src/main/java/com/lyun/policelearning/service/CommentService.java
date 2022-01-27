@@ -14,5 +14,6 @@ public interface CommentService {
     void comment(int userId,int parentId,Date date,String content,String type,int hostId);
     JSONArray getInfComment(int id);
     JSONArray getRuleComment(int id);
-     HashMap<String,List<JSONObject>> getCommentAndReply(int userId);
+    HashMap<String,List<JSONObject>> getCommentAndReply(int userId);
+    void deleteComment(int id);
 }

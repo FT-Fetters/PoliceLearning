@@ -1,7 +1,9 @@
 package com.lyun.policelearning.utils;
 
 import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.dao.RoleDao;
 import com.lyun.policelearning.entity.User;
+import com.lyun.policelearning.service.RoleService;
 import com.lyun.policelearning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,11 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 public class UserUtils {
 
 
-    public static boolean checkPower(HttpServletRequest request,int power,JwtConfig jwtConfig,UserService userService){
+
+    public static boolean checkPower(HttpServletRequest request, int role, JwtConfig jwtConfig, UserService userService, RoleService roleService){
         String token = request.getHeader("token");
         String username = jwtConfig.getUsernameFromToken(token);
         if (token==null)return false;
-        return userService.getPower(username) >= power;
+        return roleService.findById(userService.getRole(username)).getPower() >= roleService.findById(role).getPower();
     }
 
     public static String getUsername(HttpServletRequest request,JwtConfig jwtConfig){

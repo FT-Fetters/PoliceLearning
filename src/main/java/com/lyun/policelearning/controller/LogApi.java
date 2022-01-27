@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller;
 
 
 import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.service.RoleService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,13 @@ public class LogApi {
     @Autowired
     JwtConfig jwtConfig;
 
+    @Autowired
+    RoleService roleService;
+
+
     @RequestMapping("/list")
     public Object list(HttpServletRequest request){
-        if (!UserUtils.checkPower(request, 5,jwtConfig, userService)){
+        if (!UserUtils.checkPower(request, 1,jwtConfig, userService,roleService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         LogUtils.log("get logs list","get",true,request);
@@ -45,7 +50,7 @@ public class LogApi {
 
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public Object get(@RequestParam String log, HttpServletRequest request){
-        if (!UserUtils.checkPower(request, 5,jwtConfig, userService)){
+        if (!UserUtils.checkPower(request, 1,jwtConfig, userService,roleService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         String path = PathTools.getRunPath() + "/log/";

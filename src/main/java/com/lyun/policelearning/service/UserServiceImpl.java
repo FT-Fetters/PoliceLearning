@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getPower(String username) {
-        return userDao.getPower(username);
+    public int getRole(String username) {
+        return userDao.getRole(username);
     }
 
     @Override
@@ -49,9 +49,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void newUser(String username,String password,String nickname,String realname,Integer power) {
+    public void newUser(String username,String password,String nickname,String realname,Integer role,String phone,String sex) {
         password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
-        userDao.newUser(username,password,nickname,realname,power);
+        userDao.newUser(username,password,nickname,realname,role,phone,sex);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Integer id, String username, String nickname, String realname, int power) {
-        userDao.updateUser(id,username,nickname,realname,power);
+    public void updateUser(Integer id, String username, String nickname, String realname, Integer role,String phone,String sex) {
+        userDao.updateUser(id,username,nickname,realname,role,phone,sex);
     }
 
     @Override
