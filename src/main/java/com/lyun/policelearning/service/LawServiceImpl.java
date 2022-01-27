@@ -94,8 +94,46 @@ public class LawServiceImpl implements LawService{
 
     @Override
     public boolean insert(String lawtype, String title, String content, String explaination, String crime, JSONArray keywords) {
-        String keyword = keywords.toJSONString();
-        lawDao.insert(lawtype,title,content,explaination,crime,keyword);
+        if(keywords != null){
+            String keyword = keywords.toJSONString();
+            for(LawType lawType : lawTypeDao.findTitleByName(lawtype)){
+                JSONArray jsonArray = JSONArray.parseArray(lawType.getTitle());
+                if(jsonArray != null){
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name",title);
+                    jsonArray.add(jsonObject);
+                    String str = jsonArray.toString();
+                    lawTypeDao.updateTitleByName(str,lawtype);
+                }else {
+                    JSONArray jsonArray1 = new JSONArray();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name",title);
+                    jsonArray1.add(jsonObject);
+                    String str = jsonArray1.toString();
+                    lawTypeDao.updateTitleByName(str,lawtype);
+                }
+            }
+            lawDao.insert(lawtype,title,content,explaination,crime,keyword);
+        }else {
+            for(LawType lawType : lawTypeDao.findTitleByName(lawtype)){
+                JSONArray jsonArray = JSONArray.parseArray(lawType.getTitle());
+                if(jsonArray != null){
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name",title);
+                    jsonArray.add(jsonObject);
+                    String str = jsonArray.toString();
+                    lawTypeDao.updateTitleByName(str,lawtype);
+                }else {
+                    JSONArray jsonArray1 = new JSONArray();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name",title);
+                    jsonArray1.add(jsonObject);
+                    String str = jsonArray1.toString();
+                    lawTypeDao.updateTitleByName(str,lawtype);
+                }
+            }
+            lawDao.insert(lawtype,title,content,explaination,crime,null);
+        }
         return true;
     }
 
@@ -126,6 +164,11 @@ public class LawServiceImpl implements LawService{
             res.add(jsonObject);
         }
         return res;
+    }
+
+    @Override
+    public void insertType(String lawtype) {
+        lawTypeDao.insertType(lawtype);
     }
 
 

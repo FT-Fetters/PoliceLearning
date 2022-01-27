@@ -5,4 +5,6 @@
 <mapper namespace="com.lyun.policelearning.dao.LawTypeDao">
     <select id="findAll" resultType="LawType">SELECT * FROM lawtype</select>
     <select id="findTitleByName" resultType="LawType">SELECT * FROM lawtype WHERE lawtype=#{name}</select>
+    <insert id="insertType">INSERT INTO lawtype(lawtype) VALUES (#{lawtype})</insert>
+    <update id="updateTitleByName">UPDATE lawtype SET title=#{title} WHERE lawtype=#{lawtype}</update>
 </mapper>
