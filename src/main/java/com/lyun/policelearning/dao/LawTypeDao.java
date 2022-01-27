@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface LawTypeDao extends BaseDao<LawType>{
     List<LawType> findTitleByName(String name);
+    void insertType(String lawtype);
+    void updateTitleByName(String title,String lawtype);
 }

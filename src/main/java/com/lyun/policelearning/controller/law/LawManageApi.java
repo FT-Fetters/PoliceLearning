@@ -39,7 +39,11 @@ public class LawManageApi {
     public Object getLawType(){
         return new ResultBody<>(true,200,lawService.findAllType());
     }
-
+    @RequestMapping(value = "/insertType",method = RequestMethod.POST)
+    public Object insertType(@RequestParam String lawtype){
+        lawService.insertType(lawtype);
+        return new ResultBody<>(true,200,null);
+    }
 
     /**
      * 根据法律的类型查询对应的title有哪些
