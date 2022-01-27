@@ -5,4 +5,21 @@
     <select id="getByUsername" resultType="User">SELECT * FROM user WHERE username=#{username}</select>
     <select id="getPower" resultType="Integer">SELECT power FROM user WHERE username=#{username}</select>
     <select id="getById" resultType="User">SELECT * FROM user WHERE id=#{id}</select>
+    <select id="count" resultType="Integer">SELECT COUNT(*) FROM user</select>
+    <insert id="newUser">INSERT INTO user(username,password,nickname,realname,power) VALUES (
+                                                                   #{username},
+                                                                   #{password},
+                                                                   #{nickname},
+                                                                   #{realname},
+                                                                   #{power}
+                                                                                           )</insert>
+    <delete id="deleteUser">DELETE FROM user WHERE id=#{id}</delete>
+    <update id="updateUser">UPDATE user SET
+                                            username=#{username},
+                                            password=#{password},
+                                            nickname=#{nickname},
+                                            realname=#{realname},
+                                            power=#{power}
+                                            WHERE id=#{id}</update>
+    <update id="changePassword">UPDATE user SET password=#{password} WHERE username=#{username}</update>
 </mapper>

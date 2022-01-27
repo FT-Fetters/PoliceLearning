@@ -210,6 +210,11 @@ public class InformationServiceImpl implements InformationService{
         return informationDao.getInformationByTitle(title);
     }
 
+    @Override
+    public int count() {
+        return informationDao.count();
+    }
+
 
     @SneakyThrows
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {

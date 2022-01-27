@@ -5,7 +5,7 @@
     <select id="getById" resultType="Judgment">SELECT * FROM judgment WHERE id=#{id}</select>
     <insert id="newQuestion">INSERT INTO judgment (problem,option_true,option_false,answer) VALUES (#{judgment.problem},#{judgment.option_true},#{judgment.option_false},#{judgment.answer})</insert>
     <update id="updateQuestion">
-        UPDATE judgment SET problem = #{judgment.problem},option_a=#{judgment.option_true},option_b=#{judgment.false},option_c=#{judgment.answer}} WHERE id = #{judgment.id}
+        UPDATE judgment SET problem = #{judgment.problem},option_true=#{judgment.option_true},option_false=#{judgment.option_false},answer=#{judgment.answer} WHERE id = #{judgment.id}
     </update>
     <delete id="deleteQuestion">DELETE FROM judgment WHERE id=#{id}</delete>
 </mapper>

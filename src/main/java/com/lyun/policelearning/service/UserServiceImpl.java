@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 @Transactional
@@ -40,5 +41,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(int id) {
         return userDao.getById(id);
+    }
+
+    @Override
+    public int count() {
+        return userDao.count();
+    }
+
+    @Override
+    public void newUser(String username,String password,String nickname,String realname,Integer power) {
+        password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
+        userDao.newUser(username,password,nickname,realname,power);
+    }
+
+    @Override
+    public void deleteUser(Integer id) {
+        userDao.deleteUser(id);
+    }
+
+    @Override
+    public void updateUser(Integer id, String username, String nickname, String realname, int power) {
+        userDao.updateUser(id,username,nickname,realname,power);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
+    }
+
+    @Override
+    public void changePassword(String username, String password) {
+        userDao.changePassword(username,DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8)));
     }
 }

@@ -3,12 +3,11 @@ package com.lyun.policelearning.controller;
 
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.UserService;
-import com.lyun.policelearning.utils.LogUtils;
-import com.lyun.policelearning.utils.PathTools;
-import com.lyun.policelearning.utils.ResultBody;
-import com.lyun.policelearning.utils.UserUtils;
+import com.lyun.policelearning.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,7 @@ public class LogApi {
 
     @RequestMapping("/list")
     public Object list(HttpServletRequest request){
-        if (UserUtils.checkPower(request, 5,jwtConfig, userService)){
+        if (!UserUtils.checkPower(request, 5,jwtConfig, userService)){
             return new ResultBody<>(false,-1,"not allow");
         }
         LogUtils.log("get logs list","get",true,request);
@@ -38,9 +37,22 @@ public class LogApi {
         List<String> logList = new ArrayList<>();
         assert logs != null;
         for (File log : logs) {
-            logList.add(log.getAbsolutePath());
+            logList.add(log.getName());
         }
         return new ResultBody<>(true,200,logList);
+
+    }
+
+    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    public Object get(@RequestParam String log, HttpServletRequest request){
+        if (!UserUtils.checkPower(request, 5,jwtConfig, userService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
+        String path = PathTools.getRunPath() + "/log/";
+        File logFile = new File(path + log);
+        if (!logFile.exists())return new ResultBody<>(false,500,"log is not exists");
+        String logStr = FileUtils.txt2String(logFile);
+        return new ResultBody<>(true,200,logStr);
 
     }
 

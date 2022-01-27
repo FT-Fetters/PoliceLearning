@@ -141,5 +141,10 @@ public class CourseServiceImpl implements CourseService{
         return true;
     }
 
+    @Override
+    public Integer count() {
+        return courseDao.count();
+    }
+
 
 }

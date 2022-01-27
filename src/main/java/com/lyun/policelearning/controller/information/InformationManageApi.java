@@ -241,4 +241,9 @@ public class InformationManageApi {
             return new ResultBody<>(true,200,null);
         }
     }
+
+    @RequestMapping(value = "/count",method = RequestMethod.GET)
+    public Object count(){
+        return new ResultBody<>(true,200,informationService.count());
+    }
 }

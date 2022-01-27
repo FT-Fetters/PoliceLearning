@@ -169,4 +169,9 @@ public class LawManageApi {
             return new ResultBody<>(false,500,"can't update");
         }
     }
+
+    @RequestMapping(value = "/count",method = RequestMethod.GET)
+    public Object count(){
+        return new ResultBody<>(true,200,lawService.count());
+    }
 }

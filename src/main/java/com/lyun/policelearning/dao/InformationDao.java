@@ -27,4 +27,5 @@ public interface InformationDao extends BaseDao<Information> {
     void updatePicture(int id,String picture);
     void deletePicture(int id);
     Information getInformationByTitle(String title);
+    Integer count();
 }

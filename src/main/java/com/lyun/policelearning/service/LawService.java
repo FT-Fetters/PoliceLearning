@@ -18,5 +18,5 @@ public interface LawService {
     boolean deleteById(int id);
     boolean updateById(int id,String lawtype,String title,String content,String explaination,String crime,JSONArray keyword);
     List<JSONObject> findTitleByNameForManage(String title);
-    void insertType(String lawtype);
+    int count();
 }

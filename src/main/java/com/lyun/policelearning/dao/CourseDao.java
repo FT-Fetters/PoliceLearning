@@ -13,4 +13,5 @@ public interface CourseDao extends BaseDao<Course>{
     void update(@Param("course") Course course);
     List<Course> getByType(String type);
     void publish(String name,String introduce,String type);
+    Integer count();
 }
