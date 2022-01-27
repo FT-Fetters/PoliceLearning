@@ -3,6 +3,7 @@ package com.lyun.policelearning.service;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lyun.policelearning.dao.CollectDao;
 import com.lyun.policelearning.dao.RuleDao;
 import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.utils.page.PageRequest;
@@ -18,7 +19,8 @@ import java.util.List;
 public class RuleServiceImpl implements RuleService{
     @Autowired
     RuleDao ruleDao;
-
+    @Autowired
+    CollectDao  collectDao;
     @Override
     public List<JSONObject> findAll() {
         List<JSONObject> rules = new ArrayList<>();
@@ -70,6 +72,7 @@ public class RuleServiceImpl implements RuleService{
         if(id <= 0){
             return false;
         }else {
+            collectDao.deleteById(2,id);
             ruleDao.deleteById(id);
             return true;
         }

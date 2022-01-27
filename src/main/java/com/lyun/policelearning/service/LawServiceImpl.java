@@ -2,6 +2,7 @@ package com.lyun.policelearning.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.dao.CollectDao;
 import com.lyun.policelearning.dao.LawDao;
 import com.lyun.policelearning.dao.LawTypeDao;
 import com.lyun.policelearning.entity.Law;
@@ -17,7 +18,8 @@ public class LawServiceImpl implements LawService{
     LawDao lawDao;
     @Autowired
     LawTypeDao lawTypeDao;
-
+    @Autowired
+    CollectDao collectDao;
 
     //能获取到json格式的title目录
     @Override
@@ -142,6 +144,7 @@ public class LawServiceImpl implements LawService{
         if(id <= 0){
             return false;
         }
+        collectDao.deleteById(3,id);
         lawDao.deleteById(id);
         return true;
     }

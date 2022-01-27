@@ -3,6 +3,7 @@ package com.lyun.policelearning.service;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lyun.policelearning.dao.CollectDao;
 import com.lyun.policelearning.dao.InformationDao;
 import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.utils.ImageTools;
@@ -28,6 +29,9 @@ public class InformationServiceImpl implements InformationService{
 
     @Autowired
     private InformationDao informationDao;
+
+    @Autowired
+    CollectDao collectDao;
 
     @Override
     public List<JSONObject> findAll() throws Exception {
@@ -111,6 +115,7 @@ public class InformationServiceImpl implements InformationService{
         if(id <= 0){
             return false;
         }else {
+            collectDao.deleteById(1,id);
             informationDao.deleteById(id);
             return true;
         }
