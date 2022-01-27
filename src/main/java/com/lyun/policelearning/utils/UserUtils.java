@@ -17,7 +17,10 @@ public class UserUtils {
         String token = request.getHeader("token");
         String username = jwtConfig.getUsernameFromToken(token);
         if (token==null)return false;
-        return roleService.findById(userService.getRole(username)).getPower() >= roleService.findById(role).getPower();
+        int roleId = userService.getRole(username);
+        Integer needPower = roleService.findById(role).getPower();
+        Integer userPower = roleService.findById(roleId).getPower();
+        return userPower >= needPower;
     }
 
     public static String getUsername(HttpServletRequest request,JwtConfig jwtConfig){

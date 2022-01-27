@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +52,7 @@ public class MockExaminationApi {
         File file = new File(PathTools.getRunPath() + "/mock/count.txt");
         boolean writeable = file.setWritable(true, false);
         if (file.exists()){
-            String str = FileUtils.txt2String(file).replace("\r\n","");
+            String str = FileUtils.txt2String(file).replace("\r\n","").replace("\n","").replace("\r","");
             int count = Integer.parseInt(str);
             FileWriter fileWriter = new FileWriter(file,false);
             fileWriter.write(String.valueOf(count+1));
@@ -72,17 +69,23 @@ public class MockExaminationApi {
         return new ResultBody<>(true,200,res);
     }
 
-    @SneakyThrows
+
     @RequestMapping(value = "/count",method = RequestMethod.GET)
     public Object count(){
-        File file = new File(PathTools.getRunPath() + "/mock/count.txt");
-        boolean b = file.setWritable(true, false);
-        if (file.exists()){
-            String str = FileUtils.txt2String(file).replace("\r\n","");
-            int count = Integer.parseInt(str);
-            return new ResultBody<>(true,200,count);
-        }else {
-            return new ResultBody<>(true,200,0);
+        try {
+            File file = new File(PathTools.getRunPath() + "/mock/count.txt");
+            boolean b = file.setWritable(true, false);
+            if (file.exists()){
+                String str = FileUtils.txt2String(file).replace("\r\n","").replace("\n","").replace("\r","");
+                int count = Integer.parseInt(str);
+//                int count = Integer.parseInt(FileUtils.txt2String(file));
+                return new ResultBody<>(true,200,count);
+            }else {
+                return new ResultBody<>(true,200,0);
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+            return new ResultBody<>(false,-1,"unknown error");
         }
     }
 

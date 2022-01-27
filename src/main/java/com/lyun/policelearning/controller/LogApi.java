@@ -5,6 +5,7 @@ import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.RoleService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.*;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,6 +49,7 @@ public class LogApi {
 
     }
 
+    @SneakyThrows
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public Object get(@RequestParam String log, HttpServletRequest request){
         if (!UserUtils.checkPower(request, 1,jwtConfig, userService,roleService)){

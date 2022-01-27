@@ -116,7 +116,7 @@ public class CourseManageApi {
         if (!UserUtils.checkPower(request, 1, jwtConfig,userService,roleService)){
             return new ResultBody<>(false,-1,"not allow");
         }
-        if (!file.isEmpty()){
+        if (file.isEmpty()){
             return new ResultBody<>(false,501,"file is empty");
         }
         if (courseName == null || name == null){
