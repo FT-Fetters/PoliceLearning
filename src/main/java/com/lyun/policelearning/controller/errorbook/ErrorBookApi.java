@@ -32,7 +32,7 @@ public class ErrorBookApi {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/add",method = RequestMethod.GET)
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object addQuestion(@RequestBody JSONObject data, HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);
         int userId = UserUtils.getUserId(request,jwtConfig);
