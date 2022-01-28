@@ -43,6 +43,7 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> comments = commentDao.findComment(id,"inf");
         JSONArray res = new JSONArray();
         for (Comment comment : comments) {
+            if (comment.getParentId()!=null)continue;
             JSONObject tmp = new JSONObject();
             tmp.put("comment",comment);
             List<Comment> secondComment = commentDao.findSecondComment(id,comment.getId(),"inf");
@@ -57,6 +58,7 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> comments = commentDao.findComment(id,"rule");
         JSONArray res = new JSONArray();
         for (Comment comment : comments) {
+            if (comment.getParentId()!=null)continue;
             JSONObject tmp = new JSONObject();
             tmp.put("comment",comment);
             List<Comment> secondComment = commentDao.findSecondComment(id,comment.getId(),"rule");

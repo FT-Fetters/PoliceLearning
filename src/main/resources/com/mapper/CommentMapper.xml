@@ -8,7 +8,7 @@
     <insert id="secondComment">INSERT INTO comment (userId,parentId,date,content,type,hostId) VALUES (#{userId},#{parentId},#{date},#{content},#{type},#{hostId})</insert>
     <select id="findCommentAndReply" resultType="Comment">SELECT * FROM comment WHERE userId=#{userId} ORDER BY date DESC</select>
     <select id="findParent" resultType="User">SELECT * FROM user WHERE id=#{parentId}</select>
-    <select id="findInfTitle" resultType="Information">SELECT * FROM information WHERE id=#{hostId}</select>
-    <select id="findRuleTitle" resultType="Rule">SELECT * FROM rule WHERE id=#{hostId}</select>
+    <select id="findInfTitle" resultType="Information">SELECT * FROM comment WHERE hostId=#{hostId} and type='inf'</select>
+    <select id="findRuleTitle" resultType="Rule">SELECT * FROM comment WHERE hostId=#{hostId} and type='rule'</select>
     <delete id="deleteComment">DELETE FROM comment WHERE id=#{id}</delete>
 </mapper>

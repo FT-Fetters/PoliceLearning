@@ -6,11 +6,11 @@ import java.sql.Date;
 
 @Data
 public class Comment {
-    private int id;
-    private int userId;
-    private int parentId;
+    private Integer id;
+    private Integer userId;
+    private Integer parentId;
     private Date date;
     private String content;
     private String type;
-    private int hostId;
+    private Integer hostId;
 }
