@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.CommentDao;
+import com.lyun.policelearning.dao.InformationDao;
+import com.lyun.policelearning.dao.RuleDao;
 import com.lyun.policelearning.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,12 @@ public class CommentServiceImpl implements CommentService{
 
     @Autowired
     CommentDao commentDao;
+
+    @Autowired
+    InformationDao informationDao;
+
+    @Autowired
+    RuleDao ruleDao;
 
     @Override
     public List<Comment> findAll() {
@@ -75,7 +83,7 @@ public class CommentServiceImpl implements CommentService{
         List<JSONObject> reply = new ArrayList<>();
         for(Comment comment1 : commentDao.findCommentAndReply(userId)){
             JSONObject jsonObject = new JSONObject();
-            if(comment1.getParentId() > 0){
+            if(comment1.getParentId() != null){
                 //寻找parentId的昵称
                 String parentNickName = commentDao.findParent(comment1.getParentId()).getNickname();
                 jsonObject.put("parentNickName",parentNickName);
@@ -83,9 +91,9 @@ public class CommentServiceImpl implements CommentService{
                 //寻找标题
                 String title = null;
                 if(comment1.getType().equals("inf")){
-                    title = commentDao.findInfTitle(comment1.getHostId()).getTitle();
+                    title = informationDao.getInformationById(comment1.getHostId()).getTitle();
                 }else {
-                    title = commentDao.findRuleTitle(comment1.getHostId()).getTitle();
+                    title = ruleDao.getRuleById(comment1.getHostId()).getTitle();
                 }
                 jsonObject.put("title",title);
                 jsonObject.put("date",comment1.getDate());
@@ -94,9 +102,9 @@ public class CommentServiceImpl implements CommentService{
                jsonObject.put("content",comment1.getContent());
                String title = null;
                if(comment1.getType().equals("inf")){
-                   title = commentDao.findInfTitle(comment1.getHostId()).getTitle();
+                   title = informationDao.getInformationById(comment1.getHostId()).getTitle();
                }else {
-                   title = commentDao.findRuleTitle(comment1.getHostId()).getTitle();
+                   title = ruleDao.getRuleById(comment1.getHostId()).getTitle();
                }
                jsonObject.put("title",title);
                jsonObject.put("date",comment1.getDate());

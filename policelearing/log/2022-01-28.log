@@ -3,3 +3,6 @@
 2022-01-28 05:45:03 [get] 192.168.145.205 get examination
 2022-01-28 07:37:00 [error] Request method 'POST' not supported
 2022-01-28 07:37:07 [error] null
+2022-01-28 09:55:29 [error] nested exception is org.apache.ibatis.exceptions.TooManyResultsException: Expected one result (or null) to be returned by selectOne(), but found: 5
+2022-01-28 10:16:37 [error] null
+2022-01-28 10:17:44 [error] nested exception is org.apache.ibatis.exceptions.TooManyResultsException: Expected one result (or null) to be returned by selectOne(), but found: 5
