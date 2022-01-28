@@ -11,4 +11,5 @@
     <select id="findInfTitle" resultType="Information">SELECT * FROM comment WHERE hostId=#{hostId} and type='inf'</select>
     <select id="findRuleTitle" resultType="Rule">SELECT * FROM comment WHERE hostId=#{hostId} and type='rule'</select>
     <delete id="deleteComment">DELETE FROM comment WHERE id=#{id}</delete>
+    <delete id="deleteCommentByTypeAndId">DELETE FROM comment WHERE hostid=#{hostId} AND type=#{type}</delete>
 </mapper>

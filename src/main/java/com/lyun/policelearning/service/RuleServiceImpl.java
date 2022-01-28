@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lyun.policelearning.dao.CollectDao;
+import com.lyun.policelearning.dao.CommentDao;
 import com.lyun.policelearning.dao.RuleDao;
 import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.utils.page.PageRequest;
@@ -21,6 +22,8 @@ public class RuleServiceImpl implements RuleService{
     RuleDao ruleDao;
     @Autowired
     CollectDao  collectDao;
+    @Autowired
+    CommentDao commentDao;
     @Override
     public List<JSONObject> findAll() {
         List<JSONObject> rules = new ArrayList<>();
@@ -72,6 +75,7 @@ public class RuleServiceImpl implements RuleService{
         if(id <= 0){
             return false;
         }else {
+            commentDao.deleteCommentByTypeAndId("rule",id);
             collectDao.deleteById(2,id);
             ruleDao.deleteById(id);
             return true;

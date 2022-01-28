@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.question;
 
+import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.dao.question.JudgmentDao;
 import com.lyun.policelearning.entity.question.Judgment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class JudgmentServiceImpl implements JudgmentService{
 
     @Autowired
     private JudgmentDao judgmentDao;
+
+    @Autowired
+    ErrorBookDao errorBookDao;
 
     @Override
     public List<Judgment> findAll() {
@@ -37,6 +41,7 @@ public class JudgmentServiceImpl implements JudgmentService{
 
     @Override
     public void deleteQuestion(int id) {
+        errorBookDao.deleteById(1,id);
         judgmentDao.deleteQuestion(id);
     }
 
