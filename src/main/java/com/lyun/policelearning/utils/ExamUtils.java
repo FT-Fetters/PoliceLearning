@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ExamUtils {
-    public static List<JSONObject> sampleSingle(SingleChoiceService singleChoiceService, int num){
+    public static List<JSONObject> sampleSingle(SingleChoiceService singleChoiceService,int num){
         List<SingleChoice> singleChoiceList = singleChoiceService.findAll();
         HashMap<Integer,String> map = new HashMap<>();
         List<JSONObject> res = new ArrayList<>();
@@ -42,6 +42,7 @@ public class ExamUtils {
                 option.add(option_d);
                 tmp.put("option",option);
                 tmp.put("type",2);
+                tmp.put("answer",singleChoice.getAnswer());
                 res.add(tmp);
             }
         }else {
@@ -71,6 +72,7 @@ public class ExamUtils {
                     option.add(option_d);
                     tmp.put("option",option);
                     tmp.put("type",2);
+                    tmp.put("answer",singleChoice.getAnswer());
                     res.add(tmp);
                 }
             }
@@ -106,6 +108,7 @@ public class ExamUtils {
                 option.add(option_d);
                 tmp.put("option",option);
                 tmp.put("type",3);
+                tmp.put("answer",multipleChoice.getAnswer());
                 res.add(tmp);
             }
         }else {
@@ -136,6 +139,7 @@ public class ExamUtils {
                     option.add(option_d);
                     tmp.put("option",option);
                     tmp.put("type",3);
+                    tmp.put("answer",multipleChoice.getAnswer());
                     res.add(tmp);
                 }
             }
@@ -158,11 +162,12 @@ public class ExamUtils {
                 option_true.put("content",judgment.getOption_true());
                 option.add(option_true);
                 JSONObject option_false = new JSONObject();
-                option_true.put("id","B");
-                option_true.put("content",judgment.getOption_false());
+                option_false.put("id","B");
+                option_false.put("content",judgment.getOption_false());
                 option.add(option_false);
                 tmp.put("option",option);
                 tmp.put("type",1);
+                tmp.put("answer",judgment.getAnswer());
                 res.add(tmp);
             }
         }else {
@@ -174,9 +179,18 @@ public class ExamUtils {
                     JSONObject tmp = new JSONObject();
                     tmp.put("id",judgment.getId());
                     tmp.put("problem",judgment.getProblem());
-                    tmp.put("option_true",judgment.getOption_true());
-                    tmp.put("option_false",judgment.getOption_false());
+                    JSONArray option = new JSONArray();
+                    JSONObject option_true = new JSONObject();
+                    option_true.put("id","A");
+                    option_true.put("content",judgment.getOption_true());
+                    option.add(option_true);
+                    JSONObject option_false = new JSONObject();
+                    option_false.put("id","B");
+                    option_false.put("content",judgment.getOption_false());
+                    option.add(option_false);
+                    tmp.put("option",option);
                     tmp.put("type",1);
+                    tmp.put("answer",judgment.getAnswer());
                     res.add(tmp);
                 }
             }

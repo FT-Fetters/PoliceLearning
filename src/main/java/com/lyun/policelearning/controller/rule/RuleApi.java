@@ -28,14 +28,18 @@ public class RuleApi {
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     public Object findAll(@RequestParam int start, @RequestParam int len){
         List<JSONObject> rulelist = ruleService.findAll();
+        int total = rulelist.size();
         if (start < 0 || start > rulelist.size() - 1){
             return new ResultBody<>(false,500,"error start");
         }
         if (len < 0 || start + len > rulelist.size()){
             return new ResultBody<>(false,500,"error len");
         }
+        JSONObject  jsonObject = new JSONObject();
         List<JSONObject> res = rulelist.subList(start,start+len);
-        return new ResultBody<>(true,200,res);
+        jsonObject.put("rule",res);
+        jsonObject.put("size",total);
+        return new ResultBody<>(true,200,jsonObject);
     }
 
     /**
