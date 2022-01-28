@@ -20,4 +20,5 @@ public interface CommentDao extends BaseDao<Comment>{
     Information findInfTitle(int hostId);
     Rule findRuleTitle(int hostId);
     void deleteComment(int id);
+    void deleteCommentByTypeAndId(String type,int hostId);
 }

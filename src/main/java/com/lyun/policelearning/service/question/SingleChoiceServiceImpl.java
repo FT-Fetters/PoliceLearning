@@ -1,6 +1,7 @@
 package com.lyun.policelearning.service.question;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.dao.question.SingleChoiceDao;
 import com.lyun.policelearning.entity.question.SingleChoice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class SingleChoiceServiceImpl implements SingleChoiceService{
 
     @Autowired
     private SingleChoiceDao singleChoiceDao;
+    @Autowired
+    ErrorBookDao errorBookDao;
 
     @Override
     public List<SingleChoice> findAll() {
@@ -38,6 +41,7 @@ public class SingleChoiceServiceImpl implements SingleChoiceService{
 
     @Override
     public void deleteQuestion(int id) {
+        errorBookDao.deleteById(2,id);
         singleChoiceDao.deleteQuestion(id);
     }
 

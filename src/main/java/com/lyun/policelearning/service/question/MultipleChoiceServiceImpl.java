@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.question;
 
+import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.dao.question.MultipleChoiceDao;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
@@ -15,6 +16,9 @@ public class MultipleChoiceServiceImpl implements MultipleChoiceService{
 
     @Autowired
     private MultipleChoiceDao multipleChoiceDao;
+
+    @Autowired
+    ErrorBookDao errorBookDao;
 
     @Override
     public List<MultipleChoice> findAll() {
@@ -38,6 +42,7 @@ public class MultipleChoiceServiceImpl implements MultipleChoiceService{
 
     @Override
     public void deleteQuestion(int id) {
+        errorBookDao.deleteById(3,id);
         multipleChoiceDao.deleteQuestion(id);
     }
 

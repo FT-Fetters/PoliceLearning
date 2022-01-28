@@ -9,4 +9,5 @@
     <select id="findSingleChoiceById" resultType="SingleChoice">SELECT * FROM single_choice WHERE id=#{id}</select>
     <select id="findMultipleChoiceById" resultType="MultipleChoice">SELECT * FROM multiple_choice WHERE id=#{id}</select>
     <delete id="delete">DELETE FROM errorbook WHERE userId=#{userId} AND type=#{type} AND questionId=#{questionId}</delete>
+    <delete id="deleteById">DELETE FROM errorbook WHERE type=#{type} AND questionId=#{questionId}</delete>
 </mapper>
