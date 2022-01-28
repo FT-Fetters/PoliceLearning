@@ -41,7 +41,7 @@ public class LawManageApi {
     }
     @RequestMapping(value = "/insertType",method = RequestMethod.POST)
     public Object insertType(@RequestParam String lawtype){
-        //lawService.insertType(lawtype);
+        lawService.insertType(lawtype);
         return new ResultBody<>(true,200,null);
     }
 
