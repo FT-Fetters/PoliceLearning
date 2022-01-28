@@ -133,6 +133,7 @@ public class CourseManageApi {
         file.transferTo(filePath);
         JSONObject course = courseService.getCourseByName(courseName);
         JSONArray catalogue = course.getJSONArray("catalogue");
+        if (catalogue == null)catalogue = new JSONArray();
         boolean find = false;
         for (Object o : catalogue) {
             JSONObject json = (JSONObject) o;
@@ -142,10 +143,10 @@ public class CourseManageApi {
             }
         }
         if (!find){
-        JSONObject tmp = new JSONObject();
-        tmp.put("name",name);
-        tmp.put("id",DigestUtils.md5DigestAsHex((courseName+name).getBytes(StandardCharsets.UTF_8)));
-        catalogue.add(tmp);
+            JSONObject tmp = new JSONObject();
+            tmp.put("name",name);
+            tmp.put("id",DigestUtils.md5DigestAsHex((courseName+name).getBytes(StandardCharsets.UTF_8)));
+            catalogue.add(tmp);
         }
         //改变catalogue
         courseService.changeCatalogue(courseName,catalogue);
