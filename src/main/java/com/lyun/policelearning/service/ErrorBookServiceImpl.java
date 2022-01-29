@@ -20,9 +20,13 @@ public class ErrorBookServiceImpl implements ErrorBookService{
     @Autowired
     ErrorBookDao errorBookDao;
     @Override
-    public void save(int userId, int type, int questionId) {
+    public boolean save(int userId, int type, int questionId) {
+        if(errorBookDao.check(userId, type, questionId) != null){
+            return false;
+        }
         Date date = new Date(System.currentTimeMillis());
         errorBookDao.save(userId,type,questionId,date);
+        return true;
     }
 
     @Override

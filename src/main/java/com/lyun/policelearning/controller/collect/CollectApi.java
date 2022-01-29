@@ -41,9 +41,12 @@ public class CollectApi {
             LogUtils.log(username+" collect but type is error","collect",false,request);
             return new ResultBody<>(false,502,"error type");
         }
-        collectService.collect(type,articleId,userId);
-        LogUtils.log(username+" collect article id " + articleId + ", type is " + type,"collect",false,request);
-        return new ResultBody<>(true,200,null);
+        if(collectService.collect(type,articleId,userId)){
+            LogUtils.log(username+" collect article id " + articleId + ", type is " + type,"collect",false,request);
+            return new ResultBody<>(true,200,null);
+        }else {
+            return new ResultBody<>(false,500,"exist");
+        }
     }
 
     /**

@@ -11,4 +11,5 @@
     <select id="getRule" resultType="Rule">SELECT id,title,view,date FROM rule WHERE id=#{id}</select>
     <delete id="deleteCollect">DELETE FROM collect WHERE userId=#{userId} AND type=#{type} AND articleId=#{articleId}</delete>
     <delete id="deleteById">DELETE FROM collect WHERE articleId=#{articleId} AND type=#{type}</delete>
+    <select id="check"  resultType="Collect">SELECT * FROM collect WHERE userId=#{userId} AND type=#{type} AND articleId=#{articleId}</select>
 </mapper>

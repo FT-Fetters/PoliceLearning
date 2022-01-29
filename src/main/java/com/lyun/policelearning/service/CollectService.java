@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CollectService {
     List<Collect> findAll();
-    void collect(int type, int articleId,int userId);
+    boolean collect(int type, int articleId,int userId);
     Object findCollect(int type,int userId);
     void deleteCollect(int type,int articleId,int userId);
 }

@@ -21,4 +21,5 @@ public interface CollectDao extends BaseDao<Collect> {
     Rule getRule(int id);
     void deleteCollect(int type,int articleId,int userId);
     void deleteById(int type,int articleId);
+    Collect check(int userId,int type,int articleId);
 }

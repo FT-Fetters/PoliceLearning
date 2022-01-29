@@ -35,9 +35,13 @@ public class CollectServiceImpl implements CollectService{
     }
 
     @Override
-    public void collect(int type, int articleId,int userId) {
+    public boolean collect(int type, int articleId,int userId) {
+        if(collectDao.check(userId,type,articleId) != null){
+            return false;
+        }
         Date date = new Date(System.currentTimeMillis());
         collectDao.collect(type,articleId,userId,date);
+        return true;
     }
 
     @Override

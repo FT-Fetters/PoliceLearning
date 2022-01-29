@@ -45,8 +45,11 @@ public class ErrorBookApi {
         if (type < 1 || type > 3){
             return new ResultBody<>(false,502,"error type");
         }
-        errorBookService.save(userId,type,questionId);
-        return new ResultBody<>(true,200,null);
+        if(errorBookService.save(userId,type,questionId)){
+            return new ResultBody<>(true,200,null);
+        }else {
+            return new ResultBody<>(false,500,"exist");
+        }
     }
 
     /**

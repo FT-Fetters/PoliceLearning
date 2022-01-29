@@ -20,4 +20,5 @@ public interface ErrorBookDao extends BaseDao<ErrorBook>{
     MultipleChoice findMultipleChoiceById(int id);
     void delete(int userId,int type,int questionId);
     void deleteById(int type,int questionId);
+    ErrorBook check(int userId,int type,int questionId);
 }
