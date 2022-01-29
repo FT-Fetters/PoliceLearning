@@ -21,7 +21,7 @@ public class GlobalExceptionAdvice {
     public Object handleHttpException(HttpServletRequest req, Exception ex){
         ex.printStackTrace();
         LogUtils.log(ex.getMessage(),"error",false,null);
-        if (ex.getMessage().equals("失效，请重新登录。")){
+        if (ex.getMessage().equals("token不能为空")){
             return new ResultBody<>(false,-2,ex.getMessage());
         }
         return new ResultBody<>(false,-1,ex.getMessage());
