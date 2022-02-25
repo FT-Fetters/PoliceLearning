@@ -12,7 +12,9 @@ public class ImageTools {
     @SneakyThrows
     public static String imgToBase64(BufferedImage image){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ImageIO.write(image,"jpg",stream);
+        if(image != null){
+            ImageIO.write(image,"jpg",stream);
+        }
         return Base64.getEncoder().encodeToString(stream.toByteArray());
     }
 
