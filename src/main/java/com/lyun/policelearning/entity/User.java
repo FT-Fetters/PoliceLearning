@@ -73,4 +73,5 @@ public class User {
     private int role;
     private String realname;
     private String phone;
+    private String sex;
 }
