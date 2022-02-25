@@ -126,6 +126,7 @@ public class InformationManageApi {
      */
     @RequestMapping(value = "/getPage/content/update",method = RequestMethod.POST)
     public Object updateById(@RequestBody Information information){
+        System.out.println(information);
         informationService.updateById(information);
         return new ResultBody<>(true,200,null);
     }
