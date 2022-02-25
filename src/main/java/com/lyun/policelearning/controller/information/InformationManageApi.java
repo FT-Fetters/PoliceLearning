@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -121,12 +122,26 @@ public class InformationManageApi {
 
     /**
      * 根据传入的information更新information
-     * @param information
+     * @param
      * @return
      */
     @RequestMapping(value = "/getPage/content/update",method = RequestMethod.POST)
-    public Object updateById(@RequestBody Information information){
-        System.out.println(information);
+    public Object updateById(@RequestBody JSONObject data){
+        String title = data.getString("title");
+        String content = data.getString("content");
+        Date date = data.getSqlDate("date");
+        Integer id  = data.getInteger("id");
+        Integer view = data.getInteger("view");
+        Integer istop = data.getInteger("istop");
+        Integer ischoose = data.getInteger("ischoose");
+        Information information = new Information();
+        information.setId(id);
+        information.setContent(content);
+        information.setDate(date);
+        information.setTitle(title);
+        information.setIschoose(ischoose);
+        information.setIstop(istop);
+        information.setView(view);
         informationService.updateById(information);
         return new ResultBody<>(true,200,null);
     }
