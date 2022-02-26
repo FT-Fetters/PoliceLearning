@@ -129,18 +129,14 @@ public class InformationManageApi {
     public Object updateById(@RequestBody JSONObject data){
         String title = data.getString("title");
         String content = data.getString("content");
-        Date date = data.getSqlDate("date");
+        Date date =   Date.valueOf(data.getString("date"));
         Integer id  = data.getInteger("id");
         Integer view = data.getInteger("view");
-        Integer istop = data.getInteger("istop");
-        Integer ischoose = data.getInteger("ischoose");
         Information information = new Information();
         information.setId(id);
         information.setContent(content);
         information.setDate(date);
         information.setTitle(title);
-        information.setIschoose(ischoose);
-        information.setIstop(istop);
         information.setView(view);
         informationService.updateById(information);
         return new ResultBody<>(true,200,null);
