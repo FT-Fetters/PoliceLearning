@@ -16,4 +16,5 @@ public interface UserService {
     void updateUser(Integer id,String username,String nickname,String realname,Integer role,String phone,String sex);
     List<User> findAll();
     void changePassword(String username,String password);
+    void changeNickname(String username,String nickname);
 }

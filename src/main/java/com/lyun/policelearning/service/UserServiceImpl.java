@@ -73,4 +73,9 @@ public class UserServiceImpl implements UserService {
     public void changePassword(String username, String password) {
         userDao.changePassword(username,DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8)));
     }
+
+    @Override
+    public void changeNickname(String username, String nickname) {
+        userDao.changeNickname(username,nickname);
+    }
 }

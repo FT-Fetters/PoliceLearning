@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.lyun.policelearning.service.ErrorBookService;
+import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.service.question.SingleChoiceService;
@@ -32,6 +33,9 @@ public class ExaminationApi {
     ErrorBookService errorBookService;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     JudgmentService judgmentService;
     @RequestMapping(value = "/getExam",method = RequestMethod.GET)
     public Object exam(HttpServletRequest request){
@@ -52,7 +56,8 @@ public class ExaminationApi {
         JSONObject res = new JSONObject();
         JSONArray infos = userAnswerInfos.getJSONArray("infos");
         String js = infos.toJSONString();
-        Integer userId = userAnswerInfos.getInteger("userId");
+        String username = userAnswerInfos.getString("username");
+        int userId = userService.getByUsername(username).getId();
         List<JSONObject> infos1 = JSONObject.parseArray(js,JSONObject.class);
         int num = 0;
         num = num + JSONArraytoList(presentRes.getJSONArray("judgment")) + JSONArraytoList(presentRes.getJSONArray("single")) + JSONArraytoList(presentRes.getJSONArray("multiple"));

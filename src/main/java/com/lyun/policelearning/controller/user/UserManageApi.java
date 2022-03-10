@@ -102,6 +102,18 @@ public class UserManageApi {
         return new ResultBody<>(true,200,userService.findAll());
     }
 
+    @RequestMapping(value = "/update/nickname",method = RequestMethod.POST)
+    public Object updateNickname(@RequestBody JSONObject data,HttpServletRequest request){
+        if (!UserUtils.checkPower(request, 1,jwtConfig, userService,roleService)){
+            if (!UserUtils.getUsername(request, jwtConfig).equals(data.getString("username"))){
+                return new ResultBody<>(false,-1,"not allow");
+            }
+        }
+        userService.changeNickname(data.getString("username"),data.getString("nickname"));
+        return new ResultBody<>(true,200,null);
+
+    }
+
 
     @RequestMapping(value = "/change/password",method = RequestMethod.POST)
     public Object changePassword(@RequestBody JSONObject data){

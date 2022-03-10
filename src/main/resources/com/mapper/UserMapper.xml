@@ -25,4 +25,5 @@
                                             sex=#{sex}
                                             WHERE id=#{id}</update>
     <update id="changePassword">UPDATE user SET password=#{password} WHERE username=#{username}</update>
+    <update id="changeNickname">UPDATE `user` SET nickname=#{nickname} WHERE username=#{username}</update>
 </mapper>
