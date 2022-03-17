@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -67,6 +68,35 @@ public class UserApi {
         }else {
             return new ResultBody<>(false,500,"error password");
         }
+    }
+
+    @RequestMapping(value = "/pki")
+    public Object pkiLogin(HttpServletRequest request, HttpServletResponse response){
+        //id_token,code是单点登录之后跳转到指定地址携带回来的参数
+        String idToken = request.getParameter("id_token");
+        String code = request.getParameter("code");
+        if (idToken == null || code == null || idToken.equals("") || code.equals("")){
+            return new ResultBody<>(false,500,"miss parameter");
+        }
+        //解析当前认证信息
+        String userAuthJsonStr=JwtUtil.getUserInfo(idToken);
+        //System.out.println(userAuthJsonStr);
+        JSONObject userJson = JSONObject.parseObject(userAuthJsonStr);
+        String name = userJson.getString("name");
+        String username = userJson.getString("username");
+        if (userService.getByUsername(username) == null){
+            userService.newUser(username,"123456",name,name,2,"","男");
+        }
+        String userId = userService.getByUsername(username).getId() + "";
+        String token = jwtConfig.createToken(userId);
+        String nickName = userService.getByUsername(username).getNickname();
+        JSONObject res = new JSONObject();
+        if (!token.equals("")){
+            res.put("token",token);
+            res.put("userName",username);
+            res.put("nickName",nickName);
+        }
+        return new ResultBody<>(true,200,res);
     }
 
 
