@@ -13,4 +13,5 @@ public class Comment {
     private String content;
     private String type;
     private Integer hostId;
+    private String nickName;
 }

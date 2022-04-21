@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.CommentDao;
 import com.lyun.policelearning.dao.InformationDao;
 import com.lyun.policelearning.dao.RuleDao;
+import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ public class CommentServiceImpl implements CommentService{
 
     @Autowired
     RuleDao ruleDao;
+    @Autowired
+    UserDao userDao;
 
     @Override
     public List<Comment> findAll() {
@@ -51,11 +54,21 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> comments = commentDao.findComment(id,"inf");
         JSONArray res = new JSONArray();
         for (Comment comment : comments) {
-            if (comment.getParentId()!=null)continue;
+            if (comment.getParentId()!=null){
+                continue;
+            }
             JSONObject tmp = new JSONObject();
+            comment.setNickName(userDao.getById(comment.getUserId()).getNickname());
             tmp.put("comment",comment);
-            List<Comment> secondComment = commentDao.findSecondComment(id,comment.getId(),"inf");
-            tmp.put("secondComment",secondComment);
+            if (commentDao.findSecondComment(id,comment.getUserId(),"inf") != null){
+               List<Comment> list = commentDao.findSecondComment(id,comment.getUserId(),"inf");
+               for(Comment comment1 : list){
+                   comment1.setNickName(userDao.getById(comment1.getUserId()).getNickname());
+               }
+                tmp.put("secondComment",list);
+            }else {
+                tmp.put("secondComment",null);
+            }
             res.add(tmp);
         }
         return res;
@@ -66,11 +79,21 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> comments = commentDao.findComment(id,"rule");
         JSONArray res = new JSONArray();
         for (Comment comment : comments) {
-            if (comment.getParentId()!=null)continue;
+            if (comment.getParentId()!=null){
+                continue;
+            }
             JSONObject tmp = new JSONObject();
+            comment.setNickName(userDao.getById(comment.getUserId()).getNickname());
             tmp.put("comment",comment);
-            List<Comment> secondComment = commentDao.findSecondComment(id,comment.getId(),"rule");
-            tmp.put("secondComment",secondComment);
+            if (commentDao.findSecondComment(id,comment.getUserId(),"rule") != null){
+                List<Comment> list = commentDao.findSecondComment(id,comment.getUserId(),"rule");
+                for(Comment comment1 : list){
+                    comment1.setNickName(userDao.getById(comment1.getUserId()).getNickname());
+                }
+                tmp.put("secondComment",list);
+            }else {
+                tmp.put("secondComment",null);
+            }
             res.add(tmp);
         }
         return res;

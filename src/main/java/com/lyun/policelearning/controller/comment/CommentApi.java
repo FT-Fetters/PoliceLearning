@@ -98,7 +98,7 @@ public class CommentApi {
             commentService.comment(userId,date,content,"rule",hostId);
             LogUtils.log(username+" comment rule,content is:" + content,"info",false,request);
         }else {
-            commentService.comment(userId,parentId,date,content,"inf",hostId);
+            commentService.comment(userId,parentId,date,content,"rule",hostId);
             LogUtils.log(username+" comment secondComment in rule,content is:" + content,"info",false,request);
         }
         return new ResultBody<>(true,200,null);
