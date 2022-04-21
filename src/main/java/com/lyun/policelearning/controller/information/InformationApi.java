@@ -24,21 +24,12 @@ public class InformationApi {
 
     /**
      * 根据起始和长度返回资讯
-     * @param start 开始  可以从0开始
-     * @param len   返回的个数
      * @return 返回资讯
      */
     @RequestMapping(value = "/all",method = RequestMethod.GET)
-    public Object findAll(@RequestParam int start, @RequestParam int len) throws Exception {
+    public Object findAll() throws Exception {
         List<JSONObject> informationList = informationService.findAll();
-        if (start < 0 || start > informationList.size() - 1){
-            return new ResultBody<>(false,500,"error start");
-        }
-        if (len < 0 || start + len > informationList.size()){
-            return new ResultBody<>(false,500,"error len");
-        }
-        List<JSONObject> res = informationList.subList(start,start+len);
-        return new ResultBody<>(true,200,res);
+        return new ResultBody<>(true,200,informationList);
     }
 
     /**

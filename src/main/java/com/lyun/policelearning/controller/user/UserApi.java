@@ -70,7 +70,7 @@ public class UserApi {
         }
     }
 
-    @RequestMapping(value = "/pki")
+    @RequestMapping(value = "/login/pki")
     public Object pkiLogin(HttpServletRequest request, HttpServletResponse response){
         //id_token,code是单点登录之后跳转到指定地址携带回来的参数
         String idToken = request.getParameter("id_token");
@@ -86,6 +86,29 @@ public class UserApi {
         String username = userJson.getString("username");
         if (userService.getByUsername(username) == null){
             userService.newUser(username,"123456",name,name,2,"","男");
+        }
+        String userId = userService.getByUsername(username).getId() + "";
+        String token = jwtConfig.createToken(userId);
+        String nickName = userService.getByUsername(username).getNickname();
+        JSONObject res = new JSONObject();
+        if (!token.equals("")){
+            res.put("token",token);
+            res.put("userName",username);
+            res.put("nickName",nickName);
+        }
+        return new ResultBody<>(true,200,res);
+    }
+
+    @RequestMapping("/login/app")
+    public Object appLogin(@RequestBody JSONObject data, HttpServletRequest request, HttpServletResponse response){
+        String username = data.getString("username");
+        String nickname = data.getString("nickname");
+        String phone = data.getString("phone");
+        String sex = data.getString("sex");
+        if (username == null || nickname == null || phone == null || sex == null)
+            return new ResultBody<>(false,500,"miss parameter");
+        if (userService.getByUsername(username) == null){
+            userService.newUser(username,"123456",nickname,nickname,2,phone,sex);
         }
         String userId = userService.getByUsername(username).getId() + "";
         String token = jwtConfig.createToken(userId);
