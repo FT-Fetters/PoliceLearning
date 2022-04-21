@@ -60,8 +60,8 @@ public class CommentServiceImpl implements CommentService{
             JSONObject tmp = new JSONObject();
             comment.setNickName(userDao.getById(comment.getUserId()).getNickname());
             tmp.put("comment",comment);
-            if (commentDao.findSecondComment(id,comment.getUserId(),"inf") != null){
-               List<Comment> list = commentDao.findSecondComment(id,comment.getUserId(),"inf");
+            if (commentDao.findSecondComment(id,comment.getId(),"inf") != null){
+               List<Comment> list = commentDao.findSecondComment(id,comment.getId(),"inf");
                for(Comment comment1 : list){
                    comment1.setNickName(userDao.getById(comment1.getUserId()).getNickname());
                }
@@ -85,8 +85,8 @@ public class CommentServiceImpl implements CommentService{
             JSONObject tmp = new JSONObject();
             comment.setNickName(userDao.getById(comment.getUserId()).getNickname());
             tmp.put("comment",comment);
-            if (commentDao.findSecondComment(id,comment.getUserId(),"rule") != null){
-                List<Comment> list = commentDao.findSecondComment(id,comment.getUserId(),"rule");
+            if (commentDao.findSecondComment(id,comment.getId(),"rule") != null){
+                List<Comment> list = commentDao.findSecondComment(id,comment.getId(),"rule");
                 for(Comment comment1 : list){
                     comment1.setNickName(userDao.getById(comment1.getUserId()).getNickname());
                 }
@@ -108,7 +108,7 @@ public class CommentServiceImpl implements CommentService{
             JSONObject jsonObject = new JSONObject();
             if(comment1.getParentId() != null){
                 //寻找parentId的昵称
-                String parentNickName = commentDao.findParent(comment1.getParentId()).getNickname();
+                String parentNickName = commentDao.findParent(commentDao.findById(comment1.getParentId()).getUserId()).getNickname();
                 jsonObject.put("parentNickName",parentNickName);
                 jsonObject.put("content",comment1.getContent());
                 //寻找标题
