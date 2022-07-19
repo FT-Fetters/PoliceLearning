@@ -36,7 +36,7 @@ public class UserApi {
 //     * @param data 含参username,password
 //     */
 //    @RequestMapping(value = "/login",method = RequestMethod.POST)
-//    public Object login(@RequestBody JSONObject data, HttpServletRequest request,HttpServletResponse response){
+//    public Object login(@RequestBody JSONObject data  , HttpServletRequest request,HttpServletResponse response){
 //        String username = data.getString("username");
 //        String password = data.getString("password");
 //        if (username != null && password != null && userService.check(username,password)){
