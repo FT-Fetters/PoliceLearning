@@ -66,9 +66,4 @@ public class JudgmentApi {
             return new ResultBody<>(true,200,true);
         }else return new ResultBody<>(true,200,false);
     }
-
-
-
-
-
 }

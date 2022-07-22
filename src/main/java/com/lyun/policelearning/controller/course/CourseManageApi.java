@@ -133,7 +133,9 @@ public class CourseManageApi {
         file.transferTo(filePath);
         JSONObject course = courseService.getCourseByName(courseName);
         JSONArray catalogue = course.getJSONArray("catalogue");
-        if (catalogue == null)catalogue = new JSONArray();
+        if (catalogue == null){
+            catalogue = new JSONArray();
+        }
         boolean find = false;
         for (Object o : catalogue) {
             JSONObject json = (JSONObject) o;

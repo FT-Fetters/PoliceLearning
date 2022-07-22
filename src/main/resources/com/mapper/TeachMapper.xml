@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.TeachDao">
+    <select id="getById" resultType="Teach">SELECT * FROM teach WHERE id=#{id}</select>
+    <insert id="save" databaseId="id">insert into teach(content) VALUES (#{content});
+<selectKey resultType="Integer" >
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    </insert>
+    <update id="update">UPDATE teach SET content=#{content} WHERE id=#{id}</update>
+</mapper>
