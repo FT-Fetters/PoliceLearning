@@ -15,8 +15,10 @@ public class TeachServiceImpl implements TeachService{
     }
 
     @Override
-    public int save(String content) {
-        return teachDao.save(content);
+    public int save(Teach teach) {
+        teachDao.save(teach);
+        System.out.println(teach.getId());
+        return teach.getId();
     }
 
     @Override

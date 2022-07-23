@@ -3,6 +3,7 @@ package com.lyun.policelearning.controller.course;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.entity.Teach;
 import com.lyun.policelearning.service.CourseService;
 import com.lyun.policelearning.service.RoleService;
 import com.lyun.policelearning.service.TeachService;
@@ -40,6 +41,7 @@ public class TeachApi {
     JwtConfig jwtConfig;
     @Autowired
     RoleService roleService;
+    @SneakyThrows
     @RequestMapping("/upload/picture")
     public Object uploadPicture(@RequestParam MultipartFile file){
         String fileName ="";
@@ -68,7 +70,7 @@ public class TeachApi {
         }else {
             return new ResultBody<>(false,500,"其他错误");
         }
-        InetAddress address = null;
+        InetAddress address = InetAddress.getLocalHost();
         String imgUrl = "http://" + address.getHostAddress() + ":8080/api/upload/coursePicture/" + fileName;
         List<JSONObject> res = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
@@ -77,6 +79,7 @@ public class TeachApi {
         return new ResultBody<>(true,200,res);
     }
 
+    @SneakyThrows
     @RequestMapping("/upload/video")
     @ResponseBody
     public Object editorOfVideo(@RequestParam("file") MultipartFile file) {
@@ -111,7 +114,7 @@ public class TeachApi {
             jsonObject.put("message","上传出错");
             return new ResultBody<>(false,500,jsonObject);
         }
-        InetAddress address = null;
+        InetAddress address = InetAddress.getLocalHost();;
         String videoUrl = "http://" + address.getHostAddress() + ":8080/api/upload/courseVideo/" + fileName;
         List<JSONObject> res = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
@@ -136,15 +139,16 @@ public class TeachApi {
 
     /**
      * 保存课程的内容
-     * @param content
      * @return 返回课程的id
      */
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public Object save(@RequestParam String content){
-        if(content.isEmpty()){
+        /*if(content.isEmpty()){
             return new ResultBody<>(false,500,"content is empty");
-        }
-        int id = teachService.save(content);
+        }*/
+        Teach teach = new Teach();
+        teach.setContent(content);
+        int id = teachService.save(teach);
         return new ResultBody<>(true,200,id);
     }
 
