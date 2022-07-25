@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -68,8 +69,7 @@ public class PaperServiceImpl implements PaperService{
         Paper paper = new Paper();
         paper.setCreateUser(1);
         paper.setTitle(title);
-        paperDao.insert(paper);
-        int id = paper.getId();
+        paper.setDate(new Date(System.currentTimeMillis()));
         //随机选择题目
         Random random = new Random(System.currentTimeMillis());
         //判断题
@@ -79,6 +79,8 @@ public class PaperServiceImpl implements PaperService{
         if(j > tj.size() || m > tm.size() || s > ts.size()){
             return -1;
         }
+        paperDao.insert(paper);
+        int id = paper.getId();
         int index = 0;
         for (int i = 0; i < j; i++) {
             int k = random.nextInt(tj.size());

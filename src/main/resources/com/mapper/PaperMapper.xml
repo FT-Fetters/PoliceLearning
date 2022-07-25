@@ -3,8 +3,8 @@
 <mapper namespace="com.lyun.policelearning.dao.paper.PaperDao">
     <select id="selectAll" resultType="Paper">SELECT * FROM paper</select>
     <insert id="insert" parameterType="Paper" keyProperty="id" useGeneratedKeys="true">
-        insert into paper(create_user, title)
-        values (#{createUser}, #{title})
+        insert into paper(create_user, title,`date`)
+        values (#{createUser}, #{title}, #{date})
     </insert>
     <select id="getById" resultType="Paper">select * from paper where id=#{id}</select>
     <delete id="delete">delete from paper where id=#{id}</delete>
