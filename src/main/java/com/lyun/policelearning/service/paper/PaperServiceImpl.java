@@ -2,6 +2,7 @@ package com.lyun.policelearning.service.paper;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.dao.paper.ExamDao;
 import com.lyun.policelearning.dao.paper.PaperDao;
 import com.lyun.policelearning.dao.paper.PaperQuestionDao;
 import com.lyun.policelearning.dao.question.JudgmentDao;
@@ -39,16 +40,24 @@ public class PaperServiceImpl implements PaperService{
     @Autowired
     private SingleChoiceDao singleChoiceDao;
 
+    @Autowired
+    private ExamDao examDao;
+
     @Override
     public List<Paper> selectAll() {
         return paperDao.selectAll();
     }
 
     @Override
-    public List<Paper> userSelectAll() {
-        List<Paper> res = new ArrayList<>();
+    public JSONArray userSelectAll(int userId) {
+        JSONArray res = new JSONArray();
         for (Paper paper : paperDao.selectAll()) {
-            if (paper.isEnable())res.add(paper);
+            JSONObject tmp = ((JSONObject) JSONObject.toJSON(paper));
+            if (examDao.selectByUserIdAndPaperId(userId,paper.getId()) == null)
+                tmp.put("finish",false);
+            else
+                tmp.put("finish",true);
+            res.add(tmp);
         }
         return res;
     }
@@ -156,17 +165,76 @@ public class PaperServiceImpl implements PaperService{
                     case 'j':
                         Judgment judgment = judgmentDao.getById(paperQuestion.getQuestion_id());
                         judgment.setAnswer(null);
-                        question.getJSONArray("j").add(judgment);
+                        JSONObject tmp = new JSONObject();
+                        tmp.put("index",paperQuestion.getIndex());
+                        tmp.put("id",judgment.getId());
+                        tmp.put("problem",judgment.getProblem());
+                        JSONArray option = new JSONArray();
+                        JSONObject option_true = new JSONObject();
+                        option_true.put("id","A");
+                        option_true.put("content",judgment.getOption_true());
+                        option.add(option_true);
+                        JSONObject option_false = new JSONObject();
+                        option_false.put("id","B");
+                        option_false.put("content",judgment.getOption_false());
+                        option.add(option_false);
+                        tmp.put("option",option);
+                        question.getJSONArray("j").add(tmp);
                         break;
                     case 'm':
                         MultipleChoice multipleChoice = multipleChoiceDao.getById(paperQuestion.getQuestion_id());
                         multipleChoice.setAnswer(null);
-                        question.getJSONArray("m").add(multipleChoice);
+                        tmp = new JSONObject();
+                        tmp.put("id",multipleChoice.getId());
+                        tmp.put("problem",multipleChoice.getProblem());
+                        option = new JSONArray();
+                        JSONObject option_a = new JSONObject();
+                        option_a.put("id","A");
+                        option_a.put("content",multipleChoice.getOption_a());
+                        option.add(option_a);
+                        JSONObject option_b = new JSONObject();
+                        option_b.put("id","B");
+                        option_b.put("content",multipleChoice.getOption_b());
+                        option.add(option_b);
+                        JSONObject option_c = new JSONObject();
+                        option_c.put("id","C");
+                        option_c.put("content",multipleChoice.getOption_c());
+                        option.add(option_c);
+                        JSONObject option_d = new JSONObject();
+                        option_d.put("id","D");
+                        option_d.put("content",multipleChoice.getOption_d());
+                        option.add(option_d);
+                        tmp.put("option",option);
+                        tmp.put("index",paperQuestion.getIndex());
+                        question.getJSONArray("m").add(tmp);
                         break;
                     case 's':
                         SingleChoice singleChoice = singleChoiceDao.getById(paperQuestion.getQuestion_id());
                         singleChoice.setAnswer(null);
-                        question.getJSONArray("s").add(singleChoice);
+                        tmp = new JSONObject();
+                        tmp.put("id",singleChoice.getId());
+                        tmp.put("problem",singleChoice.getProblem());
+                        option = new JSONArray();
+                        option_a = new JSONObject();
+                        option_a.put("id","A");
+                        option_a.put("content",singleChoice.getOption_a());
+                        option.add(option_a);
+                        option_b = new JSONObject();
+                        option_b.put("id","B");
+                        option_b.put("content",singleChoice.getOption_b());
+                        option.add(option_b);
+                        option_c = new JSONObject();
+                        option_c.put("id","C");
+                        option_c.put("content",singleChoice.getOption_c());
+                        option.add(option_c);
+                        option_d = new JSONObject();
+                        option_d.put("id","D");
+                        option_d.put("content",singleChoice.getOption_d());
+                        option.add(option_d);
+                        tmp.put("option",option);
+                        tmp.put("index",paperQuestion.getIndex());
+                        question.getJSONArray("s").add(tmp);
+                        break;
                 }
             }
             res.put("question",question);

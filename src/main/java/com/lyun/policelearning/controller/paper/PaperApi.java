@@ -44,8 +44,8 @@ public class PaperApi {
      * 用户获取所有试卷列表
      */
     @GetMapping("/select/user/all")
-    public Object userSelectAll(){
-        return new ResultBody<>(true,200,paperService.userSelectAll());
+    public Object userSelectAll(HttpServletRequest request){
+        return new ResultBody<>(true,200,paperService.userSelectAll(UserUtils.getUserId(request,jwtConfig)));
     }
 
     /**
@@ -125,7 +125,9 @@ public class PaperApi {
     }
 
     @PostMapping("/exam/submit")
-    public Object submit(@RequestBody PaperSubmitBody paperSubmitBody){
+    public Object submit(@RequestBody PaperSubmitBody paperSubmitBody,HttpServletRequest request){
+        int user_id = UserUtils.getUserId(request,jwtConfig);
+        paperSubmitBody.setUser_id(user_id);
         if (userService.getById(paperSubmitBody.getUser_id()) == null)
             return new ResultBody<>(true,-1,"unknown user id");
         if (paperService.getById(paperSubmitBody.getPaper_id()) == null)
