@@ -157,7 +157,9 @@ public class TeachApi {
      * 传入id 然后也要返回id
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public Object update(@RequestParam int id,@RequestParam String content){
+    public Object update(@RequestBody Teach teach){
+        int id = teach.getId();
+        String content = teach.getContent();
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
