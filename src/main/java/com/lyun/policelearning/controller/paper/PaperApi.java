@@ -44,8 +44,8 @@ public class PaperApi {
      * 用户获取所有试卷列表
      */
     @GetMapping("/select/user/all")
-    public Object userSelectAll(){
-        return new ResultBody<>(true,200,paperService.userSelectAll());
+    public Object userSelectAll(HttpServletRequest request){
+        return new ResultBody<>(true,200,paperService.userSelectAll(UserUtils.getUserId(request,jwtConfig)));
     }
 
     /**
