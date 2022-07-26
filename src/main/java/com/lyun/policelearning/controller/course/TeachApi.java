@@ -11,18 +11,16 @@ import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
-import javafx.beans.binding.ObjectExpression;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.AbstractDocument;
 import java.io.File;
 import java.net.InetAddress;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +69,7 @@ public class TeachApi {
             return new ResultBody<>(false,500,"其他错误");
         }
         InetAddress address = InetAddress.getLocalHost();
-        String imgUrl = "http://" + address.getHostAddress() + ":8080/api/upload/coursePicture/" + fileName;
+        String imgUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/coursePicture/" + fileName;
         List<JSONObject> res = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",imgUrl);
@@ -115,7 +113,7 @@ public class TeachApi {
             return new ResultBody<>(false,500,jsonObject);
         }
         InetAddress address = InetAddress.getLocalHost();;
-        String videoUrl = "http://" + address.getHostAddress() + ":8080/api/upload/courseVideo/" + fileName;
+        String videoUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/courseVideo/" + fileName;
         List<JSONObject> res = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",videoUrl);
@@ -142,12 +140,10 @@ public class TeachApi {
      * @return 返回课程的id
      */
     @RequestMapping(value = "/save",method = RequestMethod.POST)
-    public Object save(@RequestParam String content){
+    public Object save(@RequestBody Teach teach){
         /*if(content.isEmpty()){
             return new ResultBody<>(false,500,"content is empty");
         }*/
-        Teach teach = new Teach();
-        teach.setContent(content);
         int id = teachService.save(teach);
         return new ResultBody<>(true,200,id);
     }
