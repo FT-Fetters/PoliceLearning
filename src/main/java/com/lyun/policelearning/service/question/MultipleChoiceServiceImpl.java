@@ -56,4 +56,27 @@ public class MultipleChoiceServiceImpl implements MultipleChoiceService{
     public String getAnswer(int id) {
         return multipleChoiceDao.getAnswer(id);
     }
+
+    @Override
+    public int importQuestion(List<MultipleChoice> multipleChoices) {
+        int num = 0;
+        for (MultipleChoice multipleChoice : multipleChoices) {
+            if (
+                    multipleChoice.getAnswer() != null && !multipleChoice.getAnswer().equals("")
+                            && multipleChoice.getOption_a() != null && !multipleChoice.getOption_a().equals("")
+                            && multipleChoice.getOption_b() != null && !multipleChoice.getOption_b().equals("")
+                            && multipleChoice.getOption_c() != null && !multipleChoice.getOption_c().equals("")
+                            && multipleChoice.getOption_d() != null && !multipleChoice.getOption_d().equals("")
+                            && multipleChoice.getProblem() != null && !multipleChoice.getProblem().equals("")
+            ){
+                try {
+                    multipleChoiceDao.newQuestion(multipleChoice);
+                    num++;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        return num;
+    }
 }

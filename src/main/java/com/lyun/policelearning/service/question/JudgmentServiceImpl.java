@@ -50,4 +50,25 @@ public class JudgmentServiceImpl implements JudgmentService{
         Judgment judgment = judgmentDao.getById(id);
         return judgment.getAnswer().equals(answer);
     }
+
+    @Override
+    public int importQuestion(List<Judgment> judgments) {
+        int num = 0;
+        for (Judgment judgment : judgments) {
+            if (
+                    judgment.getAnswer() != null && !judgment.getAnswer().equals("")
+                    && judgment.getOption_true() != null && !judgment.getOption_true().equals("")
+                    && judgment.getOption_false() != null && !judgment.getOption_false().equals("")
+                    && judgment.getProblem() != null && !judgment.getProblem().equals("")
+            ){
+                try {
+                    judgmentDao.newQuestion(judgment);
+                    num++;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        return num;
+    }
 }

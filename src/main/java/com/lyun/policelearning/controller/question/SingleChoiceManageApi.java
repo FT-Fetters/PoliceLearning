@@ -1,5 +1,6 @@
 package com.lyun.policelearning.controller.question;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.question.SingleChoice;
@@ -8,14 +9,15 @@ import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.question.SingleChoiceService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequestMapping("/singleChoice/manage")
 @RestController
@@ -111,6 +113,26 @@ public class SingleChoiceManageApi {
         }
         singleChoiceService.deleteQuestion(id);
         return new ResultBody<>(true,200,null);
+    }
+
+
+    @SneakyThrows
+    @PostMapping("/import")
+    public Object importQuestion(@RequestParam("file") MultipartFile file){
+        if (file.isEmpty()){
+            return new ResultBody<>(true,-1,"empty file");
+        }
+        List<SingleChoice> singleChoices = EasyExcel.read(file.getInputStream()).head(SingleChoice.class).sheet().doReadSync();
+        return new ResultBody<>(true,200,new int[]{singleChoices.size(),singleChoiceService.importQuestion(singleChoices)});
+    }
+
+    @SneakyThrows
+    @GetMapping("/download/template")
+    public void getTemplate(HttpServletResponse response){
+        List<SingleChoice> singleChoices = new ArrayList<>();
+        response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
+        EasyExcel.write(response.getOutputStream()).head(SingleChoice.class).sheet("模板").doWrite(singleChoices);
+
     }
 
 }

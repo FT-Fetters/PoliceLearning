@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.paper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.paper.ExamDao;
 import com.lyun.policelearning.dao.paper.PaperDao;
 import com.lyun.policelearning.dao.paper.PaperQuestionDao;
@@ -20,6 +21,9 @@ import java.util.List;
 
 @Service
 public class ExamServiceImpl implements ExamService{
+
+    @Autowired
+    private PaperService paperService;
 
     @Autowired
     private PaperQuestionDao paperQuestionDao;
@@ -60,8 +64,8 @@ public class ExamServiceImpl implements ExamService{
             }
         }
         StringBuilder input = new StringBuilder();
-        for (String s : inputs) {
-            input.append(s);
+        for (int i = 0; i < inputs.size(); i++) {
+            input.append(inputs.get(i)).append(i==inputs.size()-1?"":",");
         }
         examDao.submit(userId,paperId,new Date(System.currentTimeMillis()),sumScore,input.toString());
         return sumScore;
@@ -70,6 +74,20 @@ public class ExamServiceImpl implements ExamService{
     @Override
     public List<Exam> selectByUserId(int user_id) {
         return examDao.selectByUserId(user_id);
+    }
+
+    @Override
+    public JSONObject getExamScore(int paper_id, int user_id) {
+        JSONObject res = new JSONObject();
+        Exam exam = examDao.selectByUserIdAndPaperId(user_id, paper_id);
+        if (exam!=null) {
+            res.put("score",exam.getScore());
+            JSONObject paper = paperService.userGetById(paper_id);
+            res.put("paper",paper);
+            res.put("user_input",exam.getInput());
+            res.put("answer",paperService.getPaperAnswer(paper_id));
+        }
+        return res;
     }
 
 }

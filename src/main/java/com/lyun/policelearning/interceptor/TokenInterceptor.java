@@ -22,7 +22,11 @@ import java.security.SignatureException;
                              Object handler) throws SignatureException {
         /* 地址过滤 */
         String uri = request.getRequestURI() ;
-        if (uri.contains("/login") || uri.contains("/video") || uri.contains("/course/all") || uri.contains("/test/run") || uri.contains("/pki") || uri.contains("/api")){
+        if (uri.contains("/login") || uri.contains("/video") ||
+                uri.contains("/course/all") || uri.contains("/test/run") ||
+                uri.contains("/pki") || uri.contains("/api") ||
+                uri.contains("/download")
+        ){
             return true ;
         }
         /* Token 验证 */
