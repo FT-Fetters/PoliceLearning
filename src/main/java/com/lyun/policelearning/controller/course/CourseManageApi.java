@@ -180,10 +180,12 @@ public class CourseManageApi {
         }
         JSONObject course = courseService.getCourseById(id);
         JSONArray catalogue = course.getJSONArray("catalogue");
-        for (Object o : catalogue){
-            JSONObject json = (JSONObject) o;
-            int tid = json.getInteger("id");
-            teachService.delete(tid);
+        if(catalogue != null){
+            for (Object o : catalogue){
+                JSONObject json = (JSONObject) o;
+                int tid = json.getInteger("id");
+                teachService.delete(tid);
+            }
         }
         courseService.delete(id);
         return new ResultBody<>(true,200,null);
