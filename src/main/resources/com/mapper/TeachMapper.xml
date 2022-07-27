@@ -12,4 +12,5 @@
     <insert id="save" useGeneratedKeys = "true" keyProperty="id">INSERT INTO teach(content) VALUES (#{content})
 </insert>
     <update id="update">UPDATE teach SET content=#{content} WHERE id=#{id}</update>
+    <delete id="delete">DELETE FROM teach WHERE id=#{id}</delete>
 </mapper>

@@ -3,6 +3,7 @@ package com.lyun.policelearning.controller.course;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.entity.Course;
 import com.lyun.policelearning.entity.Teach;
 import com.lyun.policelearning.service.CourseService;
 import com.lyun.policelearning.service.RoleService;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.AbstractDocument;
 import java.io.File;
@@ -39,6 +41,8 @@ public class TeachApi {
     JwtConfig jwtConfig;
     @Autowired
     RoleService roleService;
+    //创建一个值用于记录将要被删除的元素
+    public static List<JSONObject> list = new ArrayList<>() ;
     @SneakyThrows
     @RequestMapping("/upload/picture")
     public Object uploadPicture(@RequestParam MultipartFile file){
@@ -211,6 +215,31 @@ public class TeachApi {
         }
         //改变catalogue
         courseService.changeCatalogue(courseName,catalogue);
+        return new ResultBody<>(true,200,null);
+    }
+
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    public Object delete(@RequestParam String courseName,@RequestParam String name,HttpServletRequest request){
+        if (!UserUtils.checkPower(request, 1, jwtConfig,userService,roleService)){
+            return new ResultBody<>(false,-1,"not allow");
+        }
+        if (courseName == null || name == null){
+            return new ResultBody<>(false,500,"missing parameter");
+        }
+        JSONObject course = courseService.getCourseByName(courseName);
+        List<JSONObject> catalogue = (List<JSONObject>) course.get("catalogue");
+        for (JSONObject json : catalogue) {
+            int i = 0;
+            if (json.getString("name").equals(name)){
+                 if(json.getInteger("id") != null){
+                     teachService.delete(json.getInteger("id"));
+                 }
+                 list.add(json);
+            }
+            i++;
+        }
+        catalogue.removeAll(list);
+        courseService.changeCatalogue(courseName,JSONArray.parseArray(catalogue.toString()));
         return new ResultBody<>(true,200,null);
     }
 }

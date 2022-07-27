@@ -9,4 +9,5 @@ public interface TeachDao {
     Teach getById(int id);
     void save(Teach teach);
     void update(int id,String content);
+    void delete(int id);
 }

@@ -14,4 +14,5 @@ public interface CourseDao extends BaseDao<Course>{
     List<Course> getByType(String type);
     void publish(String name,String introduce,String type);
     Integer count();
+    void delete(int id);
 }
