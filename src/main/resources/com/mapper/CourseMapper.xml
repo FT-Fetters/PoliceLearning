@@ -13,4 +13,5 @@
     <select id="getByType" resultType="Course">SELECT * FROM course WHERE type=#{type}</select>
     <select id="getCourseByName" resultType="Course">SELECT * FROM course WHERE name=#{name}</select>
     <insert id="publish">INSERT INTO course (name,introduce,type) VALUES (#{name},#{introduce},#{type})</insert>
+    <delete id="delete">DELETE FROM course WHERE id=#{id}</delete>
 </mapper>

@@ -25,4 +25,9 @@ public class TeachServiceImpl implements TeachService{
     public void update(int id, String content) {
         teachDao.update(id, content);
     }
+
+    @Override
+    public void delete(int id) {
+        teachDao.delete(id);
+    }
 }

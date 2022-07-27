@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.CourseService;
 import com.lyun.policelearning.service.RoleService;
+import com.lyun.policelearning.service.TeachService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * 后台管理课程接口
@@ -32,6 +34,9 @@ public class CourseManageApi {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TeachService teachService;
 
     @Autowired
     JwtConfig jwtConfig;
@@ -163,5 +168,24 @@ public class CourseManageApi {
         return new ResultBody<>(true,200,courseService.count());
     }
 
-
+    /**
+     * 删除课程并且将对应的小结也一起删掉
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    public Object delete(@RequestParam int id){
+        if(id <= 0){
+            return new ResultBody<>(false,500,"error id");
+        }
+        JSONObject course = courseService.getCourseById(id);
+        JSONArray catalogue = course.getJSONArray("catalogue");
+        for (Object o : catalogue){
+            JSONObject json = (JSONObject) o;
+            int tid = json.getInteger("id");
+            teachService.delete(tid);
+        }
+        courseService.delete(id);
+        return new ResultBody<>(true,200,null);
+    }
 }

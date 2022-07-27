@@ -7,4 +7,5 @@ public interface TeachService {
     Teach getById(int id);
     int save( Teach teach);
     void update(int id,String content);
+    void delete(int id);
 }

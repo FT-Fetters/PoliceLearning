@@ -19,5 +19,6 @@ public interface CourseService {
     boolean changeCatalogue(int id,JSONArray catalogue);
     boolean changeCatalogue(String name,JSONArray catalogue);
     Integer count();
+    void delete(int id);
 
 }

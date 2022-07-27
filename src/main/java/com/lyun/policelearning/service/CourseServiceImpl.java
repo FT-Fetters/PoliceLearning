@@ -146,5 +146,8 @@ public class CourseServiceImpl implements CourseService{
         return courseDao.count();
     }
 
-
+    @Override
+    public void delete(int id) {
+        courseDao.delete(id);
+    }
 }
