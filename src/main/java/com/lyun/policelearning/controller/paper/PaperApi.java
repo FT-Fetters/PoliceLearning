@@ -146,4 +146,10 @@ public class PaperApi {
         return new ResultBody<>(true,200,examService.selectByUserId(user_id));
     }
 
+    @GetMapping("/exam/score/{paper_id}")
+    public Object getExamScore(@PathVariable int paper_id,HttpServletRequest request){
+        int user_id = UserUtils.getUserId(request,jwtConfig);
+        return new ResultBody<>(true,200,examService.getExamScore(paper_id,user_id));
+    }
+
 }

@@ -11,4 +11,5 @@ public interface JudgmentService {
     void updateQuestion(Judgment judgment);
     void deleteQuestion(int id);
     boolean check(int id,String answer);
+    int importQuestion(List<Judgment> judgments);
 }

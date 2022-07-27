@@ -266,4 +266,24 @@ public class PaperServiceImpl implements PaperService{
         paperDao.setState(id, 0);
         return true;
     }
+
+    @Override
+    public String getPaperAnswer(int id) {
+        List<PaperQuestion> paperQuestions = paperQuestionDao.selectByPaperId(id);
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < paperQuestions.size(); i++) {
+            PaperQuestion paperQuestion = paperQuestions.get(i);
+            if (paperQuestion.getType() == 'j'){
+                Judgment judgment = judgmentDao.getById(paperQuestion.getQuestion_id());
+                res.append(judgment.getAnswer()).append(i==paperQuestions.size()-1?"":",");
+            }else if (paperQuestion.getType() == 'm'){
+                MultipleChoice multipleChoice = multipleChoiceDao.getById(paperQuestion.getQuestion_id());
+                res.append(multipleChoice.getAnswer()).append(i==paperQuestions.size()-1?"":",");
+            }else if (paperQuestion.getType() == 's'){
+                SingleChoice singleChoice = singleChoiceDao.getById(paperQuestion.getQuestion_id());
+                res.append(singleChoice.getAnswer()).append(i==paperQuestions.size()-1?"":",");
+            }
+        }
+        return res.toString();
+    }
 }

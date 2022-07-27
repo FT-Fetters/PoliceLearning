@@ -16,4 +16,5 @@ public interface PaperService {
     boolean delete(int id);
     boolean enable(int id);
     boolean disable(int id);
+    String getPaperAnswer(int id);
 }
