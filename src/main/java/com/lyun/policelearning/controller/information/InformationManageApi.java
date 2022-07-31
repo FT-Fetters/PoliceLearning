@@ -231,8 +231,12 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getAllPicture",method = RequestMethod.GET)
-    public Object getAllPicture(){
-        return new ResultBody<>(true,200,informationService.getAllPicture());
+    public Object getAllPicture(@RequestBody PageRequest pageQuery,HttpServletResponse response){
+        if(pageQuery.getPageSize() <= 0||pageQuery.getPageNum()<=0){
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            return new ResultBody<>(false,500,"error pageSize or error pageNum");
+        }
+        return new ResultBody<>(true,200,informationService.findPicture(pageQuery));
     }
 
     /**

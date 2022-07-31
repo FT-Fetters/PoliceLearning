@@ -7,4 +7,7 @@
     <select id="findTitleByName" resultType="LawType">SELECT * FROM lawtype WHERE lawtype=#{name}</select>
     <insert id="insertType">INSERT INTO lawtype(lawtype) VALUES (#{lawtype})</insert>
     <update id="updateTitleByName">UPDATE lawtype SET title=#{title} WHERE lawtype=#{lawtype}</update>
+    <delete id="deleteType">DELETE FROM lawtype WHERE id=#{id}</delete>
+    <select id="getTitleById" resultType="LawType">SELECT * FROM lawtype WHERE id=#{id}</select>
+    <update id="updateType">UPDATE lawtype SET lawtype=#{type} WHERE id=#{id}</update>
 </mapper>

@@ -20,4 +20,6 @@ public interface LawService {
     List<JSONObject> findTitleByNameForManage(String title);
     int count();
     void insertType(String lawtype);
+    void deleteType(int id);
+    void updateType(int id,String type);
 }

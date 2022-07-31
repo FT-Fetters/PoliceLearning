@@ -26,4 +26,6 @@ public interface InformationService {
     void deletePicture(int id);
     Information getInformationByTitle(String title);
     int count();
+    PageResult findPicture(PageRequest pageRequest);
+
 }

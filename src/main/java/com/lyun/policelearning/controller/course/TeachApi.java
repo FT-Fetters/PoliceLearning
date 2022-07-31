@@ -3,7 +3,6 @@ package com.lyun.policelearning.controller.course;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.config.JwtConfig;
-import com.lyun.policelearning.entity.Course;
 import com.lyun.policelearning.entity.Teach;
 import com.lyun.policelearning.service.CourseService;
 import com.lyun.policelearning.service.RoleService;
@@ -18,9 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.AbstractDocument;
 import java.io.File;
 import java.net.InetAddress;
 import java.util.ArrayList;
