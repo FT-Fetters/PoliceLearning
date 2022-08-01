@@ -4,15 +4,26 @@ import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.controller.paper.model.PaperSubmitBody;
 import com.lyun.policelearning.entity.Paper;
+import com.lyun.policelearning.entity.question.Judgment;
+import com.lyun.policelearning.entity.question.MultipleChoice;
+import com.lyun.policelearning.entity.question.SingleChoice;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.paper.ExamService;
 import com.lyun.policelearning.service.paper.PaperService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -150,6 +161,91 @@ public class PaperApi {
     public Object getExamScore(@PathVariable int paper_id,HttpServletRequest request){
         int user_id = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,examService.getExamScore(paper_id,user_id));
+    }
+
+    @GetMapping("/exam/grades/all/{paper_id}")
+    public Object exportGrades(@PathVariable int paper_id){
+        return new ResultBody<>(true,200,examService.selectPaperGrades(paper_id));
+    }
+
+    @GetMapping("/export/{id}")
+    public void exportPaper(HttpServletResponse response, @PathVariable int id){
+        JSONObject paper = paperService.getById(id);
+        XWPFDocument document = new XWPFDocument();
+        XWPFParagraph firstParagraph = document.createParagraph();
+        firstParagraph.getStyleID();
+        XWPFRun run = firstParagraph.createRun();
+
+        run.setFontSize(28);
+        run.setBold(true);
+        run.setText(paper.getString("title") + "\r\n");
+        run = firstParagraph.createRun();
+        run.addCarriageReturn();
+
+        run.setFontSize(14);
+        run.setBold(false);
+
+        run.setText("一、单选题\n");
+        int i = 1;
+        for (Object o : paper.getJSONObject("question").getJSONArray("s")) {
+            SingleChoice single = ((SingleChoice) o);
+            if (single == null)continue;
+            run.setText(i + "." + single.getProblem());
+            run.addCarriageReturn();
+            run.setText("A." + single.getOption_a());
+            run.addCarriageReturn();
+            run.setText("B." + single.getOption_b());
+            run.addCarriageReturn();
+            run.setText("C." + single.getOption_c());
+            run.addCarriageReturn();
+            run.setText("D." + single.getOption_d());
+            run.addCarriageReturn();
+            i++;
+        }
+        run.setText("二、多选题\n");
+        i = 1;
+        for (Object o : paper.getJSONObject("question").getJSONArray("m")) {
+            MultipleChoice multiple = ((MultipleChoice) o);
+            if (multiple == null)continue;
+            run.setText(i + "." + multiple.getProblem());
+            run.addCarriageReturn();
+            run.setText("A." + multiple.getOption_a());
+            run.addCarriageReturn();
+            run.setText("B." + multiple.getOption_b());
+            run.addCarriageReturn();
+            run.setText("C." + multiple.getOption_c());
+            run.addCarriageReturn();
+            run.setText("D." + multiple.getOption_d());
+            run.addCarriageReturn();
+            i++;
+        }
+        run.setText("三、判断题\n");
+        i = 1;
+        for (Object o : paper.getJSONObject("question").getJSONArray("j")) {
+            Judgment judgment = ((Judgment) o);
+            if (judgment == null)continue;
+            run.setText(i + "." + judgment.getProblem());
+            run.addCarriageReturn();
+            run.setText("A." + judgment.getOption_true());
+            run.addCarriageReturn();
+            run.setText("B." + judgment.getOption_false());
+            run.addCarriageReturn();
+            i++;
+        }
+        try {
+            String fileName = paper.getString("title")+".docx";
+            fileName = URLEncoder.encode(fileName,"UTF-8");
+            response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
+            response.addHeader("Cache-Control", "no-cache");
+            //输出流
+            OutputStream os = response.getOutputStream();
+            document.write(os);
+            os.flush();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

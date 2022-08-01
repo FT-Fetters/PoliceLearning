@@ -130,6 +130,13 @@ public class SingleChoiceManageApi {
     @GetMapping("/download/template")
     public void getTemplate(HttpServletResponse response){
         List<SingleChoice> singleChoices = new ArrayList<>();
+        SingleChoice singleChoice = new SingleChoice();
+        singleChoice.setProblem("多选题问题()");
+        singleChoice.setOption_a("选项A");
+        singleChoice.setOption_b("选项B");
+        singleChoice.setOption_c("选项C");
+        singleChoice.setOption_d("选项D");
+        singleChoice.setAnswer("AB");
         response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
         EasyExcel.write(response.getOutputStream()).head(SingleChoice.class).sheet("模板").doWrite(singleChoices);
 

@@ -12,4 +12,5 @@ public interface ExamDao {
     int submit(int user_id, int paper_id, Date date, float score,String input);
     Exam selectByUserIdAndPaperId(int user_id,int paper_id);
     List<Exam> selectByUserId(int user_id);
+    List<Exam> selectByPaperId(int paper_id);
 }

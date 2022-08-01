@@ -1,0 +1,14 @@
+2022-07-29 01:47:28 [error] token不能为空
+2022-07-29 01:47:49 [error] Handler dispatch failed; nested exception is java.lang.NoClassDefFoundError: org/apache/poi/POIXMLTypeLoader
+2022-07-29 01:49:17 [error] Handler dispatch failed; nested exception is java.lang.NoSuchFieldError: Factory
+2022-07-29 01:49:28 [error] Handler dispatch failed; nested exception is java.lang.NoSuchFieldError: Factory
+2022-07-29 01:49:58 [error] Handler dispatch failed; nested exception is java.lang.NoSuchFieldError: Factory
+2022-07-29 01:51:19 [error] Handler dispatch failed; nested exception is java.lang.NoClassDefFoundError: org/apache/poi/util/POILogFactory
+2022-07-29 01:53:58 [error] com.lyun.policelearning.entity.question.SingleChoice cannot be cast to com.alibaba.fastjson.JSONObject
+2022-07-29 01:58:35 [error] null
+2022-07-29 02:00:15 [error] com.lyun.policelearning.entity.question.SingleChoice cannot be cast to com.alibaba.fastjson.JSONObject
+2022-07-29 02:00:50 [error] com.lyun.policelearning.entity.question.SingleChoice cannot be cast to com.alibaba.fastjson.JSONObject
+2022-07-29 02:02:14 [error] null
+2022-07-29 02:02:44 [error] null
+2022-07-29 02:03:34 [error] null
+2022-07-29 02:04:17 [error] null

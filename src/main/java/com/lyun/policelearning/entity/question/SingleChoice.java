@@ -1,10 +1,12 @@
 package com.lyun.policelearning.entity.question;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
 @Data
 public class SingleChoice {
+    @ExcelIgnore
     private int id;
     @ExcelProperty("问题")
     private String problem;

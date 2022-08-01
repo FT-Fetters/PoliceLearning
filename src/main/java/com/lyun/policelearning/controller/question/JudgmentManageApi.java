@@ -120,6 +120,12 @@ public class JudgmentManageApi {
     @GetMapping("/download/template")
     public void getTemplate(HttpServletResponse response){
         List<Judgment> judgments = new ArrayList<>();
+        Judgment judgment = new Judgment();
+        judgment.setProblem("判断题问题()");
+        judgment.setAnswer("1");
+        judgment.setOption_true("正确");
+        judgment.setOption_false("错误");
+        judgments.add(judgment);
         response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
         EasyExcel.write(response.getOutputStream()).head(Judgment.class).sheet("模板").doWrite(judgments);
 

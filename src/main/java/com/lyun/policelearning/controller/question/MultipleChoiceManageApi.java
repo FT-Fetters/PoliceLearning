@@ -129,6 +129,13 @@ public class MultipleChoiceManageApi {
     @GetMapping("/download/template")
     public void getTemplate(HttpServletResponse response){
         List<MultipleChoice> multipleChoices = new ArrayList<>();
+        MultipleChoice multipleChoice = new MultipleChoice();
+        multipleChoice.setProblem("多选题问题()");
+        multipleChoice.setOption_a("选项A");
+        multipleChoice.setOption_b("选项B");
+        multipleChoice.setOption_c("选项C");
+        multipleChoice.setOption_d("选项D");
+        multipleChoice.setAnswer("AB");
         response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
         EasyExcel.write(response.getOutputStream()).head(MultipleChoice.class).sheet("模板").doWrite(multipleChoices);
 

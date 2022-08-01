@@ -117,7 +117,8 @@ public class TeachApi {
             return new ResultBody<>(false,500,jsonObject);
         }
         InetAddress address = InetAddress.getLocalHost();;
-        String videoUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/courseVideo/" + fileName;
+        String url = address.getHostAddress();
+        String videoUrl = "http://" + url + ":8080/api/upload/courseVideo/" + fileName;
         List<JSONObject> res = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",videoUrl);

@@ -1,6 +1,8 @@
 package com.lyun.policelearning.service.paper;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.dao.paper.ExamDao;
 import com.lyun.policelearning.dao.paper.PaperDao;
 import com.lyun.policelearning.dao.paper.PaperQuestionDao;
@@ -9,9 +11,11 @@ import com.lyun.policelearning.dao.question.MultipleChoiceDao;
 import com.lyun.policelearning.dao.question.SingleChoiceDao;
 import com.lyun.policelearning.entity.Exam;
 import com.lyun.policelearning.entity.PaperQuestion;
+import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.entity.question.Judgment;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
+import com.lyun.policelearning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +43,12 @@ public class ExamServiceImpl implements ExamService{
 
     @Autowired
     private SingleChoiceDao singleChoiceDao;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public float submit(int userId, int paperId, List<String> inputs) {
@@ -89,5 +99,22 @@ public class ExamServiceImpl implements ExamService{
         }
         return res;
     }
+
+    @Override
+    public JSONArray selectPaperGrades(int paper_id) {
+        List<Exam> exams = examDao.selectByPaperId(paper_id);
+        JSONArray res = new JSONArray();
+        for (Exam exam : exams) {
+            JSONObject tmp = new JSONObject();
+            tmp.put("score",exam.getScore());
+            tmp.put("date",exam.getDate());
+            User user = userDao.getById(exam.getUser_id());
+            tmp.put("username",user.getUsername());
+            tmp.put("nickname",user.getNickname());
+            res.add(tmp);
+        }
+        return res;
+    }
+
 
 }

@@ -25,7 +25,7 @@ import java.security.SignatureException;
         if (uri.contains("/login") || uri.contains("/video") ||
                 uri.contains("/course/all") || uri.contains("/test/run") ||
                 uri.contains("/pki") || uri.contains("/api") ||
-                uri.contains("/download")
+                uri.contains("/download") || uri.contains("/export")
         ){
             return true ;
         }
