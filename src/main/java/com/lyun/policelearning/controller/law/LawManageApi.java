@@ -44,7 +44,28 @@ public class LawManageApi {
         lawService.insertType(lawtype);
         return new ResultBody<>(true,200,null);
     }
-
+    /**
+     * 删除法律类型
+     */
+    @RequestMapping(value = "/lawtype/delete",method = RequestMethod.GET)
+    public Object deleteType(@RequestParam int id){
+        if (id <= 0){
+            return new ResultBody<>(false,501,"error id");
+        }
+        lawService.deleteType(id);
+        return new ResultBody<>(true,200,null);
+    }
+    /**
+     * 更新法律类型
+     */
+    @RequestMapping(value = "/lawtype/update",method = RequestMethod.POST)
+    public Object updateType(@RequestParam int id,@RequestParam String type){
+        if(id <= 0){
+            return new ResultBody<>(false,500,"error id");
+        }
+        lawService.updateType(id, type);
+        return new ResultBody<>(true,200,null);
+    }
     /**
      * 根据法律的类型查询对应的title有哪些
      * @param lawtype

@@ -1,6 +1,7 @@
 package com.lyun.policelearning.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lyun.policelearning.dao.CollectDao;
@@ -12,7 +13,6 @@ import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
-import com.lyun.policelearning.utils.StringFileter;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +36,8 @@ public class InformationServiceImpl implements InformationService{
 
     @Autowired
     CommentDao commentDao;
+
+    public static Page page;
 
     @Override
     public List<JSONObject> findAll() throws Exception {
@@ -102,7 +104,7 @@ public class InformationServiceImpl implements InformationService{
     @Override
     public PageResult findPage(PageRequest pageRequest) {
         //将pageInfo传递到getPageResult中获得result结果，而pageInfo又是与数据库中的数据有关的
-        return PageUtil.getPageResult(getPageInfo(pageRequest));
+        return PageUtil.getPageResult(getPageInfo(pageRequest),page);
     }
 
     @Override
@@ -225,13 +227,18 @@ public class InformationServiceImpl implements InformationService{
         return informationDao.count();
     }
 
+    @Override
+    public PageResult findPicture(PageRequest pageRequest) {
+        return PageUtil.getPageResult(getPictureInfo(pageRequest),page);
+    }
+
 
     @SneakyThrows
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         //设置分页数据
-        PageHelper.startPage(pageNum,pageSize);
+        page = PageHelper.startPage(pageNum,pageSize);
         List<JSONObject> res = new ArrayList<>();
         for(Information information : informationDao.selectPage()){
             JSONObject jsonObject = new JSONObject();
@@ -252,4 +259,29 @@ public class InformationServiceImpl implements InformationService{
         return new PageInfo<>(res);
     }
 
+    @SneakyThrows
+    private PageInfo<?> getPictureInfo(PageRequest pageRequest) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        //设置分页数据
+        page = PageHelper.startPage(pageNum, pageSize);
+        List<JSONObject> res = new ArrayList<>();
+        for (Information information : informationDao.getAllPicture()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", information.getId());
+            jsonObject.put("title", information.getTitle());
+            if (information.getPicture() != null) {
+                String savePath = PathTools.getRunPath() + "/image/";
+                String imagePath = savePath + information.getPicture();
+                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
+                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                jsonObject.put("picture", imgBase64);
+            } else {
+                jsonObject.put("picture", null);
+            }
+            jsonObject.put("ischoose", information.getIschoose());
+            res.add(jsonObject);
+        }
+       return new PageInfo<>(res);
+    }
 }

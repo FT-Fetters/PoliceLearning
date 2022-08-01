@@ -16,8 +16,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/information/manage")
@@ -231,8 +233,12 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getAllPicture",method = RequestMethod.GET)
-    public Object getAllPicture(){
-        return new ResultBody<>(true,200,informationService.getAllPicture());
+    public Object getAllPicture(@RequestBody PageRequest pageQuery,HttpServletResponse response){
+        if(pageQuery.getPageSize() <= 0||pageQuery.getPageNum()<=0){
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            return new ResultBody<>(false,500,"error pageSize or error pageNum");
+        }
+        return new ResultBody<>(true,200,informationService.findPicture(pageQuery));
     }
 
     /**
@@ -241,16 +247,16 @@ public class InformationManageApi {
      * @return
      */
     @RequestMapping(value = "/getPicture/changePicture",method = RequestMethod.GET)
-    public Object changePicture(@RequestParam List<Integer> ids){
-        if(ids.isEmpty()){
-            return new ResultBody<>(false,500,"not found ids");
-        }
-        else {
+    public Object changePicture(@RequestParam int[] ids){
+        if (ids.length > 3){
+            return new ResultBody<>(false,501,"数组大小不能超过3");
+        }else {
             //将原来的ischoose重置为0
             informationService.updateChoose();
             //将提交的资讯中的ischoose设置为1
-            informationService.setChangePicture(ids);
-            return new ResultBody<>(true,200,null);
+            List<Integer> ids1 = Arrays.stream(ids).boxed().collect(Collectors.toList());
+            informationService.setChangePicture(ids1);
+            return new ResultBody<>(true, 200, null);
         }
     }
 

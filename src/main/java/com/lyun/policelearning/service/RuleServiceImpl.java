@@ -1,6 +1,7 @@
 package com.lyun.policelearning.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lyun.policelearning.dao.CollectDao;
@@ -24,6 +25,7 @@ public class RuleServiceImpl implements RuleService{
     CollectDao  collectDao;
     @Autowired
     CommentDao commentDao;
+    public static Page page;
     @Override
     public List<JSONObject> findAll() {
         List<JSONObject> rules = new ArrayList<>();
@@ -58,7 +60,7 @@ public class RuleServiceImpl implements RuleService{
     @Override
     public PageResult findPage(PageRequest pageRequest) {
         //将pageInfo传递到getPageResult中获得result结果，而pageInfo又是与数据库中的数据有关的
-        return PageUtil.getPageResult(getPageInfo(pageRequest));
+        return PageUtil.getPageResult(getPageInfo(pageRequest),page);
     }
 
     @Override
@@ -106,7 +108,7 @@ public class RuleServiceImpl implements RuleService{
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         //设置分页数据
-        PageHelper.startPage(pageNum,pageSize);
+        page = PageHelper.startPage(pageNum,pageSize);
         List<Rule> rules = ruleDao.selectPage();
         return new PageInfo<>(rules);
     }

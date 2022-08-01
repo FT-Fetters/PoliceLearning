@@ -37,9 +37,12 @@ public class LawServiceImpl implements LawService{
     public JSONObject findAllType() {
         JSONObject lawType = new JSONObject();
         List<LawType> lawTypes  = lawTypeDao.findAll();
-        List<String> lawtypes = new ArrayList<>();
+        List<JSONObject> lawtypes = new ArrayList<>();
         for(LawType lawtype : lawTypes){
-            lawtypes.add(lawtype.getLawtype());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",lawtype.getId());
+            jsonObject.put("lawtype",lawtype.getLawtype());
+            lawtypes.add(jsonObject);
         }
         lawType.put("lawTypes",lawtypes);
         return lawType;
@@ -177,6 +180,29 @@ public class LawServiceImpl implements LawService{
     @Override
     public void insertType(String lawtype) {
         lawTypeDao.insertType(lawtype);
+    }
+
+    @Override
+    public void deleteType(int id) {
+        LawType lawType = lawTypeDao.getTitleById(id);
+        //JSONArray title = JSONArray.parseArray(lawType.getTitle());
+        lawDao.deleteByType(lawType.getLawtype());
+        /*if (title != null){
+            for(Object o : title){
+                JSONObject jsonObject = (JSONObject) o;
+                if (jsonObject.getString("name") != null){
+                    lawDao.deleteByType(jsonObject.getString("name"));
+                }
+            }
+        }*/
+        lawTypeDao.deleteType(id);
+    }
+
+    @Override
+    public void updateType(int id, String type) {
+        String lawtype = lawTypeDao.getTitleById(id).getLawtype();
+        lawDao.updateType(lawtype,type);
+        lawTypeDao.updateType(id, type);
     }
 
 

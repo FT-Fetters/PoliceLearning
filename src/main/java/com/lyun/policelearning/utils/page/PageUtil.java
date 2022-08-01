@@ -1,5 +1,6 @@
 package com.lyun.policelearning.utils.page;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 
 public class PageUtil {
@@ -9,12 +10,12 @@ public class PageUtil {
      * @param pageInfo
      * @return
      */
-    public static PageResult getPageResult( PageInfo<?> pageInfo){
+    public static PageResult getPageResult(PageInfo<?> pageInfo, Page page){
         PageResult pageResult = new PageResult();
-        pageResult.setPageNum(pageInfo.getPageNum());
-        pageResult.setPageSize(pageInfo.getPageSize());
-        pageResult.setTotalSize(pageInfo.getTotal());
-        pageResult.setTotalPages(pageInfo.getPages());
+        pageResult.setPageNum(page.getPageNum());
+        pageResult.setPageSize(page.getPageSize());
+        pageResult.setTotalSize(page.getTotal());
+        pageResult.setTotalPages(page.getPages());
         pageResult.setContent(pageInfo.getList());
         return pageResult;
     }

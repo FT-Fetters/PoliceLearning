@@ -10,4 +10,7 @@ public interface LawTypeDao extends BaseDao<LawType>{
     List<LawType> findTitleByName(String name);
     void insertType(String lawtype);
     void updateTitleByName(String title,String lawtype);
+    void deleteType(int id);
+    LawType getTitleById(int id);
+    void updateType(int id,String type);
 }
