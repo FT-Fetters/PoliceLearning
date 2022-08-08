@@ -5,6 +5,9 @@ import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.dao.question.SingleChoiceDao;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
+import com.lyun.policelearning.utils.page.PageRequest;
+import com.lyun.policelearning.utils.page.PageResult;
+import com.lyun.policelearning.utils.page.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,5 +76,10 @@ public class SingleChoiceServiceImpl implements SingleChoiceService{
             }
         }
         return num;
+    }
+
+    @Override
+    public PageResult selectByPage(PageRequest pageRequest) {
+        return PageUtil.getPage(pageRequest,singleChoiceDao.findAll());
     }
 }
