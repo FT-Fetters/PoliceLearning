@@ -3,6 +3,8 @@ package com.lyun.policelearning.utils.page;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PageUtil {
@@ -34,6 +36,15 @@ public class PageUtil {
                         list.size() / pageRequest.getPageSize() + 1
                 );
         pageResult.setTotalSize(list.size());
+        if ((pageRequest.getPageNum() - 1)*pageRequest.getPageSize() > list.size()){
+            list.clear();
+            pageResult.setContent(list);
+            return pageResult;
+        }
+        if (pageRequest.getPageSize() > list.size() && pageRequest.getPageNum() == 1){
+            pageResult.setContent(list);
+            return pageResult;
+        }
         list = list.subList(
                 Math.min((pageRequest.getPageNum() - 1) * pageRequest.getPageSize(), list.size() - pageRequest.getPageSize()),
                 Math.min(pageRequest.getPageNum() * pageRequest.getPageSize(), list.size() - 1));
