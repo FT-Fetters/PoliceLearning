@@ -3,6 +3,9 @@ package com.lyun.policelearning.service.question;
 import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.dao.question.JudgmentDao;
 import com.lyun.policelearning.entity.question.Judgment;
+import com.lyun.policelearning.utils.page.PageRequest;
+import com.lyun.policelearning.utils.page.PageResult;
+import com.lyun.policelearning.utils.page.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +73,10 @@ public class JudgmentServiceImpl implements JudgmentService{
             }
         }
         return num;
+    }
+
+    @Override
+    public PageResult selectByPage(PageRequest pageRequest) {
+        return PageUtil.getPage(pageRequest,judgmentDao.findAll());
     }
 }

@@ -9,6 +9,7 @@ import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import com.lyun.policelearning.utils.page.PageRequest;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -115,6 +116,13 @@ public class MultipleChoiceManageApi {
         return new ResultBody<>(true,200,null);
     }
 
+    @PostMapping("/select")
+    public Object selectByPage(@RequestBody PageRequest pageRequest){
+        if (pageRequest.getPageNum() < 0 || pageRequest.getPageSize() < 0)
+            return new ResultBody<>(false, -1, "error parameter");
+        return new ResultBody<>(true,200,multipleChoiceService.selectByPage(pageRequest));
+    }
+
     @SneakyThrows
     @PostMapping("/import")
     public Object importQuestion(@RequestParam("file") MultipartFile file){
@@ -140,4 +148,6 @@ public class MultipleChoiceManageApi {
         EasyExcel.write(response.getOutputStream()).head(MultipleChoice.class).sheet("模板").doWrite(multipleChoices);
 
     }
+
+
 }

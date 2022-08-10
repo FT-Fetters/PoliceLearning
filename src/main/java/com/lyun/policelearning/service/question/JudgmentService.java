@@ -1,6 +1,8 @@
 package com.lyun.policelearning.service.question;
 
 import com.lyun.policelearning.entity.question.Judgment;
+import com.lyun.policelearning.utils.page.PageRequest;
+import com.lyun.policelearning.utils.page.PageResult;
 
 import java.util.List;
 
@@ -12,4 +14,5 @@ public interface JudgmentService {
     void deleteQuestion(int id);
     boolean check(int id,String answer);
     int importQuestion(List<Judgment> judgments);
+    PageResult selectByPage(PageRequest pageRequest);
 }

@@ -32,10 +32,10 @@ public class InformationServiceImpl implements InformationService{
     private InformationDao informationDao;
 
     @Autowired
-    CollectDao collectDao;
+    private CollectDao collectDao;
 
     @Autowired
-    CommentDao commentDao;
+    private CommentDao commentDao;
 
     public static Page page;
 

@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://10.135.8.168:3306/policelearning
+    url: jdbc:mysql://ldqc.xyz:3306/policelearning
     username: root
-    password: xlwc813913!
+    password: mysqlpwd
   servlet:
     multipart:
       max-file-size: 1000MB
