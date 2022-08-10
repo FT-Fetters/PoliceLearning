@@ -39,6 +39,10 @@ public class LawManageApi {
     public Object getLawType(){
         return new ResultBody<>(true,200,lawService.findAllType());
     }
+
+    /**
+     * 新增法律类型(不重复)
+     */
     @RequestMapping(value = "/insertType",method = RequestMethod.POST)
     public Object insertType(@RequestParam String lawtype){
         lawService.insertType(lawtype);
