@@ -232,7 +232,7 @@ public class InformationManageApi {
      * 前端设计一个下拉框从所有的资讯内容中选择
      * @return
      */
-    @RequestMapping(value = "/getAllPicture",method = RequestMethod.GET)
+    @RequestMapping(value = "/getAllPicture",method = RequestMethod.POST)
     public Object getAllPicture(@RequestBody PageRequest pageQuery,HttpServletResponse response){
         if(pageQuery.getPageSize() <= 0||pageQuery.getPageNum()<=0){
             response.setHeader("Access-Control-Allow-Origin", "*");
