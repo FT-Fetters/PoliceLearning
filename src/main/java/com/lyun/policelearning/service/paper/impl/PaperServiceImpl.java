@@ -2,6 +2,8 @@ package com.lyun.policelearning.service.paper.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.dao.paper.ExamDao;
 import com.lyun.policelearning.dao.paper.PaperDao;
 import com.lyun.policelearning.dao.paper.PaperQuestionDao;
@@ -13,11 +15,17 @@ import com.lyun.policelearning.entity.PaperQuestion;
 import com.lyun.policelearning.entity.question.Judgment;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
+import com.lyun.policelearning.utils.page.PageRequest;
+import com.lyun.policelearning.utils.page.PageResult;
+import com.lyun.policelearning.utils.page.PageUtil;
 import com.lyun.policelearning.service.paper.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +53,15 @@ public class PaperServiceImpl implements PaperService {
     @Autowired
     private ExamDao examDao;
 
+    @Autowired
+    UserDao userDao;
+
+    public static Page page;
+
     @Override
-    public List<Paper> selectAll() {
-        return paperDao.selectAll();
+    public PageResult selectAll(PageRequest pageRequest) {
+        //将pageInfo传递到getPageResult中获得result结果，而pageInfo又是与数据库中的数据有关的
+        return PageUtil.getPageResult(getPageInfo(pageRequest),page);
     }
 
     @Override
@@ -65,10 +79,10 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
-    public int generate(int j, int m, int s,String title) {
+    public int generate(int j, int m, int s,String title,int uid) {
         //新建试卷
         Paper paper = new Paper();
-        paper.setCreateUser(1);
+        paper.setCreateUser(uid);
         paper.setTitle(title);
         paper.setDate(new Date(System.currentTimeMillis()));
         //随机选择题目

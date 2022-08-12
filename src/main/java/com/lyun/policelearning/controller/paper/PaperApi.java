@@ -13,6 +13,7 @@ import com.lyun.policelearning.service.paper.ExamService;
 import com.lyun.policelearning.service.paper.PaperService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import com.lyun.policelearning.utils.page.PageRequest;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -48,9 +49,8 @@ public class PaperApi {
      * 管理员获取所有试卷列表
      */
     @GetMapping ("/select/all")
-    public Object selectAll(){
-        List<Paper> papers = paperService.selectAll();
-        return new ResultBody<>(true,200,papers);
+    public Object selectAll(@RequestBody PageRequest pageQuery) {
+        return new ResultBody<>(true, 200,paperService.selectAll(pageQuery));
     }
 
     /**
@@ -72,8 +72,9 @@ public class PaperApi {
      */
     @PostMapping("/generate")
     public Object generate(@RequestParam Integer j,@RequestParam Integer m,@RequestParam Integer s,
-                           @RequestParam String title){
-        return new ResultBody<>(true,200,paperService.generate(j,m,s,title));
+                           @RequestParam String title,HttpServletRequest request){
+        int user_id = UserUtils.getUserId(request,jwtConfig);
+        return new ResultBody<>(true,200,paperService.generate(j,m,s,title,user_id));
     }
 
     /**
