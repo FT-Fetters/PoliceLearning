@@ -2,21 +2,35 @@ package com.lyun.policelearning.service.paper;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.dao.paper.ExamDao;
 import com.lyun.policelearning.dao.paper.PaperDao;
 import com.lyun.policelearning.dao.paper.PaperQuestionDao;
 import com.lyun.policelearning.dao.question.JudgmentDao;
 import com.lyun.policelearning.dao.question.MultipleChoiceDao;
 import com.lyun.policelearning.dao.question.SingleChoiceDao;
+import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.entity.Paper;
 import com.lyun.policelearning.entity.PaperQuestion;
 import com.lyun.policelearning.entity.question.Judgment;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
+import com.lyun.policelearning.utils.ImageTools;
+import com.lyun.policelearning.utils.PathTools;
+import com.lyun.policelearning.utils.UserUtils;
+import com.lyun.policelearning.utils.page.PageRequest;
+import com.lyun.policelearning.utils.page.PageResult;
+import com.lyun.policelearning.utils.page.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +58,15 @@ public class PaperServiceImpl implements PaperService{
     @Autowired
     private ExamDao examDao;
 
+    @Autowired
+    UserDao userDao;
+
+    public static Page page;
+
     @Override
-    public List<Paper> selectAll() {
-        return paperDao.selectAll();
+    public PageResult selectAll(PageRequest pageRequest) {
+        //将pageInfo传递到getPageResult中获得result结果，而pageInfo又是与数据库中的数据有关的
+        return PageUtil.getPageResult(getPageInfo(pageRequest),page);
     }
 
     @Override
@@ -64,10 +84,10 @@ public class PaperServiceImpl implements PaperService{
     }
 
     @Override
-    public int generate(int j, int m, int s,String title) {
+    public int generate(int j, int m, int s,String title,int uid) {
         //新建试卷
         Paper paper = new Paper();
-        paper.setCreateUser(1);
+        paper.setCreateUser(uid);
         paper.setTitle(title);
         paper.setDate(new Date(System.currentTimeMillis()));
         //随机选择题目
@@ -286,4 +306,27 @@ public class PaperServiceImpl implements PaperService{
         }
         return res.toString();
     }
+
+    private PageInfo<?> getPageInfo(PageRequest pageRequest) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        //设置分页数据
+        page = PageHelper.startPage(pageNum,pageSize);
+        List<JSONObject> res = new ArrayList<>();
+        for(Paper paper : paperDao.selectAll()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",paper.getId());
+            if (userDao.getById(paper.getCreateUser()).getUsername() != null){
+                jsonObject.put("createUser",userDao.getById(paper.getCreateUser()).getUsername());
+            }else {
+                jsonObject.put("creatUser",null);
+            }
+            jsonObject.put("date",paper.getDate());
+            jsonObject.put("title",paper.getTitle());
+            jsonObject.put("enable",paper.isEnable());
+            res.add(jsonObject);
+        }
+        return new PageInfo<>(res);
+    }
+
 }
