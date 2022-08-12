@@ -3,6 +3,8 @@ package com.lyun.policelearning.service.paper.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.dao.paper.ExamDao;
 import com.lyun.policelearning.dao.paper.PaperDao;
@@ -300,5 +302,27 @@ public class PaperServiceImpl implements PaperService {
             }
         }
         return res.toString();
+    }
+
+    private PageInfo<?> getPageInfo(PageRequest pageRequest) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        //设置分页数据
+        page = PageHelper.startPage(pageNum,pageSize);
+        List<JSONObject> res = new ArrayList<>();
+        for(Paper paper : paperDao.selectAll()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",paper.getId());
+            if (userDao.getById(paper.getCreateUser()).getUsername() != null){
+                jsonObject.put("createUser",userDao.getById(paper.getCreateUser()).getUsername());
+            }else {
+                jsonObject.put("creatUser",null);
+            }
+            jsonObject.put("date",paper.getDate());
+            jsonObject.put("title",paper.getTitle());
+            jsonObject.put("enable",paper.isEnable());
+            res.add(jsonObject);
+        }
+        return new PageInfo<>(res);
     }
 }
