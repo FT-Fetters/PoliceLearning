@@ -83,6 +83,23 @@ public class CollectApi {
         int userId = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,collectService.findCollect(3,userId));
     }
+    /**
+     * 根据id和type删除
+     */
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    public Object delete(@RequestParam int type,@RequestParam int id,HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        if (type == 1){
+            collectService.deleteCollect(1,id,userId);
+        }else if (type == 2){
+            collectService.deleteCollect(2,id,userId);
+        }else if (type == 3){
+            collectService.deleteCollect(3,id,userId);
+        }else{
+            return new ResultBody<>(false,500,"error id");
+        }
+        return new ResultBody<>(true,200,null);
+    }
 
     /**
      * 删除
