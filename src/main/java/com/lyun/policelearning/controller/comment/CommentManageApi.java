@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.comment;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.CommentService;
 import com.lyun.policelearning.service.RoleService;
@@ -32,11 +33,9 @@ public class CommentManageApi {
     RoleService roleService;
 
 
+    @Permission(admin = true)
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Object deleteComment(@RequestBody JSONObject data, HttpServletRequest request){
-        if (!UserUtils.checkPower(request, 1,jwtConfig, userService,roleService)){
-            return new ResultBody<>(false,-1,"not allow");
-        }
         Integer id = data.getInteger("id");
         if (id==null)return new ResultBody<>(false,500,"miss parameter");
         commentService.deleteComment(id);

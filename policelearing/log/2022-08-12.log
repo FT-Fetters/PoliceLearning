@@ -1,0 +1,5 @@
+2022-08-12 01:23:23 [error] Content type 'multipart/form-data;boundary=--------------------------157314646601878467861175;charset=UTF-8' not supported
+2022-08-12 01:23:32 [error] Required request body is missing: public java.lang.Object com.lyun.policelearning.controller.sys.DeptApi.list(com.lyun.policelearning.entity.Dept)
+2022-08-12 03:28:01 [error] 访问路径:/dept/list权限不足，需要管理员权限
+2022-08-12 03:29:09 [error] 用户 test访问路径:/dept/list权限不足，需要管理员权限
+2022-08-12 03:38:43 [error] 用户 test访问路径:/dept/list权限不足，需要管理员权限

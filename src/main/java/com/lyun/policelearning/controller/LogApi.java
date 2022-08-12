@@ -33,9 +33,6 @@ public class LogApi {
 
     @RequestMapping("/list")
     public Object list(HttpServletRequest request){
-        if (!UserUtils.checkPower(request, 1,jwtConfig, userService,roleService)){
-            return new ResultBody<>(false,-1,"not allow");
-        }
         LogUtils.log("get logs list","get",true,request);
         String path = PathTools.getRunPath() + "/log/";
         File logDir = new File(path);
@@ -52,9 +49,6 @@ public class LogApi {
     @SneakyThrows
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     public Object get(@RequestParam String log, HttpServletRequest request){
-        if (!UserUtils.checkPower(request, 1,jwtConfig, userService,roleService)){
-            return new ResultBody<>(false,-1,"not allow");
-        }
         String path = PathTools.getRunPath() + "/log/";
         File logFile = new File(path + log);
         if (!logFile.exists())return new ResultBody<>(false,500,"log is not exists");

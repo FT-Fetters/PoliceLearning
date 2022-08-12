@@ -9,9 +9,9 @@ public interface UserDao extends BaseDao<User>{
     int getRole(String username);
     User getById(int id);
     Integer count();
-    void newUser(String username,String password,String nickname,String realname,Integer role,String phone,String sex);
+    void newUser(String username,String password,String nickname,String realname,Integer role,String phone,String sex,Long dept);
     void deleteUser(int id);
-    void updateUser(int id,String username,String nickname,String realname,Integer role,String phone,String sex);
+    void updateUser(int id,String username,String nickname,String realname,Integer role,String phone,String sex,Long dept);
     void changePassword(String username,String password);
     void changeNickname(String username,String nickname);
 }

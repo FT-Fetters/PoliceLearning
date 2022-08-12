@@ -1,9 +1,7 @@
 package com.lyun.policelearning.controller.rule;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.service.RuleService;
-import com.lyun.policelearning.service.RuleServiceImpl;
 import com.lyun.policelearning.utils.ResultBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

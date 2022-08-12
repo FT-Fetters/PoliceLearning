@@ -1,9 +1,16 @@
 package com.lyun.policelearning.interceptor;
 
 import com.alibaba.druid.util.StringUtils;
+import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.entity.Role;
+import com.lyun.policelearning.entity.User;
+import com.lyun.policelearning.service.RoleService;
+import com.lyun.policelearning.service.UserService;
+import com.lyun.policelearning.utils.UserUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.annotation.Resource;
@@ -12,10 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.security.SignatureException;
 
 @Component
-    public class TokenInterceptor extends HandlerInterceptorAdapter {
+public class TokenInterceptor extends HandlerInterceptorAdapter {
 
     @Resource
-    private JwtConfig jwtConfig ;
+    private JwtConfig jwtConfig;
+
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private RoleService roleService;
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
@@ -50,6 +63,23 @@ import java.security.SignatureException;
 
         /* 设置 identityId 用户身份ID */
         request.setAttribute("identityId", claims.getSubject());
+        /* 权限判断 */
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        //类注解
+        Permission cla_ann = handlerMethod.getBeanType().getAnnotation(Permission.class);
+        //方法注解
+        Permission met_ann = handlerMethod.getMethodAnnotation(Permission.class);
+        if (cla_ann != null || met_ann !=null){
+            if ((cla_ann!=null && cla_ann.admin()) || (met_ann!=null && met_ann.admin())){
+                if (met_ann!=null && !met_ann.admin())
+                    return true;
+                User user = userService.getById(UserUtils.getUserId(request, jwtConfig));
+                Role role = roleService.findById(user.getRole());
+                if (!role.isAdmin()){
+                    throw new SignatureException("用户 " + UserUtils.getUsername(request,jwtConfig) +"访问路径:" + uri + "权限不足，需要管理员权限");
+                }
+            }
+        }
         return true;
     }
 }

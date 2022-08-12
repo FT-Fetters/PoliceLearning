@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.paper;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.controller.paper.model.PaperSubmitBody;
 import com.lyun.policelearning.entity.Paper;
@@ -26,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+@Permission()
 @RestController
 @RequestMapping("/paper")
 public class PaperApi {
@@ -54,6 +56,7 @@ public class PaperApi {
     /**
      * 用户获取所有试卷列表
      */
+    @Permission(admin = false)
     @GetMapping("/select/user/all")
     public Object userSelectAll(HttpServletRequest request){
         return new ResultBody<>(true,200,paperService.userSelectAll(UserUtils.getUserId(request,jwtConfig)));
@@ -86,6 +89,7 @@ public class PaperApi {
      * 用户获取指定的试卷
      * @param id 试卷的id
      */
+    @Permission(admin = false)
     @GetMapping("/get/user/{id}")
     public Object userGetById(@PathVariable int id){
         JSONObject paper = paperService.userGetById(id);
@@ -135,6 +139,7 @@ public class PaperApi {
         }
     }
 
+    @Permission(admin = false)
     @PostMapping("/exam/submit")
     public Object submit(@RequestBody PaperSubmitBody paperSubmitBody,HttpServletRequest request){
         int user_id = UserUtils.getUserId(request,jwtConfig);
@@ -157,16 +162,19 @@ public class PaperApi {
         return new ResultBody<>(true,200,examService.selectByUserId(user_id));
     }
 
+    @Permission(admin = false)
     @GetMapping("/exam/score/{paper_id}")
     public Object getExamScore(@PathVariable int paper_id,HttpServletRequest request){
         int user_id = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,examService.getExamScore(paper_id,user_id));
     }
 
+    @Permission(admin = false)
     @GetMapping("/exam/grades/all/{paper_id}")
     public Object exportGrades(@PathVariable int paper_id){
         return new ResultBody<>(true,200,examService.selectPaperGrades(paper_id));
     }
+
 
     @GetMapping("/export/{id}")
     public void exportPaper(HttpServletResponse response, @PathVariable int id){

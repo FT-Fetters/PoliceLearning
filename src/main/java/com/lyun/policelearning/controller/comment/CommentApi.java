@@ -82,6 +82,9 @@ public class CommentApi {
     }
 
 
+    /**
+     * 评论新规
+     */
     @RequestMapping(value = "/rule",method = RequestMethod.POST)
     public Object commentRule(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);

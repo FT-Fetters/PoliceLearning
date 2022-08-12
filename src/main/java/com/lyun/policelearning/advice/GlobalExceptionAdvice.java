@@ -7,11 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.security.SignatureException;
-import java.util.Arrays;
 
 @ControllerAdvice
 public class GlobalExceptionAdvice {

@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.course;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.Teach;
 import com.lyun.policelearning.service.CourseService;
@@ -41,6 +42,7 @@ public class TeachApi {
     //创建一个值用于记录将要被删除的元素
     public static List<JSONObject> list = new ArrayList<>() ;
     @SneakyThrows
+    @Permission(admin = true)
     @RequestMapping("/upload/picture")
     public Object uploadPicture(@RequestParam MultipartFile file){
         String fileName ="";
@@ -81,6 +83,7 @@ public class TeachApi {
     @SneakyThrows
     @RequestMapping("/upload/video")
     @ResponseBody
+    @Permission(admin = true)
     public Object editorOfVideo(@RequestParam("file") MultipartFile file) {
         String fileName ="";
         if(!file.isEmpty()){
@@ -128,6 +131,7 @@ public class TeachApi {
      * @param id
      * @return
      */
+    @Permission(admin = true)
     @RequestMapping(value = "getById",method = RequestMethod.GET)
     public Object getById(@RequestParam int id){
         if (id <= 0){
@@ -141,6 +145,7 @@ public class TeachApi {
      * 保存课程的内容
      * @return 返回课程的id
      */
+    @Permission(admin = true)
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public Object save(@RequestBody Teach teach){
         /*if(content.isEmpty()){
@@ -154,6 +159,7 @@ public class TeachApi {
      * 修改课程的内容
      * 传入id 然后也要返回id
      */
+    @Permission(admin = true)
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Object update(@RequestBody Teach teach){
         int id = teach.getId();
@@ -175,14 +181,12 @@ public class TeachApi {
      * @param request
      * @return
      */
+    @Permission(admin = true)
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     @SneakyThrows
     public Object addVideo(@RequestParam("id") int id,
                            @RequestParam("courseName") String courseName,
                            @RequestParam("name") String name, HttpServletRequest request){
-        if (!UserUtils.checkPower(request, 1, jwtConfig,userService,roleService)){
-            return new ResultBody<>(false,-1,"not allow");
-        }
         if (id <= 0){
             return new ResultBody<>(false,501,"error id");
         }
@@ -216,11 +220,9 @@ public class TeachApi {
         return new ResultBody<>(true,200,null);
     }
 
+    @Permission(admin = true)
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
     public Object delete(@RequestParam String courseName,@RequestParam String name,HttpServletRequest request){
-        if (!UserUtils.checkPower(request, 1, jwtConfig,userService,roleService)){
-            return new ResultBody<>(false,-1,"not allow");
-        }
         if (courseName == null || name == null){
             return new ResultBody<>(false,500,"missing parameter");
         }

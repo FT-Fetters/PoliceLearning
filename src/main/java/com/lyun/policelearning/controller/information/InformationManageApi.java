@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.information;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.service.InformationService;
 import com.lyun.policelearning.utils.ImageTools;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Permission(admin = true)
 @RestController
 @RequestMapping("/information/manage")
 public class InformationManageApi {
@@ -32,6 +34,7 @@ public class InformationManageApi {
      * @param pageQuery
      * @return
      */
+    @Permission(admin = true)
     @RequestMapping(value="/getPage",method = RequestMethod.POST)
     public Object findPage(@RequestBody PageRequest pageQuery, HttpServletResponse response) {
         if(pageQuery.getPageSize() <= 0||pageQuery.getPageNum()<=0){
@@ -47,6 +50,7 @@ public class InformationManageApi {
      * @param id
      * @return
      */
+    @Permission(admin = true)
     @RequestMapping(value = "/getPage/content",method = RequestMethod.GET)
     public Object getRuleById(@RequestParam int id) throws Exception {
         JSONObject res = informationService.getInformationById(id);

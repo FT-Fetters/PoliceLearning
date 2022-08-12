@@ -11,9 +11,9 @@ public interface UserService {
     User getByUsername(String username);
     User getById(int id);
     int count();
-    void newUser(String username,String password,String nickname,String realname,Integer role,String phone,String sex);
+    void newUser(String username,String password,String nickname,String realname,Integer role,String phone,String sex,Long dept);
     void deleteUser(Integer id);
-    void updateUser(Integer id,String username,String nickname,String realname,Integer role,String phone,String sex);
+    void updateUser(Integer id,String username,String nickname,String realname,Integer role,String phone,String sex,Long dept);
     List<User> findAll();
     void changePassword(String username,String password);
     void changeNickname(String username,String nickname);

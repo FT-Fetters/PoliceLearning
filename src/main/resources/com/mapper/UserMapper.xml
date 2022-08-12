@@ -6,14 +6,15 @@
     <select id="getRole" resultType="Integer">SELECT role FROM user WHERE username=#{username}</select>
     <select id="getById" resultType="User">SELECT * FROM user WHERE id=#{id}</select>
     <select id="count" resultType="Integer">SELECT COUNT(*) FROM user</select>
-    <insert id="newUser">INSERT INTO user(username,password,nickname,realname,role,phone,sex) VALUES (
+    <insert id="newUser">INSERT INTO user(username,password,nickname,realname,role,phone,sex,dept) VALUES (
                                                                    #{username},
                                                                    #{password},
                                                                    #{nickname},
                                                                    #{realname},
                                                                    #{role},
                                                                    #{phone},
-                                                                   #{sex}
+                                                                   #{sex},
+                                                                   #{dept}
                                                                                            )</insert>
     <delete id="deleteUser">DELETE FROM user WHERE id=#{id}</delete>
     <update id="updateUser">UPDATE user SET
@@ -22,7 +23,8 @@
                                             realname=#{realname},
                                             role=#{role},
                                             phone=#{phone},
-                                            sex=#{sex}
+                                            sex=#{sex},
+                                            dept=#{dept}
                                             WHERE id=#{id}</update>
     <update id="changePassword">UPDATE user SET password=#{password} WHERE username=#{username}</update>
     <update id="changeNickname">UPDATE `user` SET nickname=#{nickname} WHERE username=#{username}</update>

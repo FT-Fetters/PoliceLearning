@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.collect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.CollectService;
@@ -27,6 +28,7 @@ public class CollectApi {
     @Autowired
     JwtConfig jwtConfig;
 
+    @Permission(admin = true)
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object collect(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);

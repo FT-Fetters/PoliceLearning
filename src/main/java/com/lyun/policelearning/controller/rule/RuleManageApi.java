@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.rule;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.service.RuleService;
 import com.lyun.policelearning.utils.ResultBody;
@@ -8,6 +9,7 @@ import com.lyun.policelearning.utils.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Permission
 @RestController()
 @RequestMapping("/rule/manage")
 public class RuleManageApi {
@@ -32,6 +34,7 @@ public class RuleManageApi {
      * @param id
      * @return
      */
+    @Permission(admin = false)
     @RequestMapping(value = "/getPage/content",method = RequestMethod.GET)
     public Object getRuleById(@RequestParam int id){
         JSONObject res = ruleService.getRuleById(id);

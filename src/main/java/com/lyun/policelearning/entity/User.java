@@ -74,4 +74,5 @@ public class User {
     private String realname;
     private String phone;
     private String sex;
+    private Long dept;
 }

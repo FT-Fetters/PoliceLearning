@@ -3,6 +3,7 @@ package com.lyun.policelearning.controller.law;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
+import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.Law;
 import com.lyun.policelearning.service.LawService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Permission(admin = true)
 @RestController
 @RequestMapping("/law/manage")
 public class LawManageApi {
@@ -77,9 +79,6 @@ public class LawManageApi {
      */
     @RequestMapping(value = "/catalogue",method = RequestMethod.GET)
     public Object getCatalogueByType(@RequestParam String lawtype, HttpServletRequest request){
-        if (!UserUtils.checkPower(request, 1,jwtConfig, userService,roleService)){
-            return new ResultBody<>(false,-1,"not allow");
-        }
         if(lawtype == null){
             return new ResultBody<>(false,500,"error type");
         }
