@@ -137,8 +137,13 @@ public class MultipleChoiceManageApi {
         multipleChoice.setOption_c("选项C");
         multipleChoice.setOption_d("选项D");
         multipleChoice.setAnswer("AB");
+        multipleChoices.add(multipleChoice);
+        //设置头属性  设置文件名称
         response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
-        EasyExcel.write(response.getOutputStream()).head(MultipleChoice.class).sheet("模板").doWrite(multipleChoices);
+        EasyExcel.write(response.getOutputStream())
+                .head(MultipleChoice.class)
+                .sheet("模板")
+                .doWrite(multipleChoices);
 
     }
 

@@ -9,7 +9,7 @@
     <delete id="deleteById">DELETE FROM information WHERE id=#{id}</delete>
     <update id="updateById">UPDATE information SET title=#{information.title},content=#{information.content},view=#{information.view},date=#{information.date} WHERE id=#{information.id}</update>
     <update id="updateTopById">UPDATE information SET istop=#{istop} WHERE id=#{id}</update>
-    <update id="updateView">UPDATE information SET view = view + 1 WHERE id=1</update>
+    <update id="updateView">UPDATE information SET view = view + 1 WHERE id=#{id}</update>
     <select id="getPictureById" resultType="Information">SELECT * FROM information WHERE id=#{id}</select>
     <select id="getPicture" resultType="Information">SELECT * FROM information WHERE ischoose=1</select>
     <select id="getAllPicture" resultType="Information">SELECT * FROM information</select>

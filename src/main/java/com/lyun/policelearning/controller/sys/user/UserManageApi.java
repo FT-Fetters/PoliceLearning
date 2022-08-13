@@ -1,24 +1,29 @@
 package com.lyun.policelearning.controller.sys.user;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.node.POJONode;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.User;
+import com.lyun.policelearning.entity.UserTemplate;
+import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.service.RoleService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.PinYinUtil;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Permission
@@ -135,5 +140,60 @@ public class UserManageApi {
         ret.put("password",password);
         return new ResultBody<>(true,200,ret);
     }
-
+    /**
+     * 2022.8.13
+     * deng
+     * 获取警员模板
+     */
+    @SneakyThrows
+    @RequestMapping(value = "/download/template",method = RequestMethod.GET)
+    public void getTemplate(HttpServletResponse response){
+        List<UserTemplate> users = new ArrayList<>();
+        UserTemplate userTemplate = new UserTemplate();
+        userTemplate.setName("张三");
+        userTemplate.setPhone("150xxxxxxxx");
+        userTemplate.setSex("男");
+        userTemplate.setDept("通讯部");
+        users.add(userTemplate);
+        //设置头属性  设置文件名称
+        response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
+        EasyExcel.write(response.getOutputStream())
+                .head(UserTemplate.class)
+                .sheet("模板")
+                .doWrite(users);
+    }
+    /**
+     * 2022.8.13
+     * deng
+     * 警员批量导入
+     */
+    @SneakyThrows
+    @RequestMapping(value = "/import/excel",method = RequestMethod.POST)
+    public Object importExcel(@RequestParam("file") MultipartFile file){
+        if (file.isEmpty()){
+            return new ResultBody<>(true,-1,"empty file");
+        }
+        List<User> users = EasyExcel.read(file.getInputStream()).head(User.class).sheet().doReadSync();
+        for(User user : users){
+            String username = PinYinUtil.getPinyin(user.getRealname()) + new Random().nextInt(3000);
+            String password = DigestUtils.md5DigestAsHex((username + user.getPhone() + System.currentTimeMillis()).getBytes(StandardCharsets.UTF_8)).substring(0,10);
+            userService.newUser(username, password, user.getRealname(), user.getRealname(), 2,user.getPhone(),user.getSex(),user.getDept());
+        }
+        return new ResultBody<>(true,200,null);
+    }
+    /**
+     * 2022.8.13
+     * deng
+     * 批量导出警员
+     */
+    @SneakyThrows
+    @RequestMapping(value = "/output/excel",method = RequestMethod.GET)
+    public void output(HttpServletResponse response){
+        List<User> users = userService.findAll();
+        response.setHeader("Content-Disposition", "attachment;filename=police.xlsx");
+        EasyExcel.write(response.getOutputStream())
+                .head(User.class)
+                .sheet("警员信息")
+                .doWrite(users);
+    }
 }
