@@ -12,6 +12,7 @@ import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class TeachApi {
             //返回的是字节长度,1M=1024k=1048576字节 也就是if(fileSize<5*1048576)
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
             if(StringUtils.isBlank(suffix)){
-                return new ResultBody<>(false,500,"图片过大");
+                return new ErrorResponse(1,"图片过大");
             }
 
             fileName = System.currentTimeMillis()+suffix;
@@ -66,18 +67,16 @@ public class TeachApi {
                 file.transferTo(dest); //保存文件
             } catch (Exception e) {
                 e.printStackTrace();
-                return new ResultBody<>(false,500,"未保存成功");
+                return new ErrorResponse(1,e.getMessage());
             }
         }else {
-            return new ResultBody<>(false,500,"其他错误");
+            return new ErrorResponse(1,"其它问题，请联系管理员");
         }
         InetAddress address = InetAddress.getLocalHost();
         String imgUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/coursePicture/" + fileName;
-        List<JSONObject> res = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",imgUrl);
-        res.add(jsonObject);
-        return new ResultBody<>(true,200,res);
+        return new PictureResponse(0,jsonObject);
     }
 
     @SneakyThrows
@@ -89,9 +88,7 @@ public class TeachApi {
         if(!file.isEmpty()){
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
             if(StringUtils.isBlank(suffix)){
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("message","文件没有后缀名，请重新上传");
-                return new ResultBody<>(false,500,jsonObject);
+                return new ErrorResponse(1,"文件没有后缀名，请重新上传");
             }
 
             fileName = System.currentTimeMillis()+suffix;
@@ -107,23 +104,17 @@ public class TeachApi {
                 file.transferTo(dest); //保存文件
             } catch (Exception e) {
                 e.printStackTrace();
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("message",e.getMessage());
-                return new ResultBody<>(false,500,jsonObject);
+                return new ErrorResponse(1,e.getMessage());
             }
         }else {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("message","上传出错");
-            return new ResultBody<>(false,500,jsonObject);
+            return new ErrorResponse(1,"上传出错");
         }
         InetAddress address = InetAddress.getLocalHost();;
         String url = address.getHostAddress();
-        String videoUrl = "http://" + url + ":8080/api/upload/courseVideo/" + fileName;
-        List<JSONObject> res = new ArrayList<>();
+        String videoUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/courseVideo/" + fileName;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",videoUrl);
-        res.add(jsonObject);
-        return new ResultBody<>(true,200,res);
+        return new WangEditorResponse(0,jsonObject);
     }
 
     /**
@@ -241,5 +232,36 @@ public class TeachApi {
         catalogue.removeAll(list);
         courseService.changeCatalogue(courseName,JSONArray.parseArray(catalogue.toString()));
         return new ResultBody<>(true,200,null);
+    }
+    @Data
+    private class PictureResponse{
+        int errno;
+        Object data;
+        public PictureResponse(int errno,Object data){
+            this.errno=errno;
+            this.data=data;
+        }
+        public PictureResponse(int errno){
+            this.errno=errno;
+        }
+    }
+    @Data
+    private class ErrorResponse{
+        int errno;
+        Object message;
+        public ErrorResponse(int errno,Object message){
+            this.errno = errno;
+            this.message = message;
+        }
+    }
+
+    @Data
+    private class WangEditorResponse{
+        int errno;
+        JSONObject data;
+        public WangEditorResponse(int errno,JSONObject data){
+            this.errno=errno;
+            this.data=data;
+        }
     }
 }
