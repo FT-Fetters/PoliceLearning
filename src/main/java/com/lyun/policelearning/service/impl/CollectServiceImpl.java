@@ -62,6 +62,14 @@ public class CollectServiceImpl implements CollectService {
         collectDao.deleteCollect(type,articleId,userId);
     }
 
+    @Override
+    public boolean isCollect(int type, int articleId, int userId) {
+        if (collectDao.check(userId,type,articleId) == null){
+            return false;
+        }
+        return true;
+    }
+
     @SneakyThrows
     public List<JSONObject> findInformation(int userId){
         List<JSONObject> res = new ArrayList<>();

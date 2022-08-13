@@ -11,4 +11,5 @@ public interface CollectService {
     boolean collect(int type, int articleId,int userId);
     Object findCollect(int type,int userId);
     void deleteCollect(int type,int articleId,int userId);
+    boolean isCollect(int type,int articleId,int userId);
 }

@@ -1,8 +1,11 @@
 package com.lyun.policelearning.controller.law;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.service.CollectService;
 import com.lyun.policelearning.service.LawService;
 import com.lyun.policelearning.utils.ResultBody;
+import com.lyun.policelearning.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,11 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/law")
 public class LawApi {
     @Autowired
     LawService lawService;
+    @Autowired
+    CollectService collectService;
+    @Autowired
+    JwtConfig jwtConfig;
     /**
      * 获取所有的法律类型
      * @return 返回法律类型这一列表
@@ -56,11 +65,13 @@ public class LawApi {
      * @return 返回该tittle所对应的法律的所有内容
      */
     @RequestMapping(value = "/content",method = RequestMethod.GET)
-        public Object getContent(@RequestParam String title) {
+        public Object getContent(@RequestParam String title, HttpServletRequest request) {
         if (title == null) {
             return new ResultBody<>(false, 500, "error title");
         }
+        int userId = UserUtils.getUserId(request,jwtConfig);
         JSONObject res = lawService.findContent(title);
+        res.put("isCollect",collectService.isCollect(2,res.getInteger("id"),userId));
         if (res != null) {
             return new ResultBody<>(true, 200, res);
         } else {
