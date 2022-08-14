@@ -52,7 +52,7 @@ public class InformationApi {
         JSONObject res = informationService.getInformationById(id);
         //获取用户的id  以及获取文章的id  传入类型进行查询 结果不为null 则isCollect=true
         int userId = UserUtils.getUserId(request,jwtConfig);
-        res.put("isCollect",!collectService.collect(1,id,userId));
+        res.put("isCollect",!collectService.isCollect(1,id,userId));
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
