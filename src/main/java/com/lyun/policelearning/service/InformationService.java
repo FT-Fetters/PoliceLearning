@@ -27,5 +27,6 @@ public interface InformationService {
     Information getInformationByTitle(String title);
     int count();
     PageResult findPicture(PageRequest pageRequest);
+    List<JSONObject> findPicture();
 
 }

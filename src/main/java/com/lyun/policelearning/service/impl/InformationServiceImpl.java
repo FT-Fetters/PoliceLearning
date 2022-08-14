@@ -233,6 +233,29 @@ public class InformationServiceImpl implements InformationService {
         return PageUtil.getPageResult(getPictureInfo(pageRequest),page);
     }
 
+    @SneakyThrows
+    @Override
+    public List<JSONObject> findPicture() {
+        List<JSONObject> res = new ArrayList<>();
+        for (Information information : informationDao.getAllPicture()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", information.getId());
+            jsonObject.put("title", information.getTitle());
+            if (information.getPicture() != null) {
+                String savePath = PathTools.getRunPath() + "/image/";
+                String imagePath = savePath + information.getPicture();
+                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
+                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                jsonObject.put("picture", imgBase64);
+            } else {
+                jsonObject.put("picture", null);
+            }
+            jsonObject.put("ischoose", information.getIschoose());
+            res.add(jsonObject);
+        }
+        return res;
+    }
+
 
     @SneakyThrows
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {

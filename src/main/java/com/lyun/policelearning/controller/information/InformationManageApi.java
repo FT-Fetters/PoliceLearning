@@ -231,7 +231,13 @@ public class InformationManageApi {
     public Object getPicture() throws Exception {
         return new ResultBody<>(true,200,informationService.getPicture());
     }
-
+    /**
+     * 返回所有的图片（不分页）
+     */
+    @RequestMapping(value = "/findAllPicture",method = RequestMethod.GET)
+    public Object findAllPicture(){
+        return new ResultBody<>(true,200,informationService.findPicture());
+    }
     /**
      * 前端设计一个下拉框从所有的资讯内容中选择
      * @return
