@@ -1,6 +1,7 @@
 package com.lyun.policelearning.interceptor;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.Role;
@@ -17,6 +18,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.SignatureException;
+import java.util.Arrays;
+import java.util.Map;
 
 @Component
 public class TokenInterceptor extends HandlerInterceptorAdapter {
@@ -33,8 +36,24 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws SignatureException {
-        /* 地址过滤 */
+        /* 请求输出 */
         String uri = request.getRequestURI() ;
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (int i = 0; i < uri.length()*2; i++) {
+            System.out.print("-");
+        }
+        System.out.println();
+        System.out.println("访问地址:"+uri);
+        System.out.println("参数:");
+        for (String s : parameterMap.keySet()) {
+            System.out.println(s+":" + Arrays.toString(parameterMap.get(s)));
+        }
+        for (int i = 0; i < uri.length()*2; i++) {
+            System.out.print("-");
+        }
+        System.out.println();
+
+        /* 地址过滤 */
         if (uri.contains("/login") || uri.contains("/video") ||
                 uri.contains("/course/all") || uri.contains("/test/run") ||
                 uri.contains("/pki") || uri.contains("/api") ||
@@ -64,19 +83,21 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         /* 设置 identityId 用户身份ID */
         request.setAttribute("identityId", claims.getSubject());
         /* 权限判断 */
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        //类注解
-        Permission cla_ann = handlerMethod.getBeanType().getAnnotation(Permission.class);
-        //方法注解
-        Permission met_ann = handlerMethod.getMethodAnnotation(Permission.class);
-        if (cla_ann != null || met_ann !=null){
-            if ((cla_ann!=null && cla_ann.admin()) || (met_ann!=null && met_ann.admin())){
-                if (met_ann!=null && !met_ann.admin())
-                    return true;
-                User user = userService.getById(UserUtils.getUserId(request, jwtConfig));
-                Role role = roleService.findById(user.getRole());
-                if (!role.isAdmin()){
-                    throw new SignatureException("用户 " + UserUtils.getUsername(request,jwtConfig) +"访问路径:" + uri + "权限不足，需要管理员权限");
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            //类注解
+            Permission cla_ann = handlerMethod.getBeanType().getAnnotation(Permission.class);
+            //方法注解
+            Permission met_ann = handlerMethod.getMethodAnnotation(Permission.class);
+            if (cla_ann != null || met_ann !=null){
+                if ((cla_ann!=null && cla_ann.admin()) || (met_ann!=null && met_ann.admin())){
+                    if (met_ann!=null && !met_ann.admin())
+                        return true;
+                    User user = userService.getById(UserUtils.getUserId(request, jwtConfig));
+                    Role role = roleService.findById(user.getRole());
+                    if (!role.isAdmin()){
+                        throw new SignatureException("用户 " + UserUtils.getUsername(request,jwtConfig) +"访问路径:" + uri + "权限不足，需要管理员权限");
+                    }
                 }
             }
         }

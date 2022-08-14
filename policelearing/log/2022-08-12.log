@@ -3,8 +3,11 @@
 2022-08-12 03:28:01 [error] 访问路径:/dept/list权限不足，需要管理员权限
 2022-08-12 03:29:09 [error] 用户 test访问路径:/dept/list权限不足，需要管理员权限
 2022-08-12 03:38:43 [error] 用户 test访问路径:/dept/list权限不足，需要管理员权限
+2022-08-12 04:25:13 [error] 用户 test访问路径:/dept/list权限不足，需要管理员权限
+2022-08-12 04:25:13 [error] 用户 test访问路径:/dept/list权限不足，需要管理员权限
+2022-08-12 04:25:20 [error] 用户 test访问路径:/dept/list权限不足，需要管理员权限
 2022-08-12 05:23:41 [error] Request method 'GET' not supported
-2022-08-12 05:23:45 [error] 
+2022-08-12 05:23:45 [error]
 ### Error updating database.  Cause: java.sql.SQLException: Incorrect integer value: '测试' for column 'type' at row 1
 ### The error may involve defaultParameterMap
 ### The error occurred while setting parameters
