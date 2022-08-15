@@ -19,4 +19,5 @@ public interface PaperService {
     boolean enable(int id);
     boolean disable(int id);
     String getPaperAnswer(int id);
+    int count();
 }

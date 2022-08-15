@@ -5,6 +5,7 @@ import com.lyun.policelearning.dao.question.SingleChoiceDao;
 import com.lyun.policelearning.entity.question.Judgment;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
+import com.lyun.policelearning.service.paper.PaperService;
 import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.service.question.SingleChoiceService;
@@ -36,6 +37,9 @@ public class MockExaminationApi {
 
     @Autowired
     JudgmentService judgmentService;
+
+    @Autowired
+    PaperService paperService;
 
     @SneakyThrows
     @RequestMapping("/sample")
@@ -72,7 +76,7 @@ public class MockExaminationApi {
 
     @RequestMapping(value = "/count",method = RequestMethod.GET)
     public Object count(){
-        try {
+        /*try {
             File file = new File(PathTools.getRunPath() + "/mock/count.txt");
             boolean b = file.setWritable(true, false);
             if (file.exists()){
@@ -86,7 +90,9 @@ public class MockExaminationApi {
         }catch (IOException e) {
             e.printStackTrace();
             return new ResultBody<>(false,-1,"unknown error");
-        }
+        }*/
+        //计算出试卷的数量
+        return new ResultBody<>(true,200,paperService.count());
     }
 
 }
