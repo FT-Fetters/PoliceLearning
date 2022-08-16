@@ -8,6 +8,7 @@ import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.entity.UserTemplate;
 import com.lyun.policelearning.entity.question.MultipleChoice;
+import com.lyun.policelearning.service.DeptService;
 import com.lyun.policelearning.service.RoleService;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.PinYinUtil;
@@ -39,6 +40,9 @@ public class UserManageApi {
 
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    DeptService deptService;
 
     @Permission(admin = true)
     @RequestMapping(value = "/count",method = RequestMethod.GET)
@@ -173,11 +177,15 @@ public class UserManageApi {
         if (file.isEmpty()){
             return new ResultBody<>(true,-1,"empty file");
         }
-        List<User> users = EasyExcel.read(file.getInputStream()).head(User.class).sheet().doReadSync();
-        for(User user : users){
-            String username = PinYinUtil.getPinyin(user.getRealname()) + new Random().nextInt(3000);
-            String password = DigestUtils.md5DigestAsHex((username + user.getPhone() + System.currentTimeMillis()).getBytes(StandardCharsets.UTF_8)).substring(0,10);
-            userService.newUser(username, password, user.getRealname(), user.getRealname(), 2,user.getPhone(),user.getSex(),user.getDept());
+        List<UserTemplate> userTemplates = EasyExcel.read(file.getInputStream()).head(UserTemplate.class).sheet().doReadSync();
+        for(UserTemplate userTemplate : userTemplates){
+            String username = PinYinUtil.getPinyin(userTemplate.getName()) + new Random().nextInt(3000);
+            String password = "123456";
+            Long dept = 0L;
+            if (deptService.getByName(userTemplate.getDept()) != null){
+                 dept = Long.parseLong(deptService.getByName(userTemplate.getDept()).getId());
+            }
+            userService.newUser(username, password, userTemplate.getName(), userTemplate.getName(), 2,userTemplate.getPhone(),userTemplate.getSex(),dept);
         }
         return new ResultBody<>(true,200,null);
     }
@@ -190,6 +198,20 @@ public class UserManageApi {
     @RequestMapping(value = "/output/excel",method = RequestMethod.GET)
     public void output(HttpServletResponse response){
         List<User> users = userService.findAll();
+        for (User user : users){
+            if ("e10adc3949ba59abbe56e057f20f883e".equals(user.getPassword())){
+                user.setPassword("123456");
+            }else {
+                user.setPassword(null);
+            }
+            if (user.getDept() != null) {
+                if (deptService.selectDeptById(user.getDept().toString()) != null) {
+                    user.setDeptName(deptService.selectDeptById(user.getDept().toString()).getName());
+                } else {
+                    user.setDeptName(null);
+                }
+            }
+        }
         response.setHeader("Content-Disposition", "attachment;filename=police.xlsx");
         EasyExcel.write(response.getOutputStream())
                 .head(User.class)

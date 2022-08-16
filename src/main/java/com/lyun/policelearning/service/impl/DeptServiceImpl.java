@@ -26,6 +26,11 @@ public class DeptServiceImpl implements DeptService {
         return deptDao.selectDeptById(id);
     }
 
+    @Override
+    public Dept getByName(String name) {
+        return deptDao.getByName(name);
+    }
+
     /**
      * 查询部门列表
      *
