@@ -87,6 +87,8 @@ public class User {
     private String phone;
     @ExcelProperty("性别")
     private String sex;
-    @ExcelProperty("部门")
+    @ExcelIgnore
     private Long dept;
+    @ExcelProperty("部门")
+    private String deptName;
 }

@@ -58,4 +58,5 @@
             #{id}
         </foreach>
     </delete>
+    <select id="getByName" resultType="Dept">SELECT * FROM dept WHERE name=#{name}</select>
 </mapper>

@@ -68,7 +68,7 @@ public class CommentApi {
         String content = data.getString("content");
         Integer hostId = data.getInteger("hostId");
         if (content == null || hostId == null){
-            LogUtils.log(username+" comment but missing parameter","fail",false,request);
+            LogUtils.log(username+" comment· but missing parameter","fail",false,request);
             return new ResultBody<>(false,501,"missing parameter");
         }
         if (parentId == null){

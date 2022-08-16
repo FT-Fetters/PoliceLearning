@@ -17,6 +17,11 @@ public interface DeptDao {
     public Dept selectDeptById(String id);
 
     /**
+     *根据名称获取部门
+     */
+    Dept getByName(String name);
+
+    /**
      * 查询部门列表
      *
      * @param dept 部门

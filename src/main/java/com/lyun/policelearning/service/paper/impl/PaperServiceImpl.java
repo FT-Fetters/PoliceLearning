@@ -304,6 +304,11 @@ public class PaperServiceImpl implements PaperService {
         return res.toString();
     }
 
+    @Override
+    public int count() {
+        return paperDao.selectAll().size();
+    }
+
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();

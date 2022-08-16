@@ -48,7 +48,7 @@ public class PaperApi {
     /**
      * 管理员获取所有试卷列表
      */
-    @GetMapping ("/select/all")
+    @PostMapping ("/select/all")
     public Object selectAll(@RequestBody PageRequest pageQuery) {
         return new ResultBody<>(true, 200,paperService.selectAll(pageQuery));
     }
