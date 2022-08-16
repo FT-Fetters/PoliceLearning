@@ -38,62 +38,61 @@ public class CourseApi {
 
     /**
      * 获取所有的课程
+     *
      * @return 所有的课程列表
      */
     @RequestMapping("/all")
-    public Object getAll(){
-        return new ResultBody<>(true,200,courseService.findAll());
+    public Object getAll() {
+        return new ResultBody<>(true, 200, courseService.findAll());
     }
 
     /**
      * 通过id获取指定的课程
+     *
      * @param id 要获取的课程的id
      * @return 指定的课程
      */
-    @RequestMapping(value = "/get",method = RequestMethod.GET)
-    public Object get(@RequestParam int id, HttpServletRequest request){
-        if(id <= 0){
-            return new ResultBody<>(false,500,"error id");
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public Object get(@RequestParam int id, HttpServletRequest request) {
+        if (id <= 0) {
+            return new ResultBody<>(false, 500, "error id");
         }
-        LogUtils.log("get course list","get",true,request);
+        LogUtils.log("get course list", "get", true, request);
         JSONObject res = courseService.getCourseById(id);
-        if (res != null){
-            return new ResultBody<>(true,200,res);
-        }else {
-            return new ResultBody<>(false,501,"unknown id");
+        if (res != null) {
+            return new ResultBody<>(true, 200, res);
+        } else {
+            return new ResultBody<>(false, 501, "unknown id");
         }
     }
 
     /**
      * 获取指定id的课程下的目录json列表
+     *
      * @param id 指定的id
      * @return 指定id的课程的目录
      */
-    @RequestMapping(value = "/catalogue",method = RequestMethod.GET)
-    public Object getCourseCatalogue(@RequestParam int id, HttpServletRequest request){
-        if(id <= 0){
-            return new ResultBody<>(false,500,"error id");
+    @RequestMapping(value = "/catalogue", method = RequestMethod.GET)
+    public Object getCourseCatalogue(@RequestParam int id, HttpServletRequest request) {
+        if (id <= 0) {
+            return new ResultBody<>(false, 500, "error id");
         }
-        LogUtils.log(  "get course catalogue","get",true,request);
+        LogUtils.log("get course catalogue", "get", true, request);
         JSONArray res = courseService.getCatalogue(id);
-        if (res != null){
-            return new ResultBody<>(true,200,res);
-        }else {
-            return new ResultBody<>(false,501,"not found this id");
+        if (res != null) {
+            return new ResultBody<>(true, 200, res);
+        } else {
+            return new ResultBody<>(false, 501, "not found this id");
         }
     }
 
-    @RequestMapping(value = "/introduce",method = RequestMethod.GET)
-    public Object getCourseIntroduce(@RequestParam int id){
-        if(id <= 0){
-            return new ResultBody<>(false,500,"error id");
+    @RequestMapping(value = "/introduce", method = RequestMethod.GET)
+    public Object getCourseIntroduce(@RequestParam int id) {
+        if (id <= 0) {
+            return new ResultBody<>(false, 500, "error id");
         }
         String res = courseService.getIntroduce(id);
-        if (res != null){
-            return new ResultBody<>(true,200,res);
-        }else {
-            return new ResultBody<>(false,501,"not found this id");
-        }
+        return new ResultBody<>(true, 200, res);
     }
 
 
