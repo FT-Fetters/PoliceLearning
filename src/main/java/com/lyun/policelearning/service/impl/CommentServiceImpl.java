@@ -111,6 +111,7 @@ public class CommentServiceImpl implements CommentService {
                 //寻找parentId的昵称
                 String parentNickName = commentDao.findParent(commentDao.findById(comment1.getParentId()).getUserId()).getNickname();
                 jsonObject.put("parentNickName",parentNickName);
+                jsonObject.put("toReplyContent",commentDao.findById(comment1.getParentId()).getContent());
                 jsonObject.put("content",comment1.getContent());
                 //寻找标题
                 String title = null;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/law")
@@ -85,11 +86,13 @@ public class LawApi {
      * @return  返回该id所对应的法律内容
      */
     @RequestMapping(value = "/content/id",method = RequestMethod.GET)
-    public Object getContentById(@RequestParam int id){
+    public Object getContentById(@RequestParam int id,HttpServletRequest request){
         if (id <= 0) {
             return new ResultBody<>(false, 500, "error id");
         }
         JSONObject res = lawService.findContentById(id);
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        res.put("isCollect",collectService.isCollect(2,res.getInteger("id"),userId));
         if (res != null) {
             return new ResultBody<>(true, 200, res);
         } else {

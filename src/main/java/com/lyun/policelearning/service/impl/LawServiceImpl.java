@@ -149,14 +149,75 @@ public class LawServiceImpl implements LawService {
             return false;
         }
         collectDao.deleteById(3,id);
+        for (LawType lawType : lawTypeDao.findTitleByName(lawDao.findLawById(id).getLawtype())){
+            if (lawTypeDao.getTitleById(lawType.getId()) != null){
+                JSONArray jsonArray =  JSONArray.parseArray(lawTypeDao.getTitleById(lawType.getId()).getTitle());
+                if (jsonArray != null){
+                    JSONObject del = new JSONObject();
+                    if (lawDao.findLawById(id).getTitle() != null) {
+                        del.put("name", lawDao.findLawById(id).getTitle());
+                        jsonArray.remove(del);
+                        lawTypeDao.updateTitleByName(jsonArray.toJSONString(), lawType.getLawtype());
+                    }
+                }
+            }
+        }
         lawDao.deleteById(id);
         return true;
     }
 
     @Override
     public boolean updateById(int id, String title,String lawtype, String content, String explaination, String crime, JSONArray keyword) {
-        String keywords = keyword.toJSONString();
-        lawDao.updateById(id,title,lawtype,content,explaination,crime,keywords);
+        //对比法律类型是否存在变化 如果变了 则需要删除原来lawtype中的title 并且新增当前lawtype的title 若没变则更新原来lawtype中的title
+        String newlawtype = lawtype;
+        String oldlawtype = lawDao.findLawById(id).getLawtype();
+        String newTitle = title;
+        String oldTitle = lawDao.findLawById(id).getTitle();
+        if (newlawtype.equals(oldlawtype)){
+            for(LawType lawType : lawTypeDao.findTitleByName(oldlawtype)){
+                JSONArray jsonArray = JSONArray.parseArray(lawType.getTitle());
+                JSONObject del = new JSONObject();
+                del.put("name",oldTitle);
+                jsonArray.remove(del);
+                JSONObject ins = new JSONObject();
+                ins.put("name",newTitle);
+                jsonArray.add(ins);
+                String str = jsonArray.toJSONString();
+                lawTypeDao.updateTitleByName(str,oldlawtype);
+            }
+        }else {
+            for(LawType lawType : lawTypeDao.findTitleByName(oldlawtype)){
+                JSONArray jsonArray = JSONArray.parseArray(lawType.getTitle());
+                JSONObject del = new JSONObject();
+                del.put("name",oldTitle);
+                jsonArray.remove(del);
+                String str = jsonArray.toJSONString();
+                lawTypeDao.updateTitleByName(str,oldlawtype);
+            }
+            for (LawType lawType : lawTypeDao.findTitleByName(newlawtype)){
+                JSONArray jsonArray = JSONArray.parseArray(lawType.getTitle());
+                if(jsonArray != null){
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name",newTitle);
+                    jsonArray.add(jsonObject);
+                    String str = jsonArray.toString();
+                    lawTypeDao.updateTitleByName(str,lawtype);
+                }else {
+                    JSONArray jsonArray1 = new JSONArray();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name",newTitle);
+                    jsonArray1.add(jsonObject);
+                    String str = jsonArray1.toString();
+                    lawTypeDao.updateTitleByName(str,lawtype);
+                }
+            }
+        }
+        if (keyword != null){
+            String keywords = keyword.toJSONString();
+            lawDao.updateById(id,title,lawtype,content,explaination,crime,keywords);
+        }else {
+            lawDao.updateById(id,title,lawtype,content,explaination,crime,null);
+        }
         return true;
     }
 
@@ -248,7 +309,9 @@ public class LawServiceImpl implements LawService {
      * @return 返回新的文本
      */
     private String changeToHtml(String str){
-        str = str.replace("\n","<br>");
+        if (str != null){
+            str = str.replace("\n","<br>");
+        }
         return str;
     }
 }
