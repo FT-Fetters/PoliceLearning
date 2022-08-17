@@ -20,4 +20,5 @@ public interface PaperService {
     boolean disable(int id);
     String getPaperAnswer(int id);
     int count();
+    List<JSONObject> getHistory(int uid);
 }

@@ -12,6 +12,7 @@ import com.lyun.policelearning.dao.paper.PaperQuestionDao;
 import com.lyun.policelearning.dao.question.JudgmentDao;
 import com.lyun.policelearning.dao.question.MultipleChoiceDao;
 import com.lyun.policelearning.dao.question.SingleChoiceDao;
+import com.lyun.policelearning.entity.Exam;
 import com.lyun.policelearning.entity.Paper;
 import com.lyun.policelearning.entity.PaperQuestion;
 import com.lyun.policelearning.entity.question.Judgment;
@@ -307,6 +308,24 @@ public class PaperServiceImpl implements PaperService {
     @Override
     public int count() {
         return paperDao.selectAll().size();
+    }
+
+    @Override
+    public List<JSONObject> getHistory(int uid) {
+        List<JSONObject> res = new ArrayList<>();
+        for (Exam exam : examDao.selectByUserId(uid)){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",exam.getId());
+            jsonObject.put("date",exam.getDate());
+            if (paperDao.getById(exam.getPaper_id()) != null){
+                jsonObject.put("title",paperDao.getById(exam.getPaper_id()).getTitle());
+            }else {
+                jsonObject.put("title",null);
+            }
+            jsonObject.put("score",exam.getScore());
+            res.add(jsonObject);
+        }
+        return res;
     }
 
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
