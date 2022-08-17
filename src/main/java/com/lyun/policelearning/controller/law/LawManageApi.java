@@ -82,7 +82,7 @@ public class LawManageApi {
         if(lawtype == null){
             return new ResultBody<>(false,500,"error type");
         }
-        JSONObject res = lawService.findTitleByName(lawtype);
+        List<JSONObject> res = lawService.findTitleByNameForManage(lawtype);
         if (res != null){
             return new ResultBody<>(true,200,res);
         }else {
