@@ -256,5 +256,13 @@ public class PaperApi {
         }
 
     }
-
+    /**
+     * 用户查看自己成绩记录
+     */
+    @Permission(admin = false)
+    @RequestMapping(value = "/getHistory",method = RequestMethod.GET)
+    public Object getHistory(HttpServletRequest request){
+        int user_id = UserUtils.getUserId(request,jwtConfig);
+        return new ResultBody<>(true,200,paperService.getHistory(user_id));
+    }
 }
