@@ -1,13 +1,8 @@
 package com.lyun.policelearning.schedule.task;
 
-import com.alibaba.druid.support.spring.stat.SpringStatUtils;
-import com.lyun.policelearning.controller.paper.PaperApi;
 import com.lyun.policelearning.entity.SchedulePaper;
 import com.lyun.policelearning.service.paper.PaperService;
-import com.lyun.policelearning.utils.SpringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,10 +10,14 @@ import java.util.Date;
 public class PaperTask implements Runnable{
     private SchedulePaper schedulePaper;
 
-    private PaperService paperService = SpringUtil.getBean(PaperService.class);
+    private PaperService paperService;
 
     public void setSchedulePaper(SchedulePaper schedulePaper) {
         this.schedulePaper = schedulePaper;
+    }
+
+    public void setPaperService(PaperService paperService) {
+        this.paperService = paperService;
     }
 
     @Override

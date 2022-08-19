@@ -3,6 +3,7 @@ package com.lyun.policelearning.controller.paper;
 import com.lyun.policelearning.entity.SchedulePaper;
 import com.lyun.policelearning.schedule.ScheduledFutureHolder;
 import com.lyun.policelearning.schedule.task.PaperTask;
+import com.lyun.policelearning.service.paper.PaperService;
 import com.lyun.policelearning.service.paper.SchedulePaperService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;
@@ -29,6 +30,9 @@ public class SchedulePaperApi {
 
     @Autowired
     private SchedulePaperService schedulePaperService;
+
+    @Autowired
+    private PaperService paperService;
 
     private HashMap<Long, ScheduledFutureHolder> scheduleMap = new HashMap<>();
 
@@ -65,6 +69,7 @@ public class SchedulePaperApi {
         ScheduledFutureHolder scheduledFutureHolder = scheduleMap.get(id);
         PaperTask paperTask = new PaperTask();
         paperTask.setSchedulePaper(schedulePaper);
+        paperTask.setPaperService(paperService);
         ScheduledFuture<?> scheduledFuture = threadPoolTaskScheduler.schedule(paperTask,new CronTrigger(schedulePaper.getCron()));
         scheduledFutureHolder.setRunning(true);
         scheduledFutureHolder.setScheduledFuture(scheduledFuture);
@@ -104,6 +109,7 @@ public class SchedulePaperApi {
                 PaperTask paperTask = (PaperTask) scheduledFutureHolder.getRunnableClass().newInstance();
                 SchedulePaper schedulePaper = schedulePaperService.selectById(id);
                 paperTask.setSchedulePaper(schedulePaper);
+                paperTask.setPaperService(paperService);
                 scheduledFutureHolder.setRunning(true);
                 ScheduledFuture<?> tmp = threadPoolTaskScheduler.schedule(paperTask, new CronTrigger(schedulePaper.getCron()));
                 scheduledFutureHolder.setScheduledFuture(tmp);

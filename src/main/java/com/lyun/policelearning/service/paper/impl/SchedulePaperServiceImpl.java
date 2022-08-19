@@ -4,6 +4,7 @@ import com.lyun.policelearning.dao.paper.SchedulePaperDao;
 import com.lyun.policelearning.entity.SchedulePaper;
 import com.lyun.policelearning.schedule.ScheduledFutureHolder;
 import com.lyun.policelearning.schedule.task.PaperTask;
+import com.lyun.policelearning.service.paper.PaperService;
 import com.lyun.policelearning.service.paper.SchedulePaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -19,6 +20,9 @@ public class SchedulePaperServiceImpl implements SchedulePaperService {
 
     @Autowired
     private SchedulePaperDao schedulePaperDao;
+
+    @Autowired
+    private PaperService paperService;
 
 
 
@@ -38,7 +42,7 @@ public class SchedulePaperServiceImpl implements SchedulePaperService {
     @Override
     public Long insert(SchedulePaper schedulePaper, HashMap<Long, ScheduledFutureHolder> scheduleMap, ThreadPoolTaskScheduler threadPoolTaskScheduler) {
         if (Integer.parseInt(schedulePaper.getCron()) >= 1 && Integer.parseInt(schedulePaper.getCron()) <= 7){
-            schedulePaper.setCron("0 0 0 0 0 "+Integer.parseInt(schedulePaper.getCron())+" ");
+            schedulePaper.setCron("0 0 0 ? * "+Integer.parseInt(schedulePaper.getCron()));
         }else return -1L;
         schedulePaperDao.insert(schedulePaper);
         runTask(schedulePaper, scheduleMap, threadPoolTaskScheduler);
@@ -59,6 +63,7 @@ public class SchedulePaperServiceImpl implements SchedulePaperService {
     private void runTask(SchedulePaper schedulePaper,HashMap<Long, ScheduledFutureHolder> scheduleMap, ThreadPoolTaskScheduler threadPoolTaskScheduler){
         PaperTask paperTask = new PaperTask();
         paperTask.setSchedulePaper(schedulePaper);
+        paperTask.setPaperService(paperService);
         ScheduledFuture<?> scheduledFuture = threadPoolTaskScheduler.schedule(paperTask, new CronTrigger(schedulePaper.getCron()));
         ScheduledFutureHolder scheduledFutureHolder = new ScheduledFutureHolder();
         scheduledFutureHolder.setScheduledFuture(scheduledFuture);

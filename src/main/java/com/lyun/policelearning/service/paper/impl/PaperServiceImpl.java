@@ -23,6 +23,7 @@ import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
 import com.lyun.policelearning.service.paper.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.entity.Paper;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
+import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
