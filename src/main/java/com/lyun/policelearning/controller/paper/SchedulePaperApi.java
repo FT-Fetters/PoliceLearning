@@ -43,12 +43,12 @@ public class SchedulePaperApi {
     }
 
     @PostMapping("/insert")
-    public Object insert(SchedulePaper schedulePaper){
+    public Object insert(@RequestBody SchedulePaper schedulePaper){
         return new ResultBody<>(true,200,schedulePaperService.insert(schedulePaper,scheduleMap,threadPoolTaskScheduler));
     }
 
-    @PostMapping("/delete")
-    public Object delete(@RequestParam Long id){
+    @PostMapping("/delete/{id}")
+    public Object delete(@PathVariable Long id){
         stopTask(id);
         scheduleMap.remove(id);
         schedulePaperService.delete(id);
@@ -56,7 +56,7 @@ public class SchedulePaperApi {
     }
 
     @PostMapping("/update")
-    public Object update(SchedulePaper schedulePaper){
+    public Object update(@RequestBody SchedulePaper schedulePaper){
         schedulePaperService.update(schedulePaper);
         restart(schedulePaper.getId());
         return new ResultBody<>(true,200,null);
@@ -64,7 +64,7 @@ public class SchedulePaperApi {
 
 
     @PostMapping("/start/{id}")
-    public void startTask(@PathVariable Long id){
+    public Object startTask(@PathVariable Long id){
         SchedulePaper schedulePaper = schedulePaperService.selectById(id);
         ScheduledFutureHolder scheduledFutureHolder = scheduleMap.get(id);
         PaperTask paperTask = new PaperTask();
@@ -73,10 +73,11 @@ public class SchedulePaperApi {
         ScheduledFuture<?> scheduledFuture = threadPoolTaskScheduler.schedule(paperTask,new CronTrigger(schedulePaper.getCron()));
         scheduledFutureHolder.setRunning(true);
         scheduledFutureHolder.setScheduledFuture(scheduledFuture);
+        return new ResultBody<>(true,200,null);
     }
 
     @PostMapping("/list")
-    public Object queryTask(PageRequest pageRequest){
+    public Object queryTask(@RequestBody PageRequest pageRequest){
         List<ScheduledFutureHolder> list = new ArrayList<>();
         for (Long id : scheduleMap.keySet()) {
             list.add(scheduleMap.get(id));
@@ -86,7 +87,7 @@ public class SchedulePaperApi {
     }
 
     @PostMapping("/stop/{id}")
-    public void stopTask(@PathVariable Long id){
+    public Object stopTask(@PathVariable Long id){
         if (scheduleMap.containsKey(id)){
             ScheduledFutureHolder scheduledFutureHolder = scheduleMap.get(id);
             ScheduledFuture<?> scheduledFuture = scheduledFutureHolder.getScheduledFuture();
@@ -95,12 +96,13 @@ public class SchedulePaperApi {
                 scheduledFutureHolder.setRunning(false);
             }
         }
+        return new ResultBody<>(true,200,null);
     }
 
 
     @SneakyThrows
     @PostMapping("/restart/{id}")
-    public void restart(@PathVariable Long id){
+    public Object restart(@PathVariable Long id){
         if (scheduleMap.containsKey(id)){
             ScheduledFutureHolder scheduledFutureHolder = scheduleMap.get(id);
             ScheduledFuture<?> scheduledFuture = scheduledFutureHolder.getScheduledFuture();
@@ -113,10 +115,11 @@ public class SchedulePaperApi {
                 scheduledFutureHolder.setRunning(true);
                 ScheduledFuture<?> tmp = threadPoolTaskScheduler.schedule(paperTask, new CronTrigger(schedulePaper.getCron()));
                 scheduledFutureHolder.setScheduledFuture(tmp);
+                scheduledFutureHolder.setSchedulePaper(schedulePaper);
                 scheduleMap.put(id,scheduledFutureHolder);
             }
         }
-
+        return new ResultBody<>(true,200,null);
     }
 
 

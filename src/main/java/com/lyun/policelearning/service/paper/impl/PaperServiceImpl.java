@@ -185,6 +185,10 @@ public class PaperServiceImpl implements PaperService {
                 switch (paperQuestion.getType()){
                     case 'j':
                         Judgment judgment = judgmentDao.getById(paperQuestion.getQuestion_id());
+                        if (judgment == null){
+                            judgment = new Judgment();
+                            judgment.setProblem("该问题不存在");
+                        }
                         judgment.setAnswer(null);
                         JSONObject tmp = new JSONObject();
                         tmp.put("index",paperQuestion.getIndex());
@@ -204,6 +208,11 @@ public class PaperServiceImpl implements PaperService {
                         break;
                     case 'm':
                         MultipleChoice multipleChoice = multipleChoiceDao.getById(paperQuestion.getQuestion_id());
+                        if (multipleChoice == null){
+                            multipleChoice = new MultipleChoice();
+                            multipleChoice.setProblem("该问题不存在");
+                        }
+
                         multipleChoice.setAnswer(null);
                         tmp = new JSONObject();
                         tmp.put("id",multipleChoice.getId());
@@ -231,6 +240,11 @@ public class PaperServiceImpl implements PaperService {
                         break;
                     case 's':
                         SingleChoice singleChoice = singleChoiceDao.getById(paperQuestion.getQuestion_id());
+                        if (singleChoice == null){
+                            singleChoice = new SingleChoice();
+                            singleChoice.setProblem("该问题不存在");
+                        }
+
                         singleChoice.setAnswer(null);
                         tmp = new JSONObject();
                         tmp.put("id",singleChoice.getId());
@@ -294,12 +308,18 @@ public class PaperServiceImpl implements PaperService {
             PaperQuestion paperQuestion = paperQuestions.get(i);
             if (paperQuestion.getType() == 'j'){
                 Judgment judgment = judgmentDao.getById(paperQuestion.getQuestion_id());
+                if (judgment == null)
+                    judgment = new Judgment();
                 res.append(judgment.getAnswer()).append(i==paperQuestions.size()-1?"":",");
             }else if (paperQuestion.getType() == 'm'){
                 MultipleChoice multipleChoice = multipleChoiceDao.getById(paperQuestion.getQuestion_id());
+                if (multipleChoice == null)
+                    multipleChoice = new MultipleChoice();
                 res.append(multipleChoice.getAnswer()).append(i==paperQuestions.size()-1?"":",");
             }else if (paperQuestion.getType() == 's'){
                 SingleChoice singleChoice = singleChoiceDao.getById(paperQuestion.getQuestion_id());
+                if (singleChoice == null)
+                    singleChoice = new SingleChoice();
                 res.append(singleChoice.getAnswer()).append(i==paperQuestions.size()-1?"":",");
             }
         }

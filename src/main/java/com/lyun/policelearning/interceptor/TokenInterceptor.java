@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.SignatureException;
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -43,6 +44,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
             System.out.print("-");
         }
         System.out.println();
+        System.out.println(new Time(System.currentTimeMillis()));
         System.out.println("访问地址:"+uri);
         System.out.println("参数:");
         for (String s : parameterMap.keySet()) {

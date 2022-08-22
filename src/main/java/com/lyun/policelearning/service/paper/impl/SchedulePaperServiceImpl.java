@@ -56,6 +56,9 @@ public class SchedulePaperServiceImpl implements SchedulePaperService {
 
     @Override
     public void update(SchedulePaper schedulePaper) {
+        if (Integer.parseInt(schedulePaper.getCron()) >= 1 && Integer.parseInt(schedulePaper.getCron()) <= 7){
+            schedulePaper.setCron("0 0 0 ? * "+Integer.parseInt(schedulePaper.getCron()));
+        }
         schedulePaperDao.update(schedulePaper);
     }
 

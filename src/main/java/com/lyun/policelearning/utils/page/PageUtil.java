@@ -30,6 +30,12 @@ public class PageUtil {
         PageResult pageResult = new PageResult();
         pageResult.setPageNum(pageRequest.getPageNum());
         pageResult.setPageSize(pageRequest.getPageSize());
+        if (list.size() == 0){
+            pageResult.setTotalSize(0);
+            pageResult.setContent(null);
+            pageResult.setTotalPages(0);
+            return pageResult;
+        }
         pageResult.setTotalPages(
                         list.size() % pageResult.getPageSize() == 0 ?
                         list.size() / pageRequest.getPageSize() :
