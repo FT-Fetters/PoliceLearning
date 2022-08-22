@@ -49,7 +49,7 @@ public class InformationApi {
     public Object getInformationById(@RequestParam int id, HttpServletRequest request) throws Exception {
         //更新数据库中的view值
         informationService.updateView(id);
-        JSONObject res = new JSONObject();
+        JSONObject res = informationService.getInformationById(id);
         //获取用户的id  以及获取文章的id  传入类型进行查询 结果不为null 则isCollect=true
         int userId = UserUtils.getUserId(request,jwtConfig);
         res.put("isCollect",collectService.isCollect(1,id,userId));
