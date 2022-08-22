@@ -11,10 +11,12 @@ import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.service.DeptService;
 import com.lyun.policelearning.service.RoleService;
 import com.lyun.policelearning.service.UserService;
+import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.PinYinUtil;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
 import lombok.SneakyThrows;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -194,7 +200,7 @@ public class UserManageApi {
      */
     @SneakyThrows
     @RequestMapping(value = "/output/excel",method = RequestMethod.GET)
-    public void output(HttpServletResponse response){
+    public Object output(HttpServletResponse response){
         List<User> users = userService.findAll();
         for (User user : users){
             if ("e10adc3949ba59abbe56e057f20f883e".equals(user.getPassword())){
@@ -211,9 +217,27 @@ public class UserManageApi {
             }
         }
         response.setHeader("Content-Disposition", "attachment;filename=police.xlsx");
-        EasyExcel.write(response.getOutputStream())
+        EasyExcel.write(response.getOutputStream());
+        File path = new File(PathTools.getRunPath()+"/temp/");
+        if (!path.exists()){
+            boolean mkdirs = path.mkdirs();
+            if (!mkdirs) {
+                throw new IOException("创建文件夹失败");
+            }
+        }
+        String filename = path.getAbsolutePath() + UUID.randomUUID() + ".xlsx";
+        EasyExcel.write(filename)
                 .head(User.class)
                 .sheet("警员信息")
                 .doWrite(users);
+        byte[] bytes = null;
+        String base64Str = null;
+        File file = new File(filename);
+        FileInputStream fileInputStream = new FileInputStream(file);
+        int size = fileInputStream.available();
+        bytes = new byte[size];
+        fileInputStream.read(bytes);
+        fileInputStream.close();
+        return new ResultBody<>(true, 200, Base64.getEncoder().encodeToString(bytes));
     }
 }
