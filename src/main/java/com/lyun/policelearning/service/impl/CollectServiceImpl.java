@@ -64,10 +64,7 @@ public class CollectServiceImpl implements CollectService {
 
     @Override
     public boolean isCollect(int type, int articleId, int userId) {
-        if (collectDao.check(userId,type,articleId) == null){
-            return false;
-        }
-        return true;
+        return collectDao.check(userId, type, articleId) != null;
     }
 
     @SneakyThrows
