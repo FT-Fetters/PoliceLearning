@@ -138,6 +138,7 @@ public class SingleChoiceManageApi {
         singleChoice.setOption_c("选项C");
         singleChoice.setOption_d("选项D");
         singleChoice.setAnswer("AB");
+        singleChoices.add(singleChoice);
         response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
         EasyExcel.write(response.getOutputStream()).head(SingleChoice.class).sheet("模板").doWrite(singleChoices);
 

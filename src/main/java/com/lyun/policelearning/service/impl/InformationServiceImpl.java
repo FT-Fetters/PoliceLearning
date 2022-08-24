@@ -82,15 +82,16 @@ public class InformationServiceImpl implements InformationService {
     @Override
     public JSONObject getInformationById(int id) throws Exception {
         JSONObject information = new JSONObject();
-        String content = informationDao.getInformationById(id).getContent();
+        Information inf = informationDao.getInformationById(id);
+        String content = inf.getContent();
         information.put("id",id);
-        information.put("title",informationDao.getInformationById(id).getTitle());
+        information.put("title",inf.getTitle());
         information.put("content",content);
-        information.put("date",informationDao.getInformationById(id).getDate());
-        information.put("view",informationDao.getInformationById(id).getView());
-        if(informationDao.getInformationById(id).getPicture() != null){
+        information.put("date",inf.getDate());
+        information.put("view",inf.getView());
+        if(inf.getPicture() != null){
             String savePath = PathTools.getRunPath()+"/image/";
-            String imagePath = savePath + informationDao.getInformationById(id).getPicture();
+            String imagePath = savePath + inf.getPicture();
             BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
             String imgBase64 = ImageTools.imgToBase64(bufferedImage);
             information.put("picture", imgBase64);

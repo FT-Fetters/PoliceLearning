@@ -154,34 +154,33 @@ public class InformationManageApi {
      */
     @RequestMapping(value = "/getPage/content/updatePicture",method = RequestMethod.POST)
     public Object updatePicById(int id,@RequestParam("file") MultipartFile file) throws IOException {
-
-        if(id <= 0){
-            return new ResultBody<>(false,500,"error id");
-        }else {
-            //删除
-            String filename = informationService.getPictureById(id);
+        //删除
+        String filename;
+        if (id != -1){
+            filename = informationService.getPictureById(id);
             String path = PathTools.getRunPath() +"/image/"+ filename;
             File file1 = new File(path);
             if(file1.exists()){
                 file1.delete();
             }
-            //更新
-            filename = file.getOriginalFilename();
-            //获取文件后缀名
-            String suffixName = filename.substring(filename.lastIndexOf("."));
-            //重新命名文件
-            filename= UUID.randomUUID()+suffixName;
-            String savePath = PathTools.getRunPath()+"/image/";
-            if(!new File(savePath).exists()){
-                new File(savePath).mkdirs();
-            }
-            File targetFile = new File(PathTools.getRunPath()+"/image");
-            File saveFile = new File(targetFile, filename);
-            file.transferTo(saveFile);
-            //修改数据库中的文件名
-            informationService.updatePicture(id,filename);
-            return new ResultBody<>(true,200,null);
         }
+        //更新
+        filename = file.getOriginalFilename();
+        //获取文件后缀名
+        String suffixName = filename.substring(filename.lastIndexOf("."));
+        //重新命名文件
+        filename= UUID.randomUUID()+suffixName;
+        String savePath = PathTools.getRunPath()+"/image/";
+        if(!new File(savePath).exists()){
+            new File(savePath).mkdirs();
+        }
+        File targetFile = new File(PathTools.getRunPath()+"/image");
+        File saveFile = new File(targetFile, filename);
+        file.transferTo(saveFile);
+        //修改数据库中的文件名
+        if (id != -1)
+            informationService.updatePicture(id,filename);
+        return new ResultBody<>(true,200,filename);
     }
     /**
      * 单独删除图片
