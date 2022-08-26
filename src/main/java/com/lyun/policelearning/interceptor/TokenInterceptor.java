@@ -97,6 +97,9 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
                         return true;
                     User user = userService.getById(UserUtils.getUserId(request, jwtConfig));
                     Role role = roleService.findById(user.getRole());
+                    if (role == null){
+                        throw new SignatureException("该用户的角色已被删除，无法授权");
+                    }
                     if (!role.isAdmin()){
                         throw new SignatureException("用户 " + UserUtils.getUsername(request,jwtConfig) +"访问路径:" + uri + "权限不足，需要管理员权限");
                     }

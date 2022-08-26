@@ -56,5 +56,10 @@ public class RoleManageApi {
         return new ResultBody<>(true,200,null);
     }
 
+    @GetMapping("/dictionary")
+    public Object getRoleDictionary(){
+        return new ResultBody<>(true,200,roleService.roleDictionary());
+    }
+
 
 }
