@@ -33,6 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Resource
     private TokenInterceptor tokenInterceptor;
+    //文件路径映射
     @Override
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(tokenInterceptor).addPathPatterns("/**").excludePathPatterns("/api/**");

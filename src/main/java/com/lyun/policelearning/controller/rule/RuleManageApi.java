@@ -1,13 +1,23 @@
 package com.lyun.policelearning.controller.rule;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
+import com.lyun.policelearning.entity.LawType;
 import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.service.RuleService;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Permission
 @RestController()
@@ -62,6 +72,50 @@ public class RuleManageApi {
         }
     }
 
+    /**
+     * 2022.10.4
+     * deng
+     * 获取新规导入的模板
+     */
+    @SneakyThrows
+    @RequestMapping(value = "/download/rule/template",method = RequestMethod.GET)
+    public void getTemplate(HttpServletResponse response){
+        List<Rule> rules = new ArrayList<>();
+        Rule rule = new Rule();
+        rule.setTitle("农村人居环境整治提升五年行动方案");
+        rule.setContent("一、总体要求\n" +
+                "\n" +
+                "（一）指导思想。以习近平新时代中国特色社会主义思想为指导，深入贯彻党的十九大和十九届二中、三中、四中、五中、六中全会精神，坚持以人民为中心的发展思想，践行绿水青山就是金山银山的理念，深入学习推广浙江“千村示范、万村整治”工程经验，以农村厕所革命、生活污水垃圾治理、村容村貌提升为重点，巩固拓展农村人居环境整治三年行动成果，全面提升农村人居环境质量，为全面推进乡村振兴、加快农业农村现代化、建设美丽中国提供有力支撑。\n" +
+                "\n" +
+                "（二）工作原则\n" +
+                "\n" +
+                "——坚持因地制宜，突出分类施策...");
+        rule.setDate("2021-12-06");
+        rules.add(rule);
+        //设置头属性  设置文件名称
+        response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
+        EasyExcel.write(response.getOutputStream())
+                .head(Rule.class)
+                .sheet("模板")
+                .doWrite(rules);
+    }
+    /**
+     * 2022 10.4
+     * deng
+     * 新规批量导入
+     */
+    @SneakyThrows
+    @RequestMapping(value = "/rule/import/excel",method = RequestMethod.POST)
+    public Object importType(@RequestParam MultipartFile file){
+        if (file.isEmpty()){
+            return new ResultBody<>(true,-1,"empty file");
+        }
+        List<Rule> rules = EasyExcel.read(file.getInputStream()).head(Rule.class).sheet().doReadSync();
+        for (Rule rule : rules){
+            ruleService.insertRule(rule);
+        }
+        return new ResultBody<>(true,200,null);
+    }
     /**
      * 根据id删除数据
      * @param id

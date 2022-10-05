@@ -2,12 +2,16 @@ package com.lyun.policelearning.controller.information;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
+import com.lyun.policelearning.controller.course.TeachApi;
 import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.service.InformationService;
 import com.lyun.policelearning.utils.ImageTools;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;
+import lombok.Data;
+import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
@@ -178,8 +183,9 @@ public class InformationManageApi {
         File saveFile = new File(targetFile, filename);
         file.transferTo(saveFile);
         //修改数据库中的文件名
-        if (id != -1)
-            informationService.updatePicture(id,filename);
+        if (id != -1) {
+            informationService.updatePicture(id, filename);
+        }
         return new ResultBody<>(true,200,filename);
     }
     /**
@@ -272,5 +278,112 @@ public class InformationManageApi {
     @RequestMapping(value = "/count",method = RequestMethod.GET)
     public Object count(){
         return new ResultBody<>(true,200,informationService.count());
+    }
+
+    @SneakyThrows
+    @Permission(admin = true)
+    @RequestMapping(value = "/upload/picture",method = RequestMethod.POST)
+    public Object uploadPicture(@RequestParam MultipartFile file){
+        String fileName ="";
+        if(!file.isEmpty()){
+            //返回的是字节长度,1M=1024k=1048576字节 也就是if(fileSize<5*1048576)
+            String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            if(StringUtils.isBlank(suffix)){
+                return new InformationManageApi.ErrorResponse(1,"图片过大");
+            }
+
+            fileName = System.currentTimeMillis()+suffix;
+            if(!new File(PathTools.getRunPath()+"/upload").exists()){
+                new File(PathTools.getRunPath()+"/upload").mkdir();
+            }
+            String saveFileName = PathTools.getRunPath() +"/upload/informationPicture/"+fileName;
+            File dest = new File(saveFileName);
+            if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
+                dest.getParentFile().mkdir();
+            }
+            try {
+                file.transferTo(dest); //保存文件
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new InformationManageApi.ErrorResponse(1,e.getMessage());
+            }
+        }else {
+            return new InformationManageApi.ErrorResponse(1,"其它问题，请联系管理员");
+        }
+        InetAddress address = InetAddress.getLocalHost();
+        String imgUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/informationPicture/" + fileName;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("url",imgUrl);
+        return new InformationManageApi.PictureResponse(0,jsonObject);
+    }
+
+    @SneakyThrows
+    @RequestMapping(value = "/upload/video",method = RequestMethod.POST)
+    @ResponseBody
+    @Permission(admin = true)
+    public Object editorOfVideo(@RequestParam("file") MultipartFile file) {
+        String fileName ="";
+        if(!file.isEmpty()){
+            String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            if(StringUtils.isBlank(suffix)){
+                return new InformationManageApi.ErrorResponse(1,"文件没有后缀名，请重新上传");
+            }
+
+            fileName = System.currentTimeMillis()+suffix;
+            if(!new File(PathTools.getRunPath()+"/upload").exists()){
+                new File(PathTools.getRunPath()+"/upload").mkdir();
+            }
+            String saveFileName = PathTools.getRunPath() +"/upload/informationVideo/"+fileName;
+            File dest = new File(saveFileName);
+            if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
+                dest.getParentFile().mkdir();
+            }
+            try {
+                file.transferTo(dest); //保存文件
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new InformationManageApi.ErrorResponse(1,e.getMessage());
+            }
+        }else {
+            return new InformationManageApi.ErrorResponse(1,"上传出错");
+        }
+        InetAddress address = InetAddress.getLocalHost();;
+        String url = address.getHostAddress();
+        String videoUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/informationVideo/" + fileName;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("url",videoUrl);
+        return new InformationManageApi.WangEditorResponse(0,jsonObject);
+    }
+
+    @Data
+    private class PictureResponse{
+        int errno;
+        Object data;
+        public PictureResponse(int errno,Object data){
+            this.errno=errno;
+            this.data=data;
+        }
+        public PictureResponse(int errno){
+            this.errno=errno;
+        }
+    }
+    @Data
+    private class ErrorResponse{
+        int errno;
+        Object message;
+        public ErrorResponse(int errno,Object message){
+            this.errno = errno;
+            this.message = message;
+        }
+    }
+
+    @Data
+    private class WangEditorResponse{
+        int errno;
+        JSONObject data;
+        public WangEditorResponse(int errno,JSONObject data){
+            this.errno=errno;
+            this.data=data;
+        }
     }
 }
