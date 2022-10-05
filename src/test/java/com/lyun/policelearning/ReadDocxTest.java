@@ -10,8 +10,9 @@ public class ReadDocxTest {
 
     @Test
     public void test(){
-        String path = "F:\\project\\java_project\\PoliceLearning\\policelearing\\test.docx";
-        List<Judgment> judgments = IDocUtil.getInstance().getJudgments(path);
+//        String path = "F:\\project\\java_project\\PoliceLearning\\policelearing\\test.docx";
+//        List<Judgment> judgments = IDocUtil.getInstance().getJudgments(path);
+        System.out.println(String.valueOf(true));
 
     }
 

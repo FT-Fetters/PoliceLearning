@@ -120,7 +120,7 @@ public class IDocUtil implements DocUtil {
         while (!line.startsWith("参考答案")){
             line = lineIter.next();
         }
-        tmpJud.setAnswer(String.valueOf(line.substring(5).equals("正确")));
+        tmpJud.setAnswer(line.substring(5).equals("正确") ? "1" : "0");
         curJud.add(tmpJud);
     }
 
