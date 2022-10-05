@@ -106,7 +106,7 @@ public class IDocUtil implements DocUtil {
         Judgment tmpJud;
         if (matcher.matches()){
             tmpJud = new Judgment();
-            tmpJud.setProblem(matcher.group(2));
+            tmpJud.setProblem(matcher.group(2).substring(1));
             line = lineIter.next();
             while (line.charAt(0) > 'D' && line.charAt(0) < 'A'){
                 if (line.charAt(1) == '.')
@@ -130,7 +130,7 @@ public class IDocUtil implements DocUtil {
         SingleChoice tmpSin;
         if (matcher.matches()){
             tmpSin = new SingleChoice();
-            tmpSin.setProblem(matcher.group(2));
+            tmpSin.setProblem(matcher.group(2).substring(1));
             line = lineIter.next();
             while (line.charAt(0) > 'D' && line.charAt(0) < 'A'){
                 if (line.charAt(1) == '.')
@@ -159,7 +159,7 @@ public class IDocUtil implements DocUtil {
         MultipleChoice tmpMul;
         if (matcher.matches()){
             tmpMul = new MultipleChoice();
-            tmpMul.setProblem(matcher.group(2));
+            tmpMul.setProblem(matcher.group(2).substring(1));
             line = lineIter.next();
             while (line.length() > 0 && (line.charAt(0) > 127 ||
                     (line.charAt(0) > 'D' && line.charAt(0) < 'A'))){
