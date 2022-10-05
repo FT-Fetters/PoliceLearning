@@ -60,7 +60,7 @@ public class ExaminationApi {
         int userId = userService.getByUsername(username).getId();
         List<JSONObject> infos1 = JSONObject.parseArray(js,JSONObject.class);
         int num = 0;
-        num = num + JSONArraytoList(presentRes.getJSONArray("judgment")) + JSONArraytoList(presentRes.getJSONArray("single")) + JSONArraytoList(presentRes.getJSONArray("multiple"));
+        num = num + JSONArrayToList(presentRes.getJSONArray("judgment")) + JSONArrayToList(presentRes.getJSONArray("single")) + JSONArrayToList(presentRes.getJSONArray("multiple"));
         double grade =(double)100/num;
         for(JSONObject userAnswerInfo  : infos1) {
             String userAnswer = userAnswerInfo.getString("userAnswer");
@@ -100,7 +100,7 @@ public class ExaminationApi {
     }
 
 
-    public int JSONArraytoList(JSONArray jsonArray){
+    public int JSONArrayToList(JSONArray jsonArray){
         String js = JSONObject.toJSONString(jsonArray, SerializerFeature.WriteClassName);
         List<JSONObject>  res = JSONObject.parseArray(js, JSONObject.class);
         return res.size();
