@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.question;
 
+import com.alibaba.fastjson.JSONArray;
 import com.lyun.policelearning.entity.question.Judgment;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
@@ -15,4 +16,5 @@ public interface JudgmentService {
     boolean check(int id,String answer);
     int importQuestion(List<Judgment> judgments);
     PageResult selectByPage(PageRequest pageRequest);
+    void batchDelete(JSONArray list);
 }

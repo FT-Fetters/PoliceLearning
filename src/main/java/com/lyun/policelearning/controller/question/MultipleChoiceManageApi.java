@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.question;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
@@ -107,6 +108,18 @@ public class MultipleChoiceManageApi {
         }
         multipleChoiceService.deleteQuestion(id);
         return new ResultBody<>(true,200,null);
+    }
+
+
+    @RequestMapping("/delete/batch")
+    public Object batchDelete(@RequestBody JSONObject data){
+        if (data == null || data.getJSONArray("list") == null){
+            return new ResultBody<>(false,200,"list is null");
+        }
+        multipleChoiceService.batchDelete(data.getJSONArray("list"));
+        return new ResultBody<>(true,200,null);
+
+
     }
 
     @PostMapping("/select")

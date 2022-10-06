@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.question.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.dao.question.SingleChoiceDao;
@@ -9,6 +10,9 @@ import com.lyun.policelearning.service.question.SingleChoiceService;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +25,12 @@ public class SingleChoiceServiceImpl implements SingleChoiceService {
 
     @Autowired
     private SingleChoiceDao singleChoiceDao;
+
     @Autowired
     ErrorBookDao errorBookDao;
+
+    @Autowired
+    SqlSessionFactory sqlSessionFactory;
 
     @Override
     public List<SingleChoice> findAll() {
@@ -46,7 +54,7 @@ public class SingleChoiceServiceImpl implements SingleChoiceService {
 
     @Override
     public void deleteQuestion(int id) {
-        errorBookDao.deleteById(2,id);
+        errorBookDao.deleteById(2, id);
         singleChoiceDao.deleteQuestion(id);
     }
 
@@ -67,11 +75,11 @@ public class SingleChoiceServiceImpl implements SingleChoiceService {
                             && singleChoice.getOption_c() != null && !singleChoice.getOption_c().equals("")
                             && singleChoice.getOption_d() != null && !singleChoice.getOption_d().equals("")
                             && singleChoice.getProblem() != null && !singleChoice.getProblem().equals("")
-            ){
+            ) {
                 try {
                     singleChoiceDao.newQuestion(singleChoice);
                     num++;
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -81,6 +89,16 @@ public class SingleChoiceServiceImpl implements SingleChoiceService {
 
     @Override
     public PageResult selectByPage(PageRequest pageRequest) {
-        return PageUtil.getPage(pageRequest,singleChoiceDao.findAll());
+        return PageUtil.getPage(pageRequest, singleChoiceDao.findAll());
+    }
+
+    @Override
+    public void batchDelete(JSONArray list) {
+        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH);
+        for (Object o : list) {
+            Integer id = ((Integer) o);
+            singleChoiceDao.deleteQuestion(id);
+        }
+        session.commit();
     }
 }

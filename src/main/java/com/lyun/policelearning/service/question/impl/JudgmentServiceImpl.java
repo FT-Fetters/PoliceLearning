@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.question.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.dao.question.JudgmentDao;
 import com.lyun.policelearning.entity.question.Judgment;
@@ -7,10 +8,14 @@ import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -22,6 +27,9 @@ public class JudgmentServiceImpl implements JudgmentService {
 
     @Autowired
     ErrorBookDao errorBookDao;
+
+    @Autowired
+    SqlSessionFactory sqlSessionFactory;
 
     @Override
     public List<Judgment> findAll() {
@@ -79,5 +87,15 @@ public class JudgmentServiceImpl implements JudgmentService {
     @Override
     public PageResult selectByPage(PageRequest pageRequest) {
         return PageUtil.getPage(pageRequest,judgmentDao.findAll());
+    }
+
+    @Override
+    public void batchDelete(JSONArray list) {
+        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH);
+        for (Object o : list) {
+            Integer id = ((Integer) o);
+            judgmentDao.deleteQuestion(id);
+        }
+        session.commit();
     }
 }

@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.question.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.lyun.policelearning.dao.ErrorBookDao;
 import com.lyun.policelearning.dao.question.MultipleChoiceDao;
 import com.lyun.policelearning.entity.question.MultipleChoice;
@@ -8,6 +9,9 @@ import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +27,9 @@ public class MultipleChoiceServiceImpl implements MultipleChoiceService {
 
     @Autowired
     ErrorBookDao errorBookDao;
+
+    @Autowired
+    SqlSessionFactory sqlSessionFactory;
 
     @Override
     public List<MultipleChoice> findAll() {
@@ -87,5 +94,15 @@ public class MultipleChoiceServiceImpl implements MultipleChoiceService {
     @Override
     public PageResult selectByPage(PageRequest pageRequest) {
         return PageUtil.getPage(pageRequest,multipleChoiceDao.findAll());
+    }
+
+    @Override
+    public void batchDelete(JSONArray list) {
+        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH);
+        for (Object o : list) {
+            Integer id = ((Integer) o);
+            multipleChoiceDao.deleteQuestion(id);
+        }
+        session.commit();
     }
 }

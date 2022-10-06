@@ -1,0 +1,9 @@
+2022-10-05 09:45:35 [error] token失效，请重新登录。
+2022-10-05 09:46:00 [error] java.io.FileNotFoundException: F:\project\java_project\PoliceLearning\policelearing\upload\3073428499845.docx (系统找不到指定的路径。)
+2022-10-05 09:47:05 [error] 
+### Error updating database.  Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'option_a' at row 1
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: INSERT INTO single_choice (problem,option_a,option_b,option_c,option_d,answer) VALUES (?,?,?,?,?,?)
+### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'option_a' at row 1
+; Data truncation: Data too long for column 'option_a' at row 1; nested exception is com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'option_a' at row 1

@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.question;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
@@ -38,22 +39,22 @@ public class SingleChoiceManageApi {
     @Autowired
     RoleService roleService;
 
-    @RequestMapping(value = "/new",method = RequestMethod.POST)
-    public Object newQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public Object newQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request) {
         String problem = data.getString("problem");
         String option_a = data.getString("option_a");
         String option_b = data.getString("option_b");
         String option_c = data.getString("option_c");
         String option_d = data.getString("option_d");
         String answer = data.getString("answer");
-        if (problem == null){
-            return new ResultBody<>(false,501,"problem can not null");
+        if (problem == null) {
+            return new ResultBody<>(false, 501, "problem can not null");
         }
-        if (option_a == null && option_b == null && option_c == null && option_d == null){
-            return new ResultBody<>(false,502,"at least one option is required");
+        if (option_a == null && option_b == null && option_c == null && option_d == null) {
+            return new ResultBody<>(false, 502, "at least one option is required");
         }
-        if (answer.length() != 1){
-            return new ResultBody<>(false,503,"answer is too long");
+        if (answer.length() != 1) {
+            return new ResultBody<>(false, 503, "answer is too long");
         }
         SingleChoice singleChoice = new SingleChoice();
         singleChoice.setProblem(problem);
@@ -63,11 +64,11 @@ public class SingleChoiceManageApi {
         singleChoice.setOption_d(option_d);
         singleChoice.setAnswer(answer);
         singleChoiceService.newQuestion(singleChoice);
-        return new ResultBody<>(true,200,null);
+        return new ResultBody<>(true, 200, null);
     }
 
     @RequestMapping("/update")
-    public Object updateQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
+    public Object updateQuestion(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request) {
         Integer id = data.getInteger("id");
         String problem = data.getString("problem");
         String option_a = data.getString("option_a");
@@ -75,14 +76,14 @@ public class SingleChoiceManageApi {
         String option_c = data.getString("option_c");
         String option_d = data.getString("option_d");
         String answer = data.getString("answer");
-        if (singleChoiceService.getById(id) == null){
-            return new ResultBody<>(false,500,"id not found");
+        if (singleChoiceService.getById(id) == null) {
+            return new ResultBody<>(false, 500, "id not found");
         }
-        if (problem == null){
-            return new ResultBody<>(false,501,"problem can not null");
+        if (problem == null) {
+            return new ResultBody<>(false, 501, "problem can not null");
         }
-        if (option_a == null && option_b == null && option_c == null && option_d == null){
-            return new ResultBody<>(false,502,"at least one option is required");
+        if (option_a == null && option_b == null && option_c == null && option_d == null) {
+            return new ResultBody<>(false, 502, "at least one option is required");
         }
         SingleChoice singleChoice = singleChoiceService.getById(id);
         singleChoice.setId(id);
@@ -93,43 +94,52 @@ public class SingleChoiceManageApi {
         singleChoice.setOption_d(option_d);
         singleChoice.setAnswer(answer);
         singleChoiceService.updateQuestion(singleChoice);
-        return new ResultBody<>(true,200,null);
+        return new ResultBody<>(true, 200, null);
     }
 
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Object deleteQuestion(@RequestBody JSONObject data,HttpServletRequest request){
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public Object deleteQuestion(@RequestBody JSONObject data, HttpServletRequest request) {
         Integer id = data.getInteger("id");
-        if (id == null){
-            return new ResultBody<>(false,500,"missing parameter");
+        if (id == null) {
+            return new ResultBody<>(false, 500, "missing parameter");
         }
-        if (id <= 0){
-            return new ResultBody<>(false,500,"error id");
+        if (id <= 0) {
+            return new ResultBody<>(false, 500, "error id");
         }
         singleChoiceService.deleteQuestion(id);
-        return new ResultBody<>(true,200,null);
+        return new ResultBody<>(true, 200, null);
+    }
+
+    @RequestMapping("/delete/batch")
+    public Object batchDelete(@RequestBody JSONObject data) {
+        if (data == null || data.getJSONArray("list") == null) {
+            return new ResultBody<>(false, 200, "list is null");
+        }
+        singleChoiceService.batchDelete(data.getJSONArray("list"));
+        return new ResultBody<>(true, 200, null);
     }
 
     @PostMapping("/select")
-    public Object selectByPage(@RequestBody PageRequest pageRequest){
+    public Object selectByPage(@RequestBody PageRequest pageRequest) {
         if (pageRequest.getPageNum() < 0 || pageRequest.getPageSize() < 0)
             return new ResultBody<>(false, -1, "error parameter");
-        return new ResultBody<>(true,200,singleChoiceService.selectByPage(pageRequest));
+        return new ResultBody<>(true, 200, singleChoiceService.selectByPage(pageRequest));
     }
 
 
     @SneakyThrows
     @PostMapping("/import")
-    public Object importQuestion(@RequestParam("file") MultipartFile file){
-        if (file.isEmpty()){
-            return new ResultBody<>(true,-1,"empty file");
+    public Object importQuestion(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return new ResultBody<>(true, -1, "empty file");
         }
         List<SingleChoice> singleChoices = EasyExcel.read(file.getInputStream()).head(SingleChoice.class).sheet().doReadSync();
-        return new ResultBody<>(true,200,new int[]{singleChoices.size(),singleChoiceService.importQuestion(singleChoices)});
+        return new ResultBody<>(true, 200, new int[]{singleChoices.size(), singleChoiceService.importQuestion(singleChoices)});
     }
 
     @SneakyThrows
     @GetMapping("/download/template")
-    public void getTemplate(HttpServletResponse response){
+    public void getTemplate(HttpServletResponse response) {
         List<SingleChoice> singleChoices = new ArrayList<>();
         SingleChoice singleChoice = new SingleChoice();
         singleChoice.setProblem("多选题问题()");

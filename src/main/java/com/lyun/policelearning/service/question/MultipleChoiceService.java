@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.question;
 
+import com.alibaba.fastjson.JSONArray;
 import com.lyun.policelearning.entity.question.Judgment;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
@@ -18,4 +19,5 @@ public interface MultipleChoiceService {
     String getAnswer(int id);
     int importQuestion(List<MultipleChoice> multipleChoices);
     PageResult selectByPage(PageRequest pageRequest);
+    void batchDelete(JSONArray list);
 }
