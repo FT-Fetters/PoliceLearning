@@ -20,5 +20,5 @@ public interface CourseService {
     boolean changeCatalogue(String name,JSONArray catalogue);
     Integer count();
     void delete(int id);
-
+    List<JSONObject> search(String word);
 }

@@ -28,5 +28,7 @@ public interface InformationService {
     int count();
     PageResult findPicture(PageRequest pageRequest);
     List<JSONObject> findPicture();
+    PageResult search(PageRequest pageRequest,String word);
+
 
 }

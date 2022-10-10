@@ -28,4 +28,5 @@ public interface InformationDao extends BaseDao<Information> {
     void deletePicture(int id);
     Information getInformationByTitle(String title);
     Integer count();
+    List<Information> search(@Param("word") String word);
 }

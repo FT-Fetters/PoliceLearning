@@ -48,6 +48,16 @@ public class InformationManageApi {
         }
         return new ResultBody<>(true,200,informationService.findPage(pageQuery));
     }
+    @Permission(admin = true)
+    @RequestMapping(value="/search",method = RequestMethod.GET)
+    public Object search(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam String word,HttpServletResponse response) {
+        if(pageNum <= 0||pageSize <= 0){
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            return new ResultBody<>(false,500,"error pageSize or error pageNum");
+        }
+        PageRequest pageRequest = new PageRequest(pageNum,pageSize);
+        return new ResultBody<>(true,200,informationService.search(pageRequest,word));
+    }
 
 
     /**

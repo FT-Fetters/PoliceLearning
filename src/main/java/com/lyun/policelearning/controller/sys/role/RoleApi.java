@@ -23,9 +23,7 @@ public class RoleApi {
 
     @RequestMapping(value = "/select",method = RequestMethod.GET)
     public Object getAll(@RequestParam int pageNum,@RequestParam int pageSize){
-        PageRequest pageRequest = new PageRequest();
-        pageRequest.setPageNum(pageNum);
-        pageRequest.setPageSize(pageSize);
+        PageRequest pageRequest = new PageRequest(pageNum, pageSize);
         return new ResultBody<>(true,200,PageUtil.getPage(pageRequest,roleService.findAll()));
     }
 }

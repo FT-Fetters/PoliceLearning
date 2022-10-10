@@ -109,6 +109,11 @@ public class UserManageApi {
     public Object getAll(){
         return new ResultBody<>(true,200,userService.findAll());
     }
+    @Permission(admin = true)
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public Object search(@RequestParam String word){
+        return new ResultBody<>(true,200,userService.search(word));
+    }
 
     @RequestMapping(value = "/update/nickname",method = RequestMethod.POST)
     public Object updateNickname(@RequestBody JSONObject data,HttpServletRequest request){

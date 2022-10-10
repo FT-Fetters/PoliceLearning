@@ -25,6 +25,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Permission(admin = true)
@@ -140,6 +141,7 @@ public class LawManageApi {
         List<Law> laws = EasyExcel.read(file.getInputStream()).head(Law.class).sheet().doReadSync();
         for (Law law : laws){
             if (law.getKeyword() != null){
+                //判断法律类型，遍历数据库，判断是否是数据库中存在的，如果存在则
                 JSONArray keyWord = (JSONArray) JSONArray.parse(law.getKeyword());
                 lawService.insert(law.getLawtype(),law.getTitle(),law.getContent(),law.getExplaination(),law.getCrime(),keyWord);
             }else {
@@ -187,6 +189,14 @@ public class LawManageApi {
         }else {
             return new ResultBody<>(false,501,"unknown type");
         }
+    }
+    /**
+     * 根据法律名称模糊查询
+     */
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public Object search(@RequestParam String word){
+        List<JSONObject> res = lawService.search(word);
+        return new ResultBody<>(true,200,res);
     }
     /**
      * 根据传入的title查询法律的所有内容

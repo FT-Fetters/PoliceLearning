@@ -12,6 +12,7 @@ public interface RuleDao extends BaseDao<Rule>{
     void updateView(int id);
     //管理员部分
     List<Rule> selectPage();
+    List<Rule> search(@Param("word") String word);
     void insertRule(@Param("rule") Rule rule);
     void deleteById(int id);
     void updateById(@Param("rule") Rule rule);

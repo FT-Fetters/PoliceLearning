@@ -21,4 +21,5 @@ public interface LawDao extends BaseDao<Law>{
     Integer count();
     void deleteByType(String type);
     void updateType(String lawtype,String type);
+    List<Law> search(@Param("word") String word);
 }
