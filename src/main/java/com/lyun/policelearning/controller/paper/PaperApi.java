@@ -265,4 +265,20 @@ public class PaperApi {
         int user_id = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,paperService.getHistory(user_id));
     }
+
+    @PostMapping("/add/que")
+    public Object paperAddQue(@RequestParam Integer paperId,
+                              @RequestParam String type,
+                              @RequestParam Integer queId){
+        paperService.paperAddQue(paperId, type, queId);
+        return new ResultBody<>(true,200,null);
+    }
+
+    @PostMapping("/del/que")
+    public Object paperDelQue(@RequestParam Integer paperId,
+                              @RequestParam String type,
+                              @RequestParam Integer index){
+        paperService.paperDelQue(paperId, type, index);
+        return new ResultBody<>(true,200,null);
+    }
 }

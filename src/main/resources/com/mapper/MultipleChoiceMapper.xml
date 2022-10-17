@@ -9,4 +9,7 @@
     </update>
     <delete id="deleteQuestion">DELETE FROM multiple_choice WHERE id=#{id}</delete>
     <select id="getAnswer" resultType="String">SELECT answer FROM multiple_choice WHERE id=#{id}</select>
+    <select id="selectNumsById">
+        SELECT * FROM multiple_choice WHERE id>#{id} LIMIT #{num};
+    </select>
 </mapper>

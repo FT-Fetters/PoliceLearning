@@ -22,4 +22,6 @@ public interface PaperService {
     String getPaperAnswer(int id);
     int count();
     List<JSONObject> getHistory(int uid);
+    void paperAddQue(Integer paperId, String type, Integer queId);
+    void paperDelQue(Integer paperId, String type, Integer index);
 }

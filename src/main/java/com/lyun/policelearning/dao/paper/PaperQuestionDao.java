@@ -10,4 +10,5 @@ public interface PaperQuestionDao {
     void insert(PaperQuestion paperQuestion);
     List<PaperQuestion> selectByPaperId(int paperId);
     void deleteByPaperId(int id);
+    void deleteByIndexId(PaperQuestion paperQuestion);
 }

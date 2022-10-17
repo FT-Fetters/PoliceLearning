@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -349,6 +350,41 @@ public class PaperServiceImpl implements PaperService {
         return res;
     }
 
+    @Override
+    public void paperAddQue(Integer paperId, String type, Integer queId) {
+        List<PaperQuestion> paperQuestions = paperQuestionDao.selectByPaperId(paperId);
+        paperQuestions.sort(Comparator.comparing(PaperQuestion::getIndex));
+        int index = paperQuestions.get(paperQuestions.size() - 1).getIndex() + 1;
+        if (type.equals("j") || type.equals("s") || type.equals("m")){
+            PaperQuestion paperQuestion = new PaperQuestion();
+            paperQuestion.setPaper_id(paperId);
+            paperQuestion.setQuestion_id(queId);
+            paperQuestion.setIndex(index);
+            switch (type.charAt(0)){
+                case 'j':
+                    paperQuestion.setType('j');
+                    paperQuestionDao.insert(paperQuestion);
+                    break;
+                case 's':
+                    paperQuestion.setType('s');
+                    paperQuestionDao.insert(paperQuestion);
+                    break;
+                case 'm':
+                    paperQuestion.setType('m');
+                    paperQuestionDao.insert(paperQuestion);
+            }
+        }
+    }
+
+    @Override
+    public void paperDelQue(Integer paperId, String type, Integer index) {
+        PaperQuestion paperQuestion = new PaperQuestion();
+        paperQuestion.setPaper_id(paperId);
+        paperQuestion.setIndex(index);
+        paperQuestion.setType(type.charAt(0));
+        paperQuestionDao.deleteByIndexId(paperQuestion);
+    }
+
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
@@ -370,4 +406,6 @@ public class PaperServiceImpl implements PaperService {
         }
         return new PageInfo<>(res);
     }
+
+
 }

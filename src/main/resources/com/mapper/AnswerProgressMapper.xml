@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.question.AnswerProgressDao">
+    <select id="getByUserId" resultType="AnswerProgress">
+        SELECT * FROM answer_progress WHERE user_id=#{userId}
+    </select>
+
+    <select id="select" resultType="AnswerProgress">
+        SELECT * FROM answer_progress WHERE id=#{id}
+    </select>
+    <insert id="insert">
+        INSERT INTO answer_progress(user_id, progress)
+        VALUES (#{user_id}, #{progress})
+    </insert>
+    <update id="update">
+        UPDATE answer_progress SET user_id=#{user_id}, progress=#{progress}
+        WHERE id=#{id}
+    </update>
+    <delete id="delete">
+        DELETE FROM answer_progress WHERE id=#{id}
+    </delete>
+</mapper>

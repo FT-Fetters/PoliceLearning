@@ -9,4 +9,7 @@
         select * from paper_question where paper_id=#{paper_id}
     </select>
     <delete id="deleteByPaperId">delete from paper_question where paper_id=#{id}</delete>
+    <delete id="deleteByIndexId">
+        delete from paper_question where type=#{type} and `index`=#{index} and paper_id=#{paper_id}
+    </delete>
 </mapper>
