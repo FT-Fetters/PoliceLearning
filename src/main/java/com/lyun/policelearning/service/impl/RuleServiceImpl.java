@@ -105,12 +105,25 @@ public class RuleServiceImpl implements RuleService {
         return ruleDao.count();
     }
 
+    @Override
+    public PageResult findPageSearch(PageRequest pageRequest, String word) {
+        return PageUtil.getPageResult(search(pageRequest,word),page);
+    }
+
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         //设置分页数据
         page = PageHelper.startPage(pageNum,pageSize);
         List<Rule> rules = ruleDao.selectPage();
+        return new PageInfo<>(rules);
+    }
+    private PageInfo<?> search(PageRequest pageRequest,String word) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        //设置分页数据
+        page = PageHelper.startPage(pageNum,pageSize);
+        List<Rule> rules = ruleDao.search(word);
         return new PageInfo<>(rules);
     }
 }

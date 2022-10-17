@@ -46,6 +46,11 @@ public class CourseApi {
         return new ResultBody<>(true, 200, courseService.findAll());
     }
 
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public Object search(@RequestParam String word){
+        return new ResultBody<>(true, 200, courseService.search(word));
+    }
+
     /**
      * 通过id获取指定的课程
      *

@@ -19,4 +19,11 @@
     <update id="deletePicture">UPDATE information SET picture=null WHERE id=#{id}</update>
     <select id="getInformationByTitle" resultType="Information">SELECT * FROM information WHERE title=#{title}</select>
     <select id="count" resultType="Integer">SELECT COUNT(*) FROM information</select>
+    <select id="search" resultType="Information">SELECT * FROM information
+   <trim prefix="where" prefixOverrides="and|or">
+        <if test="word!=null">
+            and title like '%${word}%'
+        </if>
+    </trim>
+    </select>
 </mapper>

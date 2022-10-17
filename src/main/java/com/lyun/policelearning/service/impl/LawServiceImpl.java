@@ -101,6 +101,13 @@ public class LawServiceImpl implements LawService {
     @Override
     public boolean insert(String lawtype, String title, String content, String explaination, String crime, JSONArray keywords) {
         if(keywords != null){
+            //遍历数据库，如果没有则添加
+            for (LawType lawType : lawTypeDao.findAll()){
+                if (!lawtype.equals(lawType.getLawtype())){
+                    lawTypeDao.insertType(lawtype);
+                    break;
+                }
+            }
             String keyword = keywords.toJSONString();
             for(LawType lawType : lawTypeDao.findTitleByName(lawtype)){
                 JSONArray jsonArray = JSONArray.parseArray(lawType.getTitle());
@@ -265,6 +272,19 @@ public class LawServiceImpl implements LawService {
         String lawtype = lawTypeDao.getTitleById(id).getLawtype();
         lawDao.updateType(lawtype,type);
         lawTypeDao.updateType(id, type);
+    }
+
+    @Override
+    public List<JSONObject> search(String word) {
+            List<JSONObject> res = new ArrayList<>();
+            List<Law> laws = lawDao.search(word);
+            for(Law law : laws){
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id",law.getId());
+                jsonObject.put("title",law.getTitle());
+                res.add(jsonObject);
+            }
+            return res;
     }
 
 

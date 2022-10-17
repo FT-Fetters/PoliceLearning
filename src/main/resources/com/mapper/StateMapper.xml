@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.StateDao">
+    <select id="check" resultType="State">SELECT * FROM state WHERE tid=#{tid} AND uid=#{uid}</select>
+    <insert id="insert">INSERT INTO state(tid,uid,isView) VALUES (#{tid},#{uid},1)</insert>
+    <select id="getState" resultType="State">SELECT * FROM state WHERE tid=#{tid}</select>
+</mapper>

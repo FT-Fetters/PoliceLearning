@@ -38,6 +38,14 @@ public class RuleManageApi {
         return new ResultBody<>(true,200,ruleService.findPage(pageQuery));
     }
 
+    @RequestMapping(value="/search",method = RequestMethod.GET)
+    public Object search(@RequestParam Integer pageNum,@RequestParam Integer pageSize,@RequestParam String word) {
+        if(pageNum <= 0||pageSize<=0){
+            return new ResultBody<>(false,500,"error pageSize or error pageNum");
+        }
+        PageRequest pageRequest = new PageRequest(pageNum,pageSize);
+        return new ResultBody<>(true,200,ruleService.findPageSearch(pageRequest,word));
+    }
 
     /**
      * 根据id返回新规的具体内容

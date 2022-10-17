@@ -5,13 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.Teach;
-import com.lyun.policelearning.service.CourseService;
-import com.lyun.policelearning.service.RoleService;
-import com.lyun.policelearning.service.TeachService;
-import com.lyun.policelearning.service.UserService;
+import com.lyun.policelearning.service.*;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
+import com.lyun.policelearning.utils.page.PageRequest;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +33,8 @@ public class TeachApi {
 
     @Autowired
     UserService userService;
+    @Autowired
+    StateService stateService;
 
     @Autowired
     JwtConfig jwtConfig;
@@ -122,15 +122,36 @@ public class TeachApi {
      * @param id
      * @return
      */
-    @Permission(admin = true)
+    @Permission(admin = false)
     @RequestMapping(value = "getById",method = RequestMethod.GET)
-    public Object getById(@RequestParam int id){
+    public Object getById(@RequestParam int id,HttpServletRequest request){
         if (id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
         //JSONObject res = new JSONObject();
+        //更新课时状态表
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        int tid = id;
+        //如果不存在则更新
+        if (!stateService.check(tid,userId)){
+            stateService.insert(tid,userId);
+        }
         return new ResultBody<>(true,200,teachService.getById(id));
     }
+    /**
+     * 2022.10.7
+     * deng
+     * 根据课时id分页返回已读人员列表
+     */
+    @Permission(admin = true)
+    @RequestMapping(value = "/getState",method = RequestMethod.GET)
+    public Object getState(/*@RequestParam Integer pageNum,@RequestParam Integer pageSize*/@RequestParam int tid){
+        //PageRequest pageRequest = new PageRequest(pageNum,pageSize);
+        return new ResultBody<>(true,200,stateService.getState(tid));
+    }
+
+
+
 
     /**
      * 保存课程的内容

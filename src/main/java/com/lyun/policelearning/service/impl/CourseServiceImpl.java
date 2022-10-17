@@ -151,4 +151,15 @@ public class CourseServiceImpl implements CourseService {
     public void delete(int id) {
         courseDao.delete(id);
     }
+
+    @Override
+    public List<JSONObject> search(String word) {
+        List<JSONObject> courses = new ArrayList<>();
+        List<Course> courseList = courseDao.search(word);
+        for (Course course : courseList) {
+            JSONObject tmp = courseToJson(course);
+            courses.add(tmp);
+        }
+        return courses;
+    }
 }

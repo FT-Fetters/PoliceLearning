@@ -257,6 +257,12 @@ public class InformationServiceImpl implements InformationService {
         return res;
     }
 
+    @Override
+    public PageResult search(PageRequest pageRequest, String word) {
+        return  PageUtil.getPageResult(getPageSearch(pageRequest,word),page);
+
+    }
+
 
     @SneakyThrows
     private PageInfo<?> getPageInfo(PageRequest pageRequest) {
@@ -266,6 +272,31 @@ public class InformationServiceImpl implements InformationService {
         page = PageHelper.startPage(pageNum,pageSize);
         List<JSONObject> res = new ArrayList<>();
         for(Information information : informationDao.selectPage()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id",information.getId());
+            jsonObject.put("title",information.getTitle());
+            jsonObject.put("view",information.getView());
+            jsonObject.put("date",information.getDate());
+            jsonObject.put("istop",information.getIstop());
+            if(information.getPicture() != null){
+                String savePath = PathTools.getRunPath()+"/image/";
+                String imagePath = savePath + information.getPicture();
+                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
+                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                jsonObject.put("picture", imgBase64);
+            }
+            res.add(jsonObject);
+        }
+        return new PageInfo<>(res);
+    }
+    @SneakyThrows
+    private PageInfo<?> getPageSearch(PageRequest pageRequest,String word) {
+        int pageNum = pageRequest.getPageNum();
+        int pageSize = pageRequest.getPageSize();
+        //设置分页数据
+        page = PageHelper.startPage(pageNum,pageSize);
+        List<JSONObject> res = new ArrayList<>();
+        for(Information information : informationDao.search(word)){
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id",information.getId());
             jsonObject.put("title",information.getTitle());

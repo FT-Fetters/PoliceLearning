@@ -15,4 +15,10 @@
     <select id="count" resultType="Integer">SELECT COUNT(*) FROM law</select>
     <delete id="deleteByType">DELETE FROM law WHERE lawtype=#{type}</delete>
     <update id="updateType">UPDATE law SET lawtype=#{type} WHERE lawtype=#{lawtype}</update>
+    <select id="search" resultType="Law">SELECT * FROM law
+     <trim prefix="where" prefixOverrides="and|or">
+        <if test="word!=null">
+            and title like '%${word}%'
+        </if>
+    </trim></select>
 </mapper>

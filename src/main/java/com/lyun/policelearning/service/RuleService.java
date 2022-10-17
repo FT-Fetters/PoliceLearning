@@ -16,4 +16,5 @@ public interface RuleService {
     boolean updateById(Rule rule);
     void updateView(int id);
     int count();
+    PageResult findPageSearch(PageRequest pageRequest,String word);
 }

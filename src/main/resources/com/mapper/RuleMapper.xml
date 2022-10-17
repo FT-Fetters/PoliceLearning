@@ -11,4 +11,11 @@
     <update id="updateById">UPDATE rule SET title=#{rule.title},content=#{rule.content},view=#{rule.view},date=#{rule.date} WHERE id=#{rule.id}</update>
     <update id="updateView">UPDATE rule SET view = view + 1 WHERE id=#{id}</update>
     <select id="count" resultType="Integer">SELECT COUNT(*) FROM rule</select>
+    <select id="search" resultType="Rule">SELECT * FROM rule
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="word!=null">
+                and title like '%${word}%'
+            </if>
+        </trim>
+    </select>
 </mapper>

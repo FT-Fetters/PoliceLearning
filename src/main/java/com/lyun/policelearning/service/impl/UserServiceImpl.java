@@ -71,6 +71,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> search(String word) {
+        return userDao.search(word);
+    }
+
+    @Override
     public void changePassword(String username, String password) {
         userDao.changePassword(username,DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8)));
     }
