@@ -55,13 +55,16 @@ public class UserApi {
                         @RequestParam String password){
         JSONObject res = new JSONObject();
         if (userService.check(username,password)){
-            String userId = userService.getByUsername(username).getId() + "";
+            User user = userService.getByUsername(username);
+            String userId = user.getId() + "";
             String token = jwtConfig.createToken(userId);
-            String nickName = userService.getByUsername(username).getNickname();
+            String nickName = user.getNickname();
+            boolean isAdmin = userService.isAdmin(user.getId());
             if (!token.equals("")){
                 res.put("token",token);
                 res.put("userName",username);
                 res.put("nickName",nickName);
+                res.put("isAdmin",isAdmin);
             }
             return new ResultBody<>(true,200,res);
 

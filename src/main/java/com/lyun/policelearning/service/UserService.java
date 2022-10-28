@@ -18,4 +18,6 @@ public interface UserService {
     List<User> search(String word);
     void changePassword(String username,String password);
     void changeNickname(String username,String nickname);
+    boolean isAdmin(int id);
+    boolean isAdmin(User user);
 }

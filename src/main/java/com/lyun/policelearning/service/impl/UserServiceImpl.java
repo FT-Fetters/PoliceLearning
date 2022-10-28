@@ -1,6 +1,7 @@
 package com.lyun.policelearning.service.impl;
 
 
+import com.lyun.policelearning.dao.RoleDao;
 import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.UserService;
@@ -17,7 +18,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
+
+    private RoleDao roleDao;
 
     @Override
     public boolean check(String username, String password) {
@@ -83,5 +86,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeNickname(String username, String nickname) {
         userDao.changeNickname(username,nickname);
+    }
+
+    @Override
+    public boolean isAdmin(int id) {
+        return isAdmin(userDao.getById(id));
+    }
+
+    @Override
+    public boolean isAdmin(User user) {
+        int role = user.getRole();
+        return roleDao.findById(role).isAdmin();
     }
 }
