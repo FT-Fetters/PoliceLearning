@@ -6,5 +6,5 @@ import lombok.Data;
 public class AnswerProgress {
     private int id;
     private int user_id;
-    private String progress_id;
+    private String progress;
 }

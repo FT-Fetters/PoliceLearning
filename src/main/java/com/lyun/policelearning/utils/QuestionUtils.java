@@ -55,6 +55,7 @@ public class QuestionUtils {
                     SingleChoice singleChoice = singleChoiceList.get(random);
                     JSONObject tmp = new JSONObject();
                     tmp.put("id",singleChoice.getId());
+                    tmp.put("problem",singleChoice.getProblem());
                     JSONArray option = new JSONArray();
                     JSONObject option_a = new JSONObject();
                     option_a.put("id","A");

@@ -17,4 +17,7 @@ public interface MultipleChoiceDao extends BaseDao<MultipleChoice> {
     void deleteQuestion(int id);
     String getAnswer(int id);
     List<MultipleChoice> selectNumsById(int id, int num);
+    int countLessThanId(int id);
+    int count();
+
 }

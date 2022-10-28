@@ -7,4 +7,6 @@ public interface AnswerProgressService {
 
     JSONObject getQuestion(SequentialGetBody body);
 
+    JSONObject getProgress(int userId);
+
 }

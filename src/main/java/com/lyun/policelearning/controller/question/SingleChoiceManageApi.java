@@ -142,7 +142,7 @@ public class SingleChoiceManageApi {
     public void getTemplate(HttpServletResponse response) {
         List<SingleChoice> singleChoices = new ArrayList<>();
         SingleChoice singleChoice = new SingleChoice();
-        singleChoice.setProblem("多选题问题()");
+        singleChoice.setProblem("单选题问题()");
         singleChoice.setOption_a("选项A");
         singleChoice.setOption_b("选项B");
         singleChoice.setOption_c("选项C");

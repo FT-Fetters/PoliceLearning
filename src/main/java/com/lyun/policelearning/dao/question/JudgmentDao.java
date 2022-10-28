@@ -14,4 +14,6 @@ public interface JudgmentDao extends BaseDao<Judgment> {
     void updateQuestion(@Param("judgment") Judgment judgment);
     void deleteQuestion(int id);
     List<Judgment> selectNumsById(int id, int num);
+    int countLessThanId(int id);
+    int count();
 }

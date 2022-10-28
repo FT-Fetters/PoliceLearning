@@ -8,7 +8,13 @@
         UPDATE single_choice SET problem = #{singleChoice.problem},option_a=#{singleChoice.option_a},option_b=#{singleChoice.option_b},option_c=#{singleChoice.option_c},option_d=#{singleChoice.option_d},answer=#{singleChoice.answer} WHERE id = #{singleChoice.id}
     </update>
     <delete id="deleteQuestion">DELETE FROM single_choice WHERE id=#{id}</delete>
-    <select id="selectNumsById">
+    <select id="selectNumsById" resultType="SingleChoice">
         SELECT * FROM single_choice WHERE id>#{id} LIMIT #{num};
+    </select>
+    <select id="countLessThanId" resultType="int">
+        SELECT COUNT(*) FROM multiple_choice WHERE id <![CDATA[<=]]> #{id};
+    </select>
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM multiple_choice
     </select>
 </mapper>

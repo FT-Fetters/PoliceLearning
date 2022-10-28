@@ -1,0 +1,41 @@
+2022-10-23 10:35:59 [error] Content type 'multipart/form-data;boundary=--------------------------732610558290940526289434;charset=UTF-8' not supported
+2022-10-23 10:36:26 [error] Content type 'multipart/form-data;boundary=--------------------------834797113887831906306531;charset=UTF-8' not supported
+2022-10-23 10:36:56 [error] Content type 'multipart/form-data;boundary=--------------------------137615568453248349161531;charset=UTF-8' not supported
+2022-10-23 10:36:58 [error] Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported
+2022-10-23 10:37:03 [error] null
+2022-10-23 10:37:25 [error] null
+2022-10-23 10:40:20 [error] null
+2022-10-23 10:40:30 [error] nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'progress' in 'class com.lyun.policelearning.entity.AnswerProgress'
+2022-10-23 10:42:13 [error] 
+### Error updating database.  Cause: java.sql.SQLException: Data truncated for column 'progress' at row 1
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: INSERT INTO answer_progress(user_id, progress)         VALUES (?, ?)
+### Cause: java.sql.SQLException: Data truncated for column 'progress' at row 1
+; Data truncated for column 'progress' at row 1; nested exception is java.sql.SQLException: Data truncated for column 'progress' at row 1
+2022-10-23 10:48:37 [error] 
+### Error updating database.  Cause: java.sql.SQLException: Data truncated for column 'progress' at row 1
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: INSERT INTO answer_progress(user_id, progress)         VALUES (?, ?)
+### Cause: java.sql.SQLException: Data truncated for column 'progress' at row 1
+; Data truncated for column 'progress' at row 1; nested exception is java.sql.SQLException: Data truncated for column 'progress' at row 1
+2022-10-23 10:50:45 [error] 
+### Error updating database.  Cause: java.sql.SQLException: Data truncated for column 'progress' at row 1
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: INSERT INTO answer_progress(user_id, progress)         VALUES (?, ?)
+### Cause: java.sql.SQLException: Data truncated for column 'progress' at row 1
+; Data truncated for column 'progress' at row 1; nested exception is java.sql.SQLException: Data truncated for column 'progress' at row 1
+2022-10-23 10:51:34 [error] 
+### Error updating database.  Cause: java.sql.SQLException: Data truncated for column 'progress' at row 1
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: INSERT INTO answer_progress(user_id, progress)         VALUES (?, ?)
+### Cause: java.sql.SQLException: Data truncated for column 'progress' at row 1
+; Data truncated for column 'progress' at row 1; nested exception is java.sql.SQLException: Data truncated for column 'progress' at row 1
+2022-10-23 10:58:07 [error] null
+2022-10-23 10:59:42 [error] null
+2022-10-23 11:00:09 [error] nested exception is org.apache.ibatis.executor.ExecutorException: A query was run and no Result Maps were found for the Mapped Statement 'com.lyun.policelearning.dao.question.JudgmentDao.selectNumsById'.  It's likely that neither a Result Type nor a Result Map was specified.
+2022-10-23 11:04:10 [error] nested exception is org.apache.ibatis.executor.ExecutorException: A query was run and no Result Maps were found for the Mapped Statement 'com.lyun.policelearning.dao.question.SingleChoiceDao.selectNumsById'.  It's likely that neither a Result Type nor a Result Map was specified.
+2022-10-23 11:04:54 [error] com.alibaba.fastjson.JSONObject cannot be cast to com.alibaba.fastjson.JSONArray
