@@ -16,4 +16,5 @@ public interface CourseDao extends BaseDao<Course>{
     Integer count();
     void delete(int id);
     List<Course> search(@Param("word") String word);
+    void update1(@Param("course") Course course);
 }

@@ -21,4 +21,9 @@
         </if>
     </trim>
      </select>
+    <update id="update1">UPDATE course SET
+                                          id=#{course.id},name=#{course.name},
+                                          catalogue=#{course.catalogue},
+                                          type=#{course.type}
+                        WHERE id=#{course.id}</update>
 </mapper>

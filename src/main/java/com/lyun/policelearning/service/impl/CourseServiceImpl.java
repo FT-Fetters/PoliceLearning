@@ -125,7 +125,7 @@ public class CourseServiceImpl implements CourseService {
         course.setName(courseJson.getString("name"));
         course.setId(courseJson.getInteger("id"));
         course.setType(courseJson.getString("type"));
-        courseDao.update(course);
+        courseDao.update1(course);
         return true;
     }
 
@@ -138,7 +138,7 @@ public class CourseServiceImpl implements CourseService {
         course.setName(courseJson.getString("name"));
         course.setId(courseJson.getInteger("id"));
         course.setType(courseJson.getString("type"));
-        courseDao.update(course);
+        courseDao.update1(course);
         return true;
     }
 

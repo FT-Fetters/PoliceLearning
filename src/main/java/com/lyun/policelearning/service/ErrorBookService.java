@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ErrorBookService {
     boolean save(int userId,int type,int questionId);
-    List<JSONObject> findAll(int userId);
+    JSONObject findAll(int userId);
     void delete(int userId,int type,int questionId);
 }

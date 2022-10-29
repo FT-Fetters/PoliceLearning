@@ -13,4 +13,5 @@ public interface LawTypeDao extends BaseDao<LawType>{
     void deleteType(int id);
     LawType getTitleById(int id);
     void updateType(int id,String type);
+    LawType check(String lawtype);
 }

@@ -61,7 +61,7 @@ public class ErrorBookApi {
     public Object findAll(HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);
         int userId = UserUtils.getUserId(request,jwtConfig);
-        List<JSONObject> res = errorBookService.findAll(userId);
+        JSONObject res = errorBookService.findAll(userId);
         return new ResultBody<>(true,200,res);
     }
     @RequestMapping(value = "/all/delete",method = RequestMethod.GET)

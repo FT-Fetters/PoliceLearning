@@ -102,11 +102,8 @@ public class LawServiceImpl implements LawService {
     public boolean insert(String lawtype, String title, String content, String explaination, String crime, JSONArray keywords) {
         if(keywords != null){
             //遍历数据库，如果没有则添加
-            for (LawType lawType : lawTypeDao.findAll()){
-                if (!lawtype.equals(lawType.getLawtype())){
-                    lawTypeDao.insertType(lawtype);
-                    break;
-                }
+            if(lawTypeDao.check(lawtype) == null){
+                lawTypeDao.insertType(lawtype);
             }
             String keyword = keywords.toJSONString();
             for(LawType lawType : lawTypeDao.findTitleByName(lawtype)){

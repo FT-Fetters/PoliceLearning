@@ -10,4 +10,5 @@
     <delete id="deleteType">DELETE FROM lawtype WHERE id=#{id}</delete>
     <select id="getTitleById" resultType="LawType">SELECT * FROM lawtype WHERE id=#{id}</select>
     <update id="updateType">UPDATE lawtype SET lawtype=#{type} WHERE id=#{id}</update>
+    <select id="check" resultType="LawType">SELECT * FROM lawtype WHERE lawtype=#{lawtype}</select>
 </mapper>
