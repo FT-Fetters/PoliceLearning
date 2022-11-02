@@ -73,7 +73,7 @@ public class TeachApi {
             return new ErrorResponse(1,"其它问题，请联系管理员");
         }
         InetAddress address = InetAddress.getLocalHost();
-        String imgUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/coursePicture/" + fileName;
+        String imgUrl = "http://" + "cool.ldqc.xyz" + ":9435/api/upload/coursePicture/" + fileName;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",imgUrl);
         return new PictureResponse(0,jsonObject);
@@ -111,7 +111,7 @@ public class TeachApi {
         }
         InetAddress address = InetAddress.getLocalHost();;
         String url = address.getHostAddress();
-        String videoUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/courseVideo/" + fileName;
+        String videoUrl = "http://" + "cool.ldqc.xyz" + ":9435/api/upload/courseVideo/" + fileName;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",videoUrl);
         return new WangEditorResponse(0,jsonObject);

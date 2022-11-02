@@ -321,7 +321,7 @@ public class InformationManageApi {
             return new InformationManageApi.ErrorResponse(1,"其它问题，请联系管理员");
         }
         InetAddress address = InetAddress.getLocalHost();
-        String imgUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/informationPicture/" + fileName;
+        String imgUrl = "http://" + "lcool.ldqc.xyz" + ":9435/api/upload/informationPicture/" + fileName;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",imgUrl);
         return new InformationManageApi.PictureResponse(0,jsonObject);
@@ -359,7 +359,7 @@ public class InformationManageApi {
         }
         InetAddress address = InetAddress.getLocalHost();;
         String url = address.getHostAddress();
-        String videoUrl = "http://" + "ldqc.xyz" + ":5880/api/upload/informationVideo/" + fileName;
+        String videoUrl = "http://" + "cool.ldqc.xyz" + ":9435/api/upload/informationVideo/" + fileName;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",videoUrl);
         return new InformationManageApi.WangEditorResponse(0,jsonObject);
