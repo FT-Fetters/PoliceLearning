@@ -12,9 +12,9 @@
         SELECT * FROM single_choice WHERE id>#{id} LIMIT #{num};
     </select>
     <select id="countLessThanId" resultType="int">
-        SELECT COUNT(*) FROM multiple_choice WHERE id <![CDATA[<=]]> #{id};
+        SELECT COUNT(*) FROM single_choice WHERE id <![CDATA[<=]]> #{id};
     </select>
     <select id="count" resultType="int">
-        SELECT COUNT(*) FROM multiple_choice
+        SELECT COUNT(*) FROM single_choice
     </select>
 </mapper>

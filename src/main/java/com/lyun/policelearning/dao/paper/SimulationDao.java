@@ -1,0 +1,12 @@
+package com.lyun.policelearning.dao.paper;
+
+import com.lyun.policelearning.entity.SimulationSettings;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+@Mapper
+public interface SimulationDao {
+    List<SimulationSettings> getSettings();
+    void updateSettings(SimulationSettings simulationSettings);
+}

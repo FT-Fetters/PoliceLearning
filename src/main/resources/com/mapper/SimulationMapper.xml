@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.paper.SimulationDao">
+    <select id="getSettings" resultType="SimulationSettings">
+        SELECT * FROM simulation_settings
+    </select>
+    <update id="updateSettings">
+        UPDATE simulation_settings SET
+                                       jud_num = #{jud_num},
+                                       jud_score = #{jud_score},
+                                       sin_num = #{sin_num},
+                                       sin_score = #{sin_score},
+                                       mul_num = #{mul_num},
+                                       mul_score = #{mul_score}
+    </update>
+</mapper>

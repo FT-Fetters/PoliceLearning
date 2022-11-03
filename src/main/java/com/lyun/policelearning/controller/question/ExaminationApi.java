@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.lyun.policelearning.entity.SimulationSettings;
 import com.lyun.policelearning.service.ErrorBookService;
 import com.lyun.policelearning.service.UserService;
+import com.lyun.policelearning.service.paper.SimulationService;
 import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.service.question.SingleChoiceService;
@@ -20,7 +22,6 @@ import java.util.List;
 @RequestMapping("/exam")
 @RestController
 public class ExaminationApi {
-    private static final int QUESTION_NUM = 10;
     public static JSONObject presentRes;
     public static double total;
     @Autowired
@@ -37,11 +38,16 @@ public class ExaminationApi {
 
     @Autowired
     JudgmentService judgmentService;
+
+    @Autowired
+    SimulationService simulationService;
+
     @RequestMapping(value = "/getExam",method = RequestMethod.GET)
     public Object exam(HttpServletRequest request){
-        List<JSONObject> singleChoiceList = ExamUtils.sampleSingle(singleChoiceService,QUESTION_NUM);
-        List<JSONObject> multipleChoiceList = ExamUtils.sampleMultiple(multipleChoiceService,QUESTION_NUM);
-        List<JSONObject> judgmentList = ExamUtils.sampleJudgment(judgmentService,QUESTION_NUM);
+        SimulationSettings settings = simulationService.getSettings();
+        List<JSONObject> singleChoiceList = ExamUtils.sampleSingle(singleChoiceService,settings.getSin_num());
+        List<JSONObject> multipleChoiceList = ExamUtils.sampleMultiple(multipleChoiceService,settings.getMul_num());
+        List<JSONObject> judgmentList = ExamUtils.sampleJudgment(judgmentService,settings.getJud_num());
         JSONObject res = new JSONObject();
         res.put("single",singleChoiceList);
         res.put("multiple",multipleChoiceList);
