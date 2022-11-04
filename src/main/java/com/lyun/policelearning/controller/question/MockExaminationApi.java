@@ -2,10 +2,13 @@ package com.lyun.policelearning.controller.question;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.question.SingleChoiceDao;
+import com.lyun.policelearning.entity.SimulationSettings;
 import com.lyun.policelearning.entity.question.Judgment;
 import com.lyun.policelearning.entity.question.MultipleChoice;
 import com.lyun.policelearning.entity.question.SingleChoice;
 import com.lyun.policelearning.service.paper.PaperService;
+import com.lyun.policelearning.service.paper.SimulationRecordService;
+import com.lyun.policelearning.service.paper.SimulationService;
 import com.lyun.policelearning.service.question.JudgmentService;
 import com.lyun.policelearning.service.question.MultipleChoiceService;
 import com.lyun.policelearning.service.question.SingleChoiceService;
@@ -28,7 +31,6 @@ import java.util.Map;
 @RestController
 public class MockExaminationApi {
 
-    private static final int QUESTION_NUM = 10;
     @Autowired
     SingleChoiceService singleChoiceService;
 
@@ -41,12 +43,18 @@ public class MockExaminationApi {
     @Autowired
     PaperService paperService;
 
+    @Autowired
+    SimulationService simulationService;
+
     @SneakyThrows
     @RequestMapping("/sample")
     public Object sample(HttpServletRequest request){
-        List<JSONObject> singleChoiceList = QuestionUtils.sampleSingle(singleChoiceService,QUESTION_NUM);
-        List<JSONObject> multipleChoiceList = QuestionUtils.sampleMultiple(multipleChoiceService,QUESTION_NUM);
-        List<JSONObject> judgmentList = QuestionUtils.sampleJudgment(judgmentService,QUESTION_NUM);
+        int sin_num = simulationService.getSettings().getSin_num();
+        int mul_num = simulationService.getSettings().getMul_num();
+        int jud_num = simulationService.getSettings().getJud_num();
+        List<JSONObject> singleChoiceList = QuestionUtils.sampleSingle(singleChoiceService,sin_num);
+        List<JSONObject> multipleChoiceList = QuestionUtils.sampleMultiple(multipleChoiceService,mul_num);
+        List<JSONObject> judgmentList = QuestionUtils.sampleJudgment(judgmentService,jud_num);
         JSONObject res = new JSONObject();
         res.put("single",singleChoiceList);
         res.put("multiple",multipleChoiceList);
