@@ -73,12 +73,16 @@ public class PaperServiceImpl implements PaperService {
     public JSONArray userSelectAll(int userId) {
         JSONArray res = new JSONArray();
         for (Paper paper : paperDao.selectAll()) {
-            JSONObject tmp = ((JSONObject) JSONObject.toJSON(paper));
-            if (examDao.selectByUserIdAndPaperId(userId,paper.getId()) == null)
-                tmp.put("finish",false);
-            else
-                tmp.put("finish",true);
-            res.add(tmp);
+            if(paper.isEnable()){
+                JSONObject tmp = ((JSONObject) JSONObject.toJSON(paper));
+                if (examDao.selectByUserIdAndPaperId(userId,paper.getId()) == null) {
+                    tmp.put("finish", false);
+                }
+                else {
+                    tmp.put("finish", true);
+                }
+                res.add(tmp);
+            }
         }
         return res;
     }
