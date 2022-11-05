@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.errorbook;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.ErrorBookService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
@@ -50,6 +52,24 @@ public class ErrorBookApi {
         }else {
             return new ResultBody<>(false,500,"exist");
         }
+    }
+
+    /**
+     * 一次性传入多个错题
+     */
+    @RequestMapping(value = "/add/some",method = RequestMethod.POST)
+    public Object addSome(@RequestBody JSONArray array,HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        for(Object o : array){
+            LinkedHashMap hashMap = (LinkedHashMap) o;
+            Integer type = (Integer) hashMap.get("type");
+            Integer questionId = (Integer) hashMap.get("questionId");
+            if (type < 1 || type > 3){
+                return new ResultBody<>(false,502,"error type");
+            }
+            errorBookService.save(userId,type,questionId);
+        }
+        return new ResultBody<>(true,200,null);
     }
 
     /**
