@@ -146,6 +146,13 @@ public class AnswerProgressServiceImpl implements AnswerProgressService {
     @Override
     public JSONObject getProgress(int userId) {
         AnswerProgress answerProgress = answerProgressDao.getByUserId(userId);
+        if (answerProgress == null){
+            AnswerProgress tmp = new AnswerProgress();
+            tmp.setUser_id(userId);
+            tmp.setProgress("0,0,0");
+            answerProgressDao.insert(tmp);
+            answerProgress = tmp;
+        }
         String progress = answerProgress.getProgress();
         JSONObject res = new JSONObject();
         JSONObject jud = new JSONObject();
