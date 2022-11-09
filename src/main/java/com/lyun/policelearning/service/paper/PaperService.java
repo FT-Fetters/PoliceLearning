@@ -2,6 +2,7 @@ package com.lyun.policelearning.service.paper;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.controller.paper.model.GeneratePaperBody;
 import com.lyun.policelearning.entity.Paper;
 import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
@@ -13,7 +14,7 @@ public interface PaperService {
 
     PageResult selectAll(PageRequest pageRequest);
     JSONArray userSelectAll(int userId);
-    int generate(int j,int m,int s,String title,int uid);
+    int generate(GeneratePaperBody body);
     JSONObject getById(int id);
     JSONObject userGetById(int id);
     boolean delete(int id);

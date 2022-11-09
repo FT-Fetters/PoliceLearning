@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lyun.policelearning.controller.paper.model.GeneratePaperBody;
 import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.dao.paper.ExamDao;
 import com.lyun.policelearning.dao.paper.PaperDao;
@@ -88,12 +89,17 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
-    public int generate(int j, int m, int s,String title,int uid) {
+    public int generate(GeneratePaperBody body) {
         //新建试卷
         Paper paper = new Paper();
-        paper.setCreateUser(uid);
-        paper.setTitle(title);
+        paper.setCreateUser(body.getUid());
+        paper.setTitle(body.getTitle());
+        paper.setScore("" + body.getScore_j() + "," + body.getScore_s() + "," + body.getScore_m());
+        Integer j = body.getJ();
+        Integer s = body.getS();
+        Integer m = body.getM();
         paper.setDate(new Date(System.currentTimeMillis()));
+        paper.setTime(body.getTime());
         //随机选择题目
         Random random = new Random(System.currentTimeMillis());
         //判断题
@@ -153,6 +159,7 @@ public class PaperServiceImpl implements PaperService {
         Paper paper = paperDao.getById(id);
         res.put("id",paper.getId());
         res.put("title",paper.getTitle());
+        res.put("time",paper.getTime());
         JSONObject question = new JSONObject();
         List<PaperQuestion> paperQuestions = paperQuestionDao.selectByPaperId(paper.getId());
         question.put("j",new JSONArray());
@@ -181,6 +188,7 @@ public class PaperServiceImpl implements PaperService {
             Paper paper = paperDao.getById(id);
             res.put("id",paper.getId());
             res.put("title",paper.getTitle());
+            res.put("time",paper.getTime());
             JSONObject question = new JSONObject();
             List<PaperQuestion> paperQuestions = paperQuestionDao.selectByPaperId(paper.getId());
             question.put("j",new JSONArray());

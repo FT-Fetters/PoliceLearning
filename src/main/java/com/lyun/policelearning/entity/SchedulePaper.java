@@ -10,4 +10,6 @@ public class SchedulePaper {
     private int s;
     private int m;
     private String title;
+    private String score;
+    private Long time;
 }

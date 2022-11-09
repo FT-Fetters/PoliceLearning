@@ -1,9 +1,8 @@
 package com.lyun.policelearning.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import org.springframework.core.io.ClassPathResource;
+
+import java.io.*;
 
 public class FileUtils {
 
@@ -18,5 +17,20 @@ public class FileUtils {
             br.close();
         }
         return result.toString();
+    }
+
+    public static byte[] getResourceFile(String path, ClassLoader classLoader) throws IOException {
+        if (path == null || path.equals(""))return null;
+        ClassPathResource classPathResource = new ClassPathResource(path);
+        File file = classPathResource.getFile();
+        FileInputStream fileInputStream = new FileInputStream(file);
+        byte[] res = new byte[fileInputStream.available()];
+        int read = fileInputStream.read(res);
+        if (read == res.length)
+            return res;
+        else return null;
+
+
+
     }
 }

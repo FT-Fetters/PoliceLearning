@@ -3,6 +3,7 @@ package com.lyun.policelearning.controller.paper;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.controller.paper.model.GeneratePaperBody;
 import com.lyun.policelearning.controller.paper.model.PaperSubmitBody;
 import com.lyun.policelearning.entity.Paper;
 import com.lyun.policelearning.entity.question.Judgment;
@@ -64,17 +65,13 @@ public class PaperApi {
 
     /**
      * 生成试卷
-     * @param j 判断题数量
-     * @param m 多选题数量
-     * @param s 单选题数量
-     * @param title 试卷标题
      * @return 试卷id
      */
     @PostMapping("/generate")
-    public Object generate(@RequestParam Integer j,@RequestParam Integer m,@RequestParam Integer s,
-                           @RequestParam String title,HttpServletRequest request){
+    public Object generate(@RequestBody GeneratePaperBody body, HttpServletRequest request){
         int user_id = UserUtils.getUserId(request,jwtConfig);
-        return new ResultBody<>(true,200,paperService.generate(j,m,s,title,user_id));
+        body.setUid(user_id);
+        return new ResultBody<>(true,200,paperService.generate(body));
     }
 
     /**
@@ -163,6 +160,10 @@ public class PaperApi {
         return new ResultBody<>(true,200,examService.selectByUserId(user_id));
     }
 
+    /**
+     * 获取指定试卷的分数列表
+     * @param paper_id 试卷id
+     */
     @Permission(admin = false)
     @GetMapping("/exam/score/{paper_id}")
     public Object getExamScore(@PathVariable int paper_id,HttpServletRequest request){

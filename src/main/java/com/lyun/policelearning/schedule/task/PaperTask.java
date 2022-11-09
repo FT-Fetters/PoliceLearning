@@ -1,5 +1,6 @@
 package com.lyun.policelearning.schedule.task;
 
+import com.lyun.policelearning.controller.paper.model.GeneratePaperBody;
 import com.lyun.policelearning.entity.SchedulePaper;
 import com.lyun.policelearning.service.paper.PaperService;
 
@@ -27,7 +28,17 @@ public class PaperTask implements Runnable{
             title = title.replace("{year}",new SimpleDateFormat("yyyy").format(new Date()));
             title = title.replace("{week}",String.valueOf(Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)));
             title = title.replace("{month}",String.valueOf(Calendar.getInstance().get(Calendar.MONTH)));
-            int id = paperService.generate(schedulePaper.getJ(),schedulePaper.getM(),schedulePaper.getS(),title,1);
+            GeneratePaperBody body = new GeneratePaperBody();
+            body.setTitle(title);
+            body.setJ(schedulePaper.getJ());
+            body.setS(schedulePaper.getS());
+            body.setM(schedulePaper.getM());
+            body.setScore_j(Integer.valueOf(schedulePaper.getScore().split(",")[0]));
+            body.setScore_s(Integer.valueOf(schedulePaper.getScore().split(",")[1]));
+            body.setScore_m(Integer.valueOf(schedulePaper.getScore().split(",")[2]));
+            body.setTime(schedulePaper.getTime());
+            body.setUid(1);
+            int id = paperService.generate(body);
             System.out.println("学法考试新建成功，id:" + id);
         }
     }

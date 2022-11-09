@@ -2,16 +2,16 @@ package com.lyun.policelearning.controller.question;
 
 import com.hy.corecode.idgen.WFGIdGenerator;
 import com.lyun.policelearning.service.question.QuestionImportService;
+import com.lyun.policelearning.utils.FileUtils;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 
 @RestController
@@ -35,6 +35,20 @@ public class QuestionImportApi {
         file.transferTo(new File(filePath));
         questionImportService.importQuestion(filePath);
         return new ResultBody<>(true,200,"success");
+    }
+
+
+    @SneakyThrows
+    @GetMapping("/download/template")
+    public void getTemplate(HttpServletResponse response){
+        ServletOutputStream ops = response.getOutputStream();
+        response.reset();
+        response.setContentType("application/octet-stream;charset=utf-8");
+        response.setHeader(
+                "Content-disposition",
+                "attachment; filename=template.docx");
+        byte[] b = FileUtils.getResourceFile("/templates/questionsImport.docx", this.getClass().getClassLoader());
+        ops.write(b);
     }
 
 

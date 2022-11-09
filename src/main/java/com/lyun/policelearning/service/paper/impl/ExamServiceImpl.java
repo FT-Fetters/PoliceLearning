@@ -10,6 +10,7 @@ import com.lyun.policelearning.dao.question.JudgmentDao;
 import com.lyun.policelearning.dao.question.MultipleChoiceDao;
 import com.lyun.policelearning.dao.question.SingleChoiceDao;
 import com.lyun.policelearning.entity.Exam;
+import com.lyun.policelearning.entity.Paper;
 import com.lyun.policelearning.entity.PaperQuestion;
 import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.entity.question.Judgment;
@@ -46,32 +47,37 @@ public class ExamServiceImpl implements ExamService {
     @Autowired
     private SingleChoiceDao singleChoiceDao;
 
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private PaperDao paperDao;
+
 
     @Override
     public float submit(int userId, int paperId, List<String> inputs) {
         if (examDao.selectByUserIdAndPaperId(userId,paperId)!=null)return -1;
         List<PaperQuestion> paperQuestions = paperQuestionDao.selectByPaperId(paperId);
         paperQuestions.sort(Comparator.comparingInt(PaperQuestion::getIndex));
-        float scorePerQue = (float) (100.0/((float)paperQuestions.size()));
         float sumScore = 0;
+        Paper paper = paperDao.getById(paperId);
+        int jScore = Integer.parseInt(paper.getScore().split(",")[0]);
+        int sScore = Integer.parseInt(paper.getScore().split(",")[1]);
+        int mScore = Integer.parseInt(paper.getScore().split(",")[2]);
         for (int i = 0; i < paperQuestions.size(); i++) {
             switch (paperQuestions.get(i).getType()){
                 case 'j':
                     Judgment judgment = judgmentDao.getById(paperQuestions.get(i).getQuestion_id());
-                    if (judgment.getAnswer().equals(inputs.get(i)))sumScore+=scorePerQue;
+                    if (judgment.getAnswer().equals(inputs.get(i)))sumScore+=jScore;
                     break;
                 case 'm':
                     MultipleChoice multipleChoice = multipleChoiceDao.getById(paperQuestions.get(i).getQuestion_id());
-                    if (multipleChoice.getAnswer().equals(inputs.get(i)))sumScore+=scorePerQue;
+                    if (multipleChoice.getAnswer().equals(inputs.get(i)))sumScore+=sScore;
                     break;
                 case 's':
                     SingleChoice singleChoice = singleChoiceDao.getById(paperQuestions.get(i).getQuestion_id());
-                    if (singleChoice.getAnswer().equals(inputs.get(i)))sumScore+=scorePerQue;
+                    if (singleChoice.getAnswer().equals(inputs.get(i)))sumScore+=mScore;
                     break;
             }
         }

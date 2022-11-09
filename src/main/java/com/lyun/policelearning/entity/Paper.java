@@ -11,4 +11,6 @@ public class Paper {
     private Date date;
     private String title;
     private boolean enable;
+    private String score;
+    private Long time;
 }
