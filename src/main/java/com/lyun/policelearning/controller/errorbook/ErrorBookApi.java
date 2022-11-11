@@ -93,4 +93,11 @@ public class ErrorBookApi {
         errorBookService.delete(userId,type,questionId);
         return new ResultBody<>(true,200,null);
     }
+
+    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    public Object delete(@RequestParam int type,@RequestParam int id,HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        errorBookService.delete(userId,type,id);
+        return new ResultBody<>(true,200,null);
+    }
 }
