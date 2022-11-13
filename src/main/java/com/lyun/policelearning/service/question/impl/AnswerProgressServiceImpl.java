@@ -2,6 +2,7 @@ package com.lyun.policelearning.service.question.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.controller.paper.model.ResetBody;
 import com.lyun.policelearning.controller.paper.model.SequentialGetBody;
 import com.lyun.policelearning.dao.question.AnswerProgressDao;
 import com.lyun.policelearning.dao.question.JudgmentDao;
@@ -168,5 +169,23 @@ public class AnswerProgressServiceImpl implements AnswerProgressService {
         mul.put("all", multipleChoiceDao.count());
         res.put("m",mul);
         return res;
+    }
+
+    @Override
+    public void reset(ResetBody body) {
+        AnswerProgress answerProgress = answerProgressDao.getByUserId(body.getUserId());
+        if (answerProgress == null){
+            AnswerProgress tmp = new AnswerProgress();
+            tmp.setUser_id(body.getUserId());
+            tmp.setProgress("0,0,0");
+            answerProgressDao.insert(tmp);
+            return;
+        }
+        String[] process = answerProgress.getProgress().split(",");
+        process[0] = body.getJ() ? "0" : process[0];
+        process[1] = body.getJ() ? "0" : process[1];
+        process[2] = body.getJ() ? "0" : process[2];
+        answerProgress.setProgress(process[0] + "," + process[1] + "," + process[2]);
+        answerProgressDao.update(answerProgress);
     }
 }

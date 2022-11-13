@@ -26,6 +26,7 @@ public class FileUtils {
         FileInputStream fileInputStream = new FileInputStream(file);
         byte[] res = new byte[fileInputStream.available()];
         int read = fileInputStream.read(res);
+        fileInputStream.close();
         if (read == res.length)
             return res;
         else return null;

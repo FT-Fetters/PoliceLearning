@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
+import com.lyun.policelearning.controller.paper.model.ResetBody;
 import com.lyun.policelearning.controller.paper.model.SequentialGetBody;
 import com.lyun.policelearning.service.question.AnswerProgressService;
 import com.lyun.policelearning.utils.ResultBody;
@@ -40,6 +41,20 @@ public class SequentialAnswerApi {
         int userId = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,answerProgressService.getProgress(userId));
 
+    }
+
+    @RequestMapping("/reset")
+    public Object reset(@RequestBody ResetBody body, HttpServletRequest request){
+        body.setUserId(UserUtils.getUserId(request,jwtConfig));
+        answerProgressService.reset(body);
+        return new ResultBody<>(true,200,null);
+    }
+
+    @RequestMapping("/reset/admin")
+    @Permission
+    public Object adminReset(@RequestBody ResetBody body){
+        answerProgressService.reset(body);
+        return new ResultBody<>(true,200,null);
     }
 
 

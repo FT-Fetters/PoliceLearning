@@ -17,7 +17,7 @@ public interface SchedulePaperDao {
     @Delete("delete from `schedule_paper` where id=#{id}")
     int deleteById(Long id);
 
-    @Update("update schedule_paper set cron=#{cron}, j=#{j}, s=#{s}, m=#{m}, title=#{title} where id=#{id}")
+    @Update("update schedule_paper set cron=#{cron}, j=#{j}, s=#{s}, m=#{m}, title=#{title}, score=#{score}, `time`=#{time} where id=#{id}")
     int update(SchedulePaper schedulePaper);
 
     int insert(SchedulePaper schedulePaper);

@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyun.policelearning.dao.paper.SchedulePaperDao">
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="SchedulePaper">
-        insert into schedule_paper(cron,j,s,m,title) values(#{cron},#{j},#{s},#{m},#{title})
+        insert into schedule_paper(cron,j,s,m,title,score,`time`) values(#{cron},#{j},#{s},#{m},#{title},#{score},#{time})
     </insert>
 </mapper>

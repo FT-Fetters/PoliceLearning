@@ -23,6 +23,9 @@ import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 import com.lyun.policelearning.utils.page.PageUtil;
 import com.lyun.policelearning.service.paper.PaperService;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -61,6 +64,9 @@ public class PaperServiceImpl implements PaperService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    SqlSessionFactory sqlSessionFactory;
 
     public static Page page;
 
@@ -110,6 +116,7 @@ public class PaperServiceImpl implements PaperService {
             return -1;
         }
         paperDao.insert(paper);
+        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH);
         int id = paper.getId();
         int index = 0;
         for (int i = 0; i < j; i++) {
@@ -150,6 +157,7 @@ public class PaperServiceImpl implements PaperService {
             paperQuestionDao.insert(q);
             ts.remove(k);
         }
+        session.commit();
         return id;
     }
 
