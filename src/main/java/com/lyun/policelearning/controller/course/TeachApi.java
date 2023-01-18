@@ -6,6 +6,7 @@ import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.Teach;
 import com.lyun.policelearning.service.*;
+import com.lyun.policelearning.utils.Constant;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
@@ -73,7 +74,7 @@ public class TeachApi {
             return new ErrorResponse(1,"其它问题，请联系管理员");
         }
         InetAddress address = InetAddress.getLocalHost();
-        String imgUrl = "http://" + "cool.ldqc.xyz" + ":9435/api/upload/coursePicture/" + fileName;
+        String imgUrl = Constant.BASE_URL + "api/upload/coursePicture/" + fileName;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",imgUrl);
         return new PictureResponse(0,jsonObject);
@@ -111,7 +112,7 @@ public class TeachApi {
         }
         InetAddress address = InetAddress.getLocalHost();;
         String url = address.getHostAddress();
-        String videoUrl = "http://" + "cool.ldqc.xyz" + ":9435/api/upload/courseVideo/" + fileName;
+        String videoUrl = Constant.BASE_URL + "api/upload/courseVideo/" + fileName;
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("url",videoUrl);
         return new WangEditorResponse(0,jsonObject);

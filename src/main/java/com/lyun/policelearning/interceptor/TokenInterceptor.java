@@ -54,9 +54,8 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
             System.out.print("-");
         }
         System.out.println();
-
         /* 地址过滤 */
-        if (uri.contains("/login") || uri.contains("/video") ||
+        if (uri.contains("/") || uri.contains("/login") || uri.contains("/video") ||
                 uri.contains("/course/all") || uri.contains("/test/run") ||
                 uri.contains("/pki") || uri.contains("/api") ||
                 uri.contains("/download") || uri.contains("/export")

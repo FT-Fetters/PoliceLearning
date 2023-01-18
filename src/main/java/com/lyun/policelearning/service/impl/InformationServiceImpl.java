@@ -52,11 +52,17 @@ public class InformationServiceImpl implements InformationService {
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
             if(information.getPicture() != null) {
-                String savePath = PathTools.getRunPath()+"/image/";
+                String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                jsonObject.put("picture", imgBase64);
+                System.out.println(imagePath);
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()){
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    jsonObject.put("picture", imgBase64);
+                }else
+                    jsonObject.put("picture","");
+
             }
             informationList.add(jsonObject);
         }
@@ -68,11 +74,16 @@ public class InformationServiceImpl implements InformationService {
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
             if(information.getPicture() != null){
-                String savePath = PathTools.getRunPath()+"/image/";
+                String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                jsonObject.put("picture", imgBase64);
+                System.out.println(imagePath);
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()){
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    jsonObject.put("picture", imgBase64);
+                }else
+                    jsonObject.put("picture","");
             }
             informationList.add(jsonObject);
         }
@@ -90,11 +101,17 @@ public class InformationServiceImpl implements InformationService {
         information.put("date",inf.getDate());
         information.put("view",inf.getView());
         if(inf.getPicture() != null){
-            String savePath = PathTools.getRunPath()+"/image/";
+            String savePath = PathTools.getRunPath()+"image/";
             String imagePath = savePath + inf.getPicture();
-            BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-            String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-            information.put("picture", imgBase64);
+            System.out.println(imagePath);
+            File imageFile = new File(imagePath);
+            if (imageFile.exists()){
+                BufferedImage bufferedImage = ImageIO.read(imageFile);
+                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                information.put("picture", imgBase64);
+            }else
+                information.put("picture", "");
+
         }
         return information;
     }
@@ -160,11 +177,16 @@ public class InformationServiceImpl implements InformationService {
             jsonObject.put("title",information.getTitle());
             //返回base64格式的图片
             if(information.getPicture() != null){
-                String savePath = PathTools.getRunPath()+"/image/";
+                String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                jsonObject.put("picture",imgBase64);
+                System.out.println(imagePath);
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()){
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    jsonObject.put("picture", imgBase64);
+                }else
+                    jsonObject.put("picture","");
             }else {
                 jsonObject.put("picture",null);
             }
@@ -183,11 +205,16 @@ public class InformationServiceImpl implements InformationService {
             jsonObject.put("id",information.getId());
             jsonObject.put("title",information.getTitle());
             if(information.getPicture() != null){
-                String savePath = PathTools.getRunPath()+"/image/";
+                String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                jsonObject.put("picture",imgBase64);
+                System.out.println(imagePath);
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()){
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    jsonObject.put("picture", imgBase64);
+                }else
+                    jsonObject.put("picture","");
             }else {
                 jsonObject.put("picture",null);
             }
@@ -243,11 +270,16 @@ public class InformationServiceImpl implements InformationService {
             jsonObject.put("id", information.getId());
             jsonObject.put("title", information.getTitle());
             if (information.getPicture() != null) {
-                String savePath = PathTools.getRunPath() + "/image/";
+                String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                jsonObject.put("picture", imgBase64);
+                System.out.println(imagePath);
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()){
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    jsonObject.put("picture", imgBase64);
+                }else
+                    jsonObject.put("picture","");
             } else {
                 jsonObject.put("picture", null);
             }
@@ -279,11 +311,16 @@ public class InformationServiceImpl implements InformationService {
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
             if(information.getPicture() != null){
-                String savePath = PathTools.getRunPath()+"/image/";
+                String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                jsonObject.put("picture", imgBase64);
+                System.out.println(imagePath);
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()){
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    jsonObject.put("picture", imgBase64);
+                }else
+                    jsonObject.put("picture","");
             }
             res.add(jsonObject);
         }
@@ -304,11 +341,16 @@ public class InformationServiceImpl implements InformationService {
             jsonObject.put("date",information.getDate());
             jsonObject.put("istop",information.getIstop());
             if(information.getPicture() != null){
-                String savePath = PathTools.getRunPath()+"/image/";
+                String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                jsonObject.put("picture", imgBase64);
+                System.out.println(imagePath);
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()){
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    jsonObject.put("picture", imgBase64);
+                }else
+                    jsonObject.put("picture","");
             }
             res.add(jsonObject);
         }
@@ -327,11 +369,16 @@ public class InformationServiceImpl implements InformationService {
             jsonObject.put("id", information.getId());
             jsonObject.put("title", information.getTitle());
             if (information.getPicture() != null) {
-                String savePath = PathTools.getRunPath() + "/image/";
+                String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                jsonObject.put("picture", imgBase64);
+                System.out.println(imagePath);
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()){
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    jsonObject.put("picture", imgBase64);
+                }else
+                    jsonObject.put("picture","");
             } else {
                 jsonObject.put("picture", null);
             }

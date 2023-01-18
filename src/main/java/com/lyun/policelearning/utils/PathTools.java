@@ -18,7 +18,7 @@ public class PathTools {
      */
     public static String getRunPath(){
         File jarFile = new File(getJarFilePath());
-        return jarFile.getParent() + "/policelearing/";
+        return jarFile.getParent() + "/police/";
     }
     public static String getImagePath(){
         File jarFile = new File(getJarFilePath());

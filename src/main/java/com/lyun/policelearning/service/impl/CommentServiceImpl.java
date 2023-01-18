@@ -8,6 +8,7 @@ import com.lyun.policelearning.dao.InformationDao;
 import com.lyun.policelearning.dao.RuleDao;
 import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.entity.Comment;
+import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +65,12 @@ public class CommentServiceImpl implements CommentService {
             if (commentDao.findSecondComment(id,comment.getId(),"inf") != null){
                List<Comment> list = commentDao.findSecondComment(id,comment.getId(),"inf");
                for(Comment comment1 : list){
-                   comment1.setNickName(userDao.getById(comment1.getUserId()).getNickname());
+                   User user = userDao.getById(comment1.getUserId());
+                   if (user == null) {
+                       comment1.setNickName("用户已注销");
+                   }else {
+                       comment1.setNickName(user.getNickname());
+                   }
                }
                 tmp.put("secondComment",list);
             }else {

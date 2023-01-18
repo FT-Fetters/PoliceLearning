@@ -30,6 +30,7 @@ public class SimulationApi {
 
 
     @GetMapping("/get/settings")
+    @Permission(admin = false)
     public Object getSettings(){
         return new ResultBody<>(true,200,simulationService.getSettings());
     }
