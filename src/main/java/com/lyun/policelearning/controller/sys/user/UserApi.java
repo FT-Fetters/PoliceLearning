@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.sys.user;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.SysLogAnnotation;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.UserService;
@@ -51,8 +52,9 @@ public class UserApi {
 //    }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @SysLogAnnotation(opModel = "登录模块", opType = "登录",opDesc = "用户登录")
     public Object login(@RequestParam String username,
-                        @RequestParam String password){
+                        @RequestParam String password,HttpServletRequest request){
         JSONObject res = new JSONObject();
         if (userService.check(username,password)){
             User user = userService.getByUsername(username);

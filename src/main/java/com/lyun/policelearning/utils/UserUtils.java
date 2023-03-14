@@ -32,4 +32,9 @@ public class UserUtils {
         String token = request.getHeader("token");
         return jwtConfig.getUserIdFromToken(token);
     }
+
+    public static User getUser(HttpServletRequest request,JwtConfig jwtConfig){
+        String token = request.getHeader("token");
+        return jwtConfig.getUser(token);
+    }
 }

@@ -193,6 +193,21 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/lib/wordgo-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
+        <!--aop -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+        <!--hutool-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.22</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

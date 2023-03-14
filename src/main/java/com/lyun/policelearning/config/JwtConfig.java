@@ -1,5 +1,6 @@
 package com.lyun.policelearning.config;
 
+import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -66,6 +67,10 @@ public class JwtConfig {
      */
     public String getUsernameFromToken(String token) {
         return userService.getById(Integer.parseInt(getTokenClaim(token).getSubject())).getUsername();
+    }
+
+    public User getUser(String token){
+        return userService.getById(Integer.parseInt(getTokenClaim(token).getSubject()));
     }
 
     /**
