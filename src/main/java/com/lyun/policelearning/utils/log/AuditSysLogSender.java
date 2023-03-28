@@ -64,7 +64,9 @@ public class AuditSysLogSender implements LogSender {
             headers.add(HEADER_KEYS[i],HEADER_VALUES[i]);
         }
         RestTemplate restTemplate = new RestTemplate();
+        //System.out.println("**************************" + restTemplate);
         JSONObject result = restTemplate.postForObject(URL_PREFIX + URL_HEARTBEAT, new HttpEntity<String>(headers), JSONObject.class);
+        System.out.println("已执行完心跳连接" + result);
     }
 
     private void send(){
@@ -83,6 +85,7 @@ public class AuditSysLogSender implements LogSender {
         Assert.assertEquals(HttpStatus.NOT_ACCEPTABLE.value(), result.get("code"));
 
         result = restTemplate.postForObject(URL_PREFIX + URL_ACCEPT_LOGS, new HttpEntity<>(body, headers), JSONObject.class);
+        System.out.println("已执行完推送" + result);
         //result = restTemplate.postForObject(url, new HttpEntity<>(body,headers), JSONObject.class);
         assert result != null;
         Assert.assertFalse( result.getBoolean("success"));
