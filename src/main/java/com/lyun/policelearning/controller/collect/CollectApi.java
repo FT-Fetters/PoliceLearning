@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.collect;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
+import com.lyun.policelearning.annotation.SysLogAnnotation;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.CollectService;
@@ -57,6 +58,7 @@ public class CollectApi {
      * @return
      */
     @RequestMapping(value = "/myInformation",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "收藏模块", opDesc = "用户获取收藏", opType = "查询")
     public Object myInformation(HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,collectService.findCollect(1,userId));
@@ -68,6 +70,7 @@ public class CollectApi {
      * @return
      */
     @RequestMapping(value = "/myLaw",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "收藏模块", opDesc = "用户获取收藏", opType = "查询")
     public Object myLaw(HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,collectService.findCollect(2,userId));
@@ -79,6 +82,7 @@ public class CollectApi {
      * @return
      */
     @RequestMapping(value = "/myRule",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "收藏模块", opDesc = "用户获取收藏", opType = "查询")
     public Object myRule(HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,collectService.findCollect(3,userId));
@@ -87,6 +91,7 @@ public class CollectApi {
      * 根据id和type删除
      */
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "收藏模块", opDesc = "用户或后台删除收藏", opType = "删除")
     public Object delete(@RequestParam int type,@RequestParam int id,HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         if (type >= 1 && type <= 3) {
@@ -104,6 +109,7 @@ public class CollectApi {
      * @return
      */
     @RequestMapping(value = "/deleteMyInformation",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "收藏模块", opDesc = "用户删除收藏", opType = "删除")
     public Object deleteInformation(@RequestParam int id,HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         if(id <= 0){
@@ -120,6 +126,7 @@ public class CollectApi {
      * @return
      */
     @RequestMapping(value = "/deleteMyLaw",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "收藏模块", opDesc = "用户删除收藏", opType = "删除")
     public Object deleteLaw(@RequestParam int id,HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         if(id <= 0){
@@ -136,6 +143,7 @@ public class CollectApi {
      * @return
      */
     @RequestMapping(value = "/deleteMyRule",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "收藏模块", opDesc = "用户删除收藏", opType = "删除")
     public Object deleteRule(@RequestParam int id,HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         if(id <= 0){

@@ -1,6 +1,7 @@
 package com.lyun.policelearning.controller.comment;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.SysLogAnnotation;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.CommentService;
 import com.lyun.policelearning.service.UserService;
@@ -37,6 +38,7 @@ public class CommentApi {
      * @return 评论
      */
     @RequestMapping("/get/inf")
+    @SysLogAnnotation(opModel = "评论模块", opDesc = "用户获取评论", opType = "查询")
     public Object getInfComment(@RequestParam int id){
         return new ResultBody<>(true,200,commentService.getInfComment(id));
     }
@@ -47,6 +49,7 @@ public class CommentApi {
      * @return 评论
      */
     @RequestMapping("/get/rule")
+    @SysLogAnnotation(opModel = "评论模块", opDesc = "用户获取评论", opType = "查询")
     public Object getRuleComment(@RequestParam int id){
         return new ResultBody<>(true,200,commentService.getRuleComment(id));
     }
@@ -60,6 +63,7 @@ public class CommentApi {
      * @return result
      */
     @RequestMapping(value = "/inf",method = RequestMethod.POST)
+    @SysLogAnnotation(opModel = "评论模块", opDesc = "用户评论咨询", opType = "插入")
     public Object commentInf(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);
         int userId = UserUtils.getUserId(request,jwtConfig);
@@ -86,6 +90,7 @@ public class CommentApi {
      * 评论新规
      */
     @RequestMapping(value = "/rule",method = RequestMethod.POST)
+    @SysLogAnnotation(opModel = "评论模块", opDesc = "用户评论新规", opType = "插入")
     public Object commentRule(@RequestBody JSONObject data, HttpServletResponse response, HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);
         int userId = UserUtils.getUserId(request,jwtConfig);
@@ -114,6 +119,7 @@ public class CommentApi {
      * @return
      */
     @RequestMapping(value = "/all",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "评论模块", opDesc = "用户获取评论回复", opType = "查询")
     public Object findCommentAndReply(HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         HashMap<String, List<JSONObject>> res = new HashMap<>();

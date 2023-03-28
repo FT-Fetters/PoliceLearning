@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.course;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.SysLogAnnotation;
 import com.lyun.policelearning.handler.NonStaticResourceHttpRequestHandler;
 import com.lyun.policelearning.service.CourseService;
 import com.lyun.policelearning.utils.IpUtils;
@@ -42,6 +43,7 @@ public class CourseApi {
      * @return 所有的课程列表
      */
     @RequestMapping("/all")
+    @SysLogAnnotation(opModel = "课程模块", opDesc = "用户获取所有课程", opType = "查询")
     public Object getAll() {
         return new ResultBody<>(true, 200, courseService.findAll());
     }
@@ -58,6 +60,7 @@ public class CourseApi {
      * @return 指定的课程
      */
     @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "课程模块", opDesc = "用户获取指定课程", opType = "查询")
     public Object get(@RequestParam int id, HttpServletRequest request) {
         if (id <= 0) {
             return new ResultBody<>(false, 500, "error id");
@@ -78,6 +81,7 @@ public class CourseApi {
      * @return 指定id的课程的目录
      */
     @RequestMapping(value = "/catalogue", method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "课程模块", opDesc = "用户获取指定课程目录", opType = "查询")
     public Object getCourseCatalogue(@RequestParam int id, HttpServletRequest request) {
         if (id <= 0) {
             return new ResultBody<>(false, 500, "error id");
@@ -92,6 +96,7 @@ public class CourseApi {
     }
 
     @RequestMapping(value = "/introduce", method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "课程模块", opDesc = "用户获取课程介绍", opType = "查询")
     public Object getCourseIntroduce(@RequestParam int id) {
         if (id <= 0) {
             return new ResultBody<>(false, 500, "error id");
@@ -106,6 +111,7 @@ public class CourseApi {
     private final NonStaticResourceHttpRequestHandler nonStaticResourceHttpRequestHandler;
     @SneakyThrows
     @RequestMapping(value = "/video",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "课程模块", opDesc = "用户获取课程视频", opType = "查询")
     public void playVideo(@RequestParam String id, HttpServletRequest request, HttpServletResponse response){
         String savePath = PathTools.getRunPath()+"/video/";
         if(!new File(savePath).exists()){

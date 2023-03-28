@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.information;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.SysLogAnnotation;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.CollectService;
 import com.lyun.policelearning.service.InformationService;
@@ -35,6 +36,7 @@ public class InformationApi {
      * @return 返回资讯
      */
     @RequestMapping(value = "/all",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "咨询模块", opDesc = "用户获取所有咨询", opType = "插入")
     public Object findAll() throws Exception {
         List<JSONObject> informationList = informationService.findAll();
         return new ResultBody<>(true,200,informationList);
@@ -46,6 +48,7 @@ public class InformationApi {
      * @return
      */
     @RequestMapping(value = "/content",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "咨询模块", opDesc = "用户获取指定咨询内容", opType = "查询")
     public Object getInformationById(@RequestParam int id, HttpServletRequest request) throws Exception {
         //更新数据库中的view值
         informationService.updateView(id);

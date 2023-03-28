@@ -3,6 +3,7 @@ package com.lyun.policelearning.controller.errorbook;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.annotation.SysLogAnnotation;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.service.ErrorBookService;
 import com.lyun.policelearning.service.UserService;
@@ -35,6 +36,7 @@ public class ErrorBookApi {
      * @return
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @SysLogAnnotation(opModel = "错题集模块", opDesc = "用户添加错题集", opType = "插入")
     public Object addQuestion(@RequestBody JSONObject data, HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);
         int userId = UserUtils.getUserId(request,jwtConfig);
@@ -58,6 +60,7 @@ public class ErrorBookApi {
      * 一次性传入多个错题
      */
     @RequestMapping(value = "/add/some",method = RequestMethod.POST)
+    @SysLogAnnotation(opModel = "错题集模块", opDesc = "用户添加多个错题集", opType = "插入")
     public Object addSome(@RequestBody JSONArray array,HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         for(Object o : array){
@@ -78,6 +81,7 @@ public class ErrorBookApi {
      * @return 返回题目、选项、答案
      */
     @RequestMapping(value = "/all",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "错题集模块", opDesc = "用户查看错题集", opType = "查询")
     public Object findAll(HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);
         int userId = UserUtils.getUserId(request,jwtConfig);
@@ -95,6 +99,7 @@ public class ErrorBookApi {
     }
 
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "错题集模块", opDesc = "用户删除错题集", opType = "删除")
     public Object delete(@RequestParam int type,@RequestParam int id,HttpServletRequest request){
         int userId = UserUtils.getUserId(request,jwtConfig);
         errorBookService.delete(userId,type,id);

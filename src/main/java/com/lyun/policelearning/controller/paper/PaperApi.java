@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.paper;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
+import com.lyun.policelearning.annotation.SysLogAnnotation;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.controller.paper.model.GeneratePaperBody;
 import com.lyun.policelearning.controller.paper.model.PaperSubmitBody;
@@ -59,6 +60,7 @@ public class PaperApi {
      */
     @Permission(admin = false)
     @GetMapping("/select/user/all")
+    @SysLogAnnotation(opModel = "试卷模块", opDesc = "用户获取所有试卷", opType = "查询")
     public Object userSelectAll(HttpServletRequest request){
         return new ResultBody<>(true,200,paperService.userSelectAll(UserUtils.getUserId(request,jwtConfig)));
     }
@@ -89,6 +91,7 @@ public class PaperApi {
      */
     @Permission(admin = false)
     @GetMapping("/get/user/{id}")
+    @SysLogAnnotation(opModel = "试卷模块", opDesc = "用户获取指定试卷", opType = "查询")
     public Object userGetById(@PathVariable int id){
         JSONObject paper = paperService.userGetById(id);
         if (paper == null){
@@ -139,6 +142,7 @@ public class PaperApi {
 
     @Permission(admin = false)
     @PostMapping("/exam/submit")
+    @SysLogAnnotation(opModel = "试卷模块", opDesc = "用户提交试卷", opType = "插入")
     public Object submit(@RequestBody PaperSubmitBody paperSubmitBody,HttpServletRequest request){
         int user_id = UserUtils.getUserId(request,jwtConfig);
         paperSubmitBody.setUser_id(user_id);
@@ -155,6 +159,7 @@ public class PaperApi {
     }
 
     @GetMapping("/exam/list")
+    @SysLogAnnotation(opModel = "试卷模块", opDesc = "用户获取所有考试列表", opType = "查询")
     public Object finishExamList(HttpServletRequest request){
         int user_id = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,examService.selectByUserId(user_id));
@@ -166,6 +171,7 @@ public class PaperApi {
      */
     @Permission(admin = false)
     @GetMapping("/exam/score/{paper_id}")
+    @SysLogAnnotation(opModel = "试卷模块", opDesc = "用户获取指定试卷的分数", opType = "查询")
     public Object getExamScore(@PathVariable int paper_id,HttpServletRequest request){
         int user_id = UserUtils.getUserId(request,jwtConfig);
         return new ResultBody<>(true,200,examService.getExamScore(paper_id,user_id));
@@ -173,6 +179,7 @@ public class PaperApi {
 
     @Permission(admin = false)
     @GetMapping("/exam/grades/all/{paper_id}")
+    @SysLogAnnotation(opModel = "试卷模块", opDesc = "用户获取所有试卷分数", opType = "查询")
     public Object exportGrades(@PathVariable int paper_id){
         return new ResultBody<>(true,200,examService.selectPaperGrades(paper_id));
     }
@@ -261,6 +268,7 @@ public class PaperApi {
      * 用户查看自己成绩记录
      */
     @Permission(admin = false)
+    @SysLogAnnotation(opModel = "试卷模块", opDesc = "用户获取自己试卷分数", opType = "查询")
     @RequestMapping(value = "/getHistory",method = RequestMethod.GET)
     public Object getHistory(HttpServletRequest request){
         int user_id = UserUtils.getUserId(request,jwtConfig);

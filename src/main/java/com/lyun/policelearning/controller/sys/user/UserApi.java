@@ -76,6 +76,7 @@ public class UserApi {
     }
 
     @RequestMapping(value = "/login/pki")
+    @SysLogAnnotation(opModel = "登录模块", opType = "登录",opDesc = "用户登录")
     public Object pkiLogin(HttpServletRequest request, HttpServletResponse response){
         //id_token,code是单点登录之后跳转到指定地址携带回来的参数
         String idToken = request.getParameter("id_token");
@@ -105,6 +106,7 @@ public class UserApi {
     }
 
     @RequestMapping("/login/app")
+    @SysLogAnnotation(opModel = "登录模块", opType = "登录",opDesc = "用户登录")
     public Object appLogin(@RequestBody JSONObject data, HttpServletRequest request, HttpServletResponse response){
         String username = data.getString("username");
         String nickname = data.getString("nickname");
@@ -134,6 +136,7 @@ public class UserApi {
      */
     @SneakyThrows
     @RequestMapping(value = "/headPortrait/get",method = RequestMethod.GET)
+    @SysLogAnnotation(opModel = "登录模块", opType = "查询",opDesc = "用户获取头像")
     public Object getHeadPortrait(HttpServletRequest request){
         String username = UserUtils.getUsername(request,jwtConfig);
         int userId = UserUtils.getUserId(request,jwtConfig);
