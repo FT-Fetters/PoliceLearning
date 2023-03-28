@@ -1,8 +1,12 @@
 package com.lyun.policelearning.schedule;
 
 import com.lyun.policelearning.utils.log.AuditSysLogSender;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+@Component
+@EnableScheduling
 public class SysLogHeart {
 
     /**
