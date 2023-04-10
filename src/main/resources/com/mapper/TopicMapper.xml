@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.TopicDao">
+    <insert id="publish">INSERT INTO topic(uid,title,content,date,picture)
+                VALUES (#{t.uid},#{t.title},#{t.content},#{t.date},#{t.picture})</insert>
+    <select id="getById" resultType="Topic">SELECT * FROM topic WHERE id=#{id}</select>
+    <delete id="delete">DELETE FROM topic WHERE id=#{id}</delete>
+    <select id="all" resultType="Topic">SELECT * FROM topic
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="title!=null and title!=''" >
+                and title like '%${title}%'
+            </if>
+        </trim>   ORDER BY date DESC</select>
+    <select id="getAll" resultType="Topic">SELECT * FROM topic
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="t!=null and t!=''" >
+                and title like '%${t}%'
+            </if>
+        </trim>  ORDER BY date DESC
+</select>
+</mapper>
