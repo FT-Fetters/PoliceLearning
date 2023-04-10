@@ -1,5 +1,6 @@
 package com.lyun.policelearning.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.CollectDao;
@@ -50,11 +51,26 @@ public class LawServiceImpl implements LawService {
     }
 
     @Override
-    public JSONObject findTitleByName(String name) {
+    public JSONObject findTitleByName(String name,String title) {
         JSONObject catalogue = new JSONObject();
         List<LawType> lawTypes = lawTypeDao.findTitleByName(name);
         for(LawType lawType : lawTypes){
-            catalogue.put("title",JSONArray.parseArray(lawType.getTitle()));
+            JSONArray jsonArray = JSONArray.parseArray(lawType.getTitle());
+            JSONArray jsonArray1 = new JSONArray();
+            if (title != null && lawType.getTitle() != null){
+                for (Object o : jsonArray){
+                    JSONObject jsonObject = (JSONObject) o;
+                    if (jsonObject.getString("name") != null){
+                        if (jsonObject.getString("name").contains(title)){
+                            jsonArray1.add(jsonObject);
+                        }
+                    }
+                }
+                catalogue.put("title",jsonArray1);
+            }else {
+                catalogue.put("title",jsonArray);
+            }
+
         }
         return catalogue;
     }

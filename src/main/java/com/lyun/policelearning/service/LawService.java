@@ -10,7 +10,7 @@ import java.util.List;
 public interface LawService {
     List<JSONObject> findAll();
     JSONObject findAllType();
-    JSONObject findTitleByName(String name);
+    JSONObject findTitleByName(String name,String title);
     JSONObject findContent(String title);
     JSONObject findContentById(int id);
     boolean updateKeyword(String name,String explain,int id);
