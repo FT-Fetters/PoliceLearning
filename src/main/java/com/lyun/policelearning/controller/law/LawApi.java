@@ -57,11 +57,11 @@ public class LawApi {
      */
     @RequestMapping(value = "/catalogue", method = RequestMethod.GET)
     @SysLogAnnotation(opModel = "法律模块", opDesc = "用户查询对应的title", opType = "查询")
-    public Object getCatalogueByType(@RequestParam String lawtype) {
+    public Object getCatalogueByType(@RequestParam String lawtype,@RequestParam(required = false) String title) {
         if (lawtype == null) {
             return new ResultBody<>(false, 500, "error type");
         }
-        JSONObject res = lawService.findTitleByName(lawtype);
+        JSONObject res = lawService.findTitleByName(lawtype,title);
         if (res != null) {
             return new ResultBody<>(true, 200, res);
         } else {
