@@ -3,14 +3,18 @@ package com.lyun.policelearning.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.dao.CourseDao;
+import com.lyun.policelearning.dao.CourseUsrLearnDao;
 import com.lyun.policelearning.entity.Course;
+import com.lyun.policelearning.entity.CourseUsrLearn;
 import com.lyun.policelearning.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -19,12 +23,22 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseDao courseDao;
 
+    @Autowired
+    private CourseUsrLearnDao courseUsrLearnDao;
+
     @Override
-    public List<JSONObject> findAll() {
+    public List<JSONObject> findAll(int userId) {
         List<JSONObject> courses = new ArrayList<>();
         List<Course> courseList = courseDao.findAll();
+        List<CourseUsrLearn> courseUsrLearns = courseUsrLearnDao.queryByUserId(userId);
+        Map<Integer, Long> learnMap = new HashMap<>();
+        for (CourseUsrLearn courseUsrLearn : courseUsrLearns) {
+            learnMap.put(courseUsrLearn.getCourseId(), courseUsrLearn.getLearnTime());
+        }
         for (Course course : courseList) {
             JSONObject tmp = courseToJson(course);
+            if (userId != -1)
+                tmp.put("learn_time", learnMap.get(course.getId()) == null ? 0 : learnMap.get(course.getId()));
             courses.add(tmp);
         }
         return courses;
@@ -33,19 +47,20 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public JSONObject getCourseById(int id) {
         Course course = courseDao.getCourseById(id);
-        if (course == null)return null;
+        if (course == null) return null;
         return courseToJson(course);
     }
 
     private JSONObject courseToJson(Course course) {
-        if (course == null)return null;
+        if (course == null) return null;
         JSONObject res = new JSONObject();
-        res.put("id",course.getId());
-        res.put("name",course.getName());
-        res.put("introduce",course.getIntroduce());
-        res.put("type",course.getType());
+        res.put("id", course.getId());
+        res.put("name", course.getName());
+        res.put("introduce", course.getIntroduce());
+        res.put("type", course.getType());
         JSONArray catalogue = JSONArray.parseArray(course.getCatalogue());
-        res.put("catalogue",catalogue);
+        res.put("catalogue", catalogue);
+        res.put("plan_time", course.getPlanTime());
         return res;
     }
 
@@ -65,7 +80,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public boolean changeType(int id, String type) {
-        if (getCourseById(id) == null)return false;
+        if (getCourseById(id) == null) return false;
         Course course = new Course();
         JSONObject courseJson = getCourseById(id);
         course.setId(courseJson.getInteger("id"));
@@ -93,8 +108,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public boolean changeIntroduce(int id,String introduce) {
-        if (getCourseById(id) == null)return false;
+    public boolean changeIntroduce(int id, String introduce) {
+        if (getCourseById(id) == null) return false;
         Course course = new Course();
         JSONObject courseJson = getCourseById(id);
         course.setId(courseJson.getInteger("id"));
@@ -107,18 +122,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public boolean publish(String name, String introduce, String type) {
-        if (getCourseByName(name) == null){
-            courseDao.publish(name,introduce,type);
+    public boolean publish(String name, String introduce, String type, Long planTime) {
+        if (getCourseByName(name) == null) {
+            courseDao.publish(name, introduce, type, planTime);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
     @Override
     public boolean changeCatalogue(int id, JSONArray catalogue) {
-        if (getCourseById(id) == null)return false;
+        if (getCourseById(id) == null) return false;
         Course course = new Course();
         JSONObject courseJson = getCourseById(id);
         course.setCatalogue(catalogue.toJSONString());
@@ -131,7 +146,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public boolean changeCatalogue(String name, JSONArray catalogue) {
-        if (getCourseByName(name) == null)return false;
+        if (getCourseByName(name) == null) return false;
         Course course = new Course();
         JSONObject courseJson = getCourseByName(name);
         course.setCatalogue(catalogue.toJSONString());

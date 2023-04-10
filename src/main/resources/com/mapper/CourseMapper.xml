@@ -4,15 +4,18 @@
     <select id="findAll" resultType="Course">SELECT * FROM course</select>
     <select id="getCourseById" resultType="Course">SELECT * FROM course WHERE id=#{id}</select>
     <select id="count" resultType="Integer">SELECT COUNT(*) FROM course</select>
-    <update id="update">UPDATE course SET
-                  id=#{course.id},name=#{course.name},
-                  introduce=#{course.introduce},
-                  catalogue=#{course.catalogue},
-                  type=#{course.type}
-                  WHERE id=#{course.id}</update>
+    <update id="update">UPDATE course
+                        SET id=#{course.id},
+                            name=#{course.name},
+                            introduce=#{course.introduce},
+                            catalogue=#{course.catalogue},
+                            type=#{course.type},
+                            plan_time=#{course.planTime}
+                        WHERE id = #{course.id}</update>
     <select id="getByType" resultType="Course">SELECT * FROM course WHERE type=#{type}</select>
     <select id="getCourseByName" resultType="Course">SELECT * FROM course WHERE name=#{name}</select>
-    <insert id="publish">INSERT INTO course (name,introduce,type) VALUES (#{name},#{introduce},#{type})</insert>
+    <insert id="publish">INSERT INTO course (name, introduce, type)
+                         VALUES (#{name}, #{introduce}, #{type}, #{planTime})</insert>
     <delete id="delete">DELETE FROM course WHERE id=#{id}</delete>
     <select id="search" resultType="Course">SELECT * FROM course
      <trim prefix="where" prefixOverrides="and|or">
@@ -21,9 +24,11 @@
         </if>
     </trim>
      </select>
-    <update id="update1">UPDATE course SET
-                                          id=#{course.id},name=#{course.name},
-                                          catalogue=#{course.catalogue},
-                                          type=#{course.type}
-                        WHERE id=#{course.id}</update>
+    <update id="update1">UPDATE course
+                         SET id=#{course.id},
+                             name=#{course.name},
+                             catalogue=#{course.catalogue},
+                             type=#{course.type},
+                             plan_time=#{planTime}
+                         WHERE id = #{course.id}</update>
 </mapper>

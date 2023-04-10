@@ -1,9 +1,12 @@
 package com.lyun.policelearning.aspect;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.SysLogAnnotation;
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.SysLog;
 import com.lyun.policelearning.entity.User;
+import com.lyun.policelearning.service.UserService;
+import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
 import com.lyun.policelearning.utils.factory.AuditSysLogFactory;
 import com.lyun.policelearning.utils.log.AuditSysLogSender;
@@ -26,6 +29,9 @@ import java.lang.reflect.Method;
 @Component
 @Aspect
 public class SysLogAspect {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private JwtConfig jwtConfig;
@@ -51,6 +57,15 @@ public class SysLogAspect {
                         request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
                         assert request != null;
                         user = UserUtils.getUser(request, jwtConfig);
+                    }else {
+                        System.out.println("result = " + result);
+                        if (!((ResultBody) result).isSuccess()){
+                            user = new User();
+                            user.setId(-1);
+                        }else {
+                            String userName = ((JSONObject) ((ResultBody) result).getBody()).getString("userName");
+                            user = userService.getByUsername(userName);
+                        }
                     }
                     SysLog log = AuditSysLogFactory.getInstance().getLog(result, request, annotation, user);
                     AuditSysLogSender.getInstance().send(log);

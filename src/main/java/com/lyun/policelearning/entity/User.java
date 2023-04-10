@@ -4,13 +4,19 @@ package com.lyun.policelearning.entity;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 //    public static class Token {
 //        /**

@@ -99,10 +99,11 @@ public class CourseManageApi {
         String name = data.getString("name");
         String introduce = data.getString("introduce");
         String type = data.getString("type");
+        Long planTime = data.getLong("plan_time");
         if (name == null || introduce == null || type == null){
             return new ResultBody<>(false,500,"missing parameter");
         }
-        if (courseService.publish(name,introduce,type)){
+        if (courseService.publish(name,introduce,type, planTime)){
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,501,"unknown error, maybe name is exist");

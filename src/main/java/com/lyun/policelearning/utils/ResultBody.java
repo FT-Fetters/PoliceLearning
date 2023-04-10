@@ -35,4 +35,12 @@ public class ResultBody<T> {
         return body;
     }
 
+    @Override
+    public String toString() {
+        return "ResultBody{" +
+                "success=" + success +
+                ", code=" + code +
+                ", body=" + body +
+                '}';
+    }
 }
