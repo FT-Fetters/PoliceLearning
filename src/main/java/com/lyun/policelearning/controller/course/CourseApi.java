@@ -3,12 +3,10 @@ package com.lyun.policelearning.controller.course;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.SysLogAnnotation;
+import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.handler.NonStaticResourceHttpRequestHandler;
 import com.lyun.policelearning.service.CourseService;
-import com.lyun.policelearning.utils.IpUtils;
-import com.lyun.policelearning.utils.LogUtils;
-import com.lyun.policelearning.utils.PathTools;
-import com.lyun.policelearning.utils.ResultBody;
+import com.lyun.policelearning.utils.*;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,10 @@ import java.util.Objects;
 public class CourseApi {
 
     @Autowired
-    CourseService courseService;
+    private CourseService courseService;
+
+    @Autowired
+    private JwtConfig jwtConfig;
 
     /**
      * 获取所有的课程
@@ -44,8 +45,9 @@ public class CourseApi {
      */
     @RequestMapping("/all")
     @SysLogAnnotation(opModel = "课程模块", opDesc = "用户获取所有课程", opType = "查询")
-    public Object getAll() {
-        return new ResultBody<>(true, 200, courseService.findAll());
+    public Object getAll(HttpServletRequest request) {
+        int userId = UserUtils.getUserId(request, jwtConfig);
+        return new ResultBody<>(true, 200, courseService.findAll(userId));
     }
 
     @RequestMapping(value = "/search",method = RequestMethod.GET)
@@ -104,6 +106,8 @@ public class CourseApi {
         String res = courseService.getIntroduce(id);
         return new ResultBody<>(true, 200, res);
     }
+
+//    public Object
 
 
 

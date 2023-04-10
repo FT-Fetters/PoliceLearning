@@ -36,7 +36,7 @@ public class CountApi {
 
     @RequestMapping("/course")
     public Object countCourse(){
-        List<JSONObject> courseList = courseService.findAll();
+        List<JSONObject> courseList = courseService.findAll(-1);
         return new ResultBody<>(true,200,courseList.size());
     }
 

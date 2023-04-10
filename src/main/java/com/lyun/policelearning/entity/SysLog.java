@@ -11,6 +11,9 @@ public class SysLog {
     @JSONField(name = "Operate_Time")
     private String operateTime;
 
+    @JSONField(name = "Operate_Name")
+    private String operateName;
+
     @JSONField(name = "Reg_ID")
     private String redId;
 
@@ -35,7 +38,7 @@ public class SysLog {
     @JSONField(name = "Organization")
     private String organization;
 
-    @JSONField(name = "organization_ID")
+    @JSONField(name = "Organization_ID")
     private String organizationId;
 
     @JSONField(name = "Terminal_Type")

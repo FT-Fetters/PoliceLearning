@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.CourseUsrLearnDao">
+    <select id="queryByUserId" resultType="CourseUsrLearn">
+        SELECT
+            course_usr_learn.learn_time,
+            course_usr_learn.user_id,
+            course_usr_learn.course_id
+        FROM
+            course
+                INNER JOIN course_usr_learn ON course.id = course_usr_learn.course_id
+        WHERE
+            course_usr_learn.user_id = ${userId}
+    </select>
+
+</mapper>

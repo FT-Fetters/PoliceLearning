@@ -20,10 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class AuditSysLogSender implements LogSender {
 
-    private static final String URL_PREFIX = "http://localhost:8081/api";
-//    private static final String URL_PREFIX = "https://44.10.1.134/api";
+//    private static final String URL_PREFIX = "http://localhost:8081/api";
+    private static final String URL_PREFIX = "https://44.10.1.134/api";
     private static final String URL_HEARTBEAT = "/kafka/heartbeat";
     private static final String URL_ACCEPT_LOGS = "/kafka/acceptLogs";
     private static final String[] HEADER_KEYS = new String[]{
@@ -32,6 +33,12 @@ public class AuditSysLogSender implements LogSender {
     private static final String[] HEADER_VALUES = new String[]{
             MediaType.APPLICATION_JSON_VALUE, "S1678348162540", "af2faf20" , "true"
     };
+
+    private static final Integer QUEUE_MAX_SIZE = 5;
+
+    private final List<SysLog> logQueue = new ArrayList<>();
+
+    private static final boolean SEND_WITHOUT_WAIT = true;
 
     private volatile static LogSender instance = null;
 
@@ -46,16 +53,14 @@ public class AuditSysLogSender implements LogSender {
         return instance;
     }
 
-    private static final Integer QUEUE_MAX_SIZE = 0;
 
-    private final List<SysLog> logQueue = new ArrayList<>();
 
 
 
     @Override
     public void send(SysLog sysLog) {
         logQueue.add(sysLog);
-        if (logQueue.size() < QUEUE_MAX_SIZE){
+        if (logQueue.size() < QUEUE_MAX_SIZE && !SEND_WITHOUT_WAIT){
             return;
         }
         this.send();
@@ -99,14 +104,17 @@ public class AuditSysLogSender implements LogSender {
 //        Assert.assertFalse( result.getBoolean("success"));
 //        Assert.assertEquals(HttpStatus.NOT_ACCEPTABLE.value(), result.get("code"));
 //
-        headers.add("batchNumber", "5");
+        headers.add("batchNumber", SEND_WITHOUT_WAIT ? "1" : String.valueOf(QUEUE_MAX_SIZE));
 //        result = restTemplate.postForObject(URL_PREFIX + URL_ACCEPT_LOGS, new HttpEntity<>(body, headers), JSONObject.class);
 //        assert result != null;
 //        Assert.assertFalse(result.getBoolean("success"));
 //        Assert.assertEquals(HttpStatus.PAYMENT_REQUIRED.value(), result.get("code"));
 
         JSONObject result = restTemplate.postForObject(URL_PREFIX + URL_ACCEPT_LOGS, new HttpEntity<>(body, headers), JSONObject.class);
+
         assert result != null;
+        System.out.println("body = " + body);
+        System.out.println("result = " + result);
         Assert.assertTrue(result.getBoolean("success"));
         Assert.assertEquals(HttpStatus.OK.value(), result.get("code"));
         logQueue.clear();

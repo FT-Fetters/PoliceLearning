@@ -52,6 +52,7 @@ public class AuditSysLogFactory implements LogFactory {
                 .redId("S1678348162540")
                 .operateResult(resultBody.getBody() != null ? 1 : 0)
                 .operateType(getOpType(annotation.opType()))
+                .operateName(annotation.opDesc())
                 .numId(new Snowflake().nextId())
                 .username(user == null ? "" : user.getUsername())
                 .userType("00")

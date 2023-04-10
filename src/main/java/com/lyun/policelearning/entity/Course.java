@@ -9,4 +9,5 @@ public class Course {
     private String introduce;
     private String catalogue;
     private String type;
+    private Long planTime;
 }
