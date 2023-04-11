@@ -18,6 +18,6 @@ public interface CourseContentDao {
 
     void delete(int id);
 
-    List<CourseContent> getCourseContents(int courseId);
+    List<CourseContent> getCourseContents(long courseId);
 
 }

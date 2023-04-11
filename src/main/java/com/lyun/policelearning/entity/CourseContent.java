@@ -12,7 +12,7 @@ public class CourseContent {
     private String name;
     private String content;
     private Long planTime;
-    private DateTime beginTime;
-    private DateTime endTime;
+    private String beginTime;
+    private String endTime;
 
 }

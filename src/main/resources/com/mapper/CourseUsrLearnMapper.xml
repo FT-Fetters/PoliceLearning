@@ -10,6 +10,14 @@
         <result property="contentId" column="content_id"/>
     </resultMap>
 
+    <select id="queryOne" resultType="CourseUsrLearn">
+        SELECT *
+        FROM course_usr_learn
+        WHERE course_id = #{courseId}
+          AND content_id = #{contentId}
+          AND user_id = #{userId}
+    </select>
+
     <select id="queryByUserId" resultMap="timeMap">
         SELECT
             course_usr_learn.learn_time,
@@ -28,12 +36,17 @@
 
     </select>
 
-    <select id="queryOne" resultType="CourseUsrLearn">
-        SELECT *
+    <resultMap id="userLearnMap" type="CourseUsrLearn">
+        <result property="id" column="id"/>
+        <result property="learnTime" column="learn_time"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+    <select id="queryByCourseAndContent" resultMap="userLearnMap">
+        SELECT id, learn_time, user_id
         FROM course_usr_learn
-        WHERE course_id = #{courseId}
-          AND content_id = #{contentId}
-          AND user_id = #{userId}
+        WHERE course_usr_learn.course_id = #{courseId}
+          AND course_usr_learn.content_id = #{contentId}
     </select>
 
     <update id="update">

@@ -18,4 +18,6 @@ public interface CourseContentService {
     ResultBody<?> delete(int id);
 
     List<CourseContent> getCourseContents(int courseId);
+
+    ResultBody<?> getCourseFinishState(long courseId);
 }

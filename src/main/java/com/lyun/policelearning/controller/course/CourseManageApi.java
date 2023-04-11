@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
-import com.lyun.policelearning.service.CourseService;
-import com.lyun.policelearning.service.RoleService;
-import com.lyun.policelearning.service.TeachService;
-import com.lyun.policelearning.service.UserService;
+import com.lyun.policelearning.service.*;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.UserUtils;
@@ -38,6 +35,9 @@ public class CourseManageApi {
 
     @Autowired
     TeachService teachService;
+
+    @Autowired
+    CourseContentService courseContentService;
 
     @Autowired
     JwtConfig jwtConfig;
@@ -183,5 +183,11 @@ public class CourseManageApi {
         }
         courseService.delete(id);
         return new ResultBody<>(true,200,null);
+    }
+
+    @Permission
+    @GetMapping("/get/finish/state")
+    public Object getCourseFinishState(long courseId){
+        return courseContentService.getCourseFinishState(courseId);
     }
 }

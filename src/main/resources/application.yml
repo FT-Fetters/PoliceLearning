@@ -18,6 +18,9 @@ spring:
 mybatis:
   mapper-locations: classpath:com/mapper/*.xml
   type-aliases-package: com.lyun.policelearning.entity
+  # 控制台打印sql日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 pagehelper:
   helperDialect: mysql

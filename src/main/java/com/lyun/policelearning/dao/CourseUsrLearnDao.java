@@ -11,6 +11,8 @@ public interface CourseUsrLearnDao {
 
     List<CourseUsrLearn> queryByUserId(long userId, long courseId);
 
+    List<CourseUsrLearn> queryByCourseAndContent(long courseId, long contentId);
+
     CourseUsrLearn queryOne(long userId, long courseId, long contentId);
 
     void update(CourseUsrLearn courseUsrLearn);
