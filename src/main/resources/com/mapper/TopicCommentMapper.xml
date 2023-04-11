@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.TopicCommentDao">
+    <insert id="publish">INSERT INTO topic_comment(uid,replay,tid,date)
+                        VALUES (#{t.uid},#{t.replay},#{t.tid},#{t.date})</insert>
+    <delete id="delete">DELETE FROM topic_comment WHERE id=#{id}</delete>
+    <select id="getByTid" resultType="TopicComment">SELECT * FROM topic_comment WHERE tid=#{tid} ORDER BY date DESC</select>
+</mapper>
