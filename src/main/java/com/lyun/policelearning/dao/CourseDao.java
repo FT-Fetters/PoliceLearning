@@ -12,7 +12,7 @@ public interface CourseDao extends BaseDao<Course>{
     Course getCourseByName(String name);
     void update(@Param("course") Course course);
     List<Course> getByType(String type);
-    void publish(String name,String introduce,String type, Long planTime);
+    void publish(String name,String introduce,String type);
     Integer count();
     void delete(int id);
     List<Course> search(@Param("word") String word);

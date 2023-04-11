@@ -103,7 +103,7 @@ public class CourseManageApi {
         if (name == null || introduce == null || type == null){
             return new ResultBody<>(false,500,"missing parameter");
         }
-        if (courseService.publish(name,introduce,type, planTime)){
+        if (courseService.publish(name,introduce,type)){
             return new ResultBody<>(true,200,null);
         }else {
             return new ResultBody<>(false,501,"unknown error, maybe name is exist");

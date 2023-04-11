@@ -3,16 +3,57 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyun.policelearning.dao.CourseUsrLearnDao">
-    <select id="queryByUserId" resultType="CourseUsrLearn">
+
+    <resultMap id="timeMap" type="CourseUsrLearn">
+        <result property="id" column="id"/>
+        <result property="learnTime" column="learn_time"/>
+        <result property="contentId" column="content_id"/>
+    </resultMap>
+
+    <select id="queryByUserId" resultMap="timeMap">
         SELECT
             course_usr_learn.learn_time,
-            course_usr_learn.user_id,
-            course_usr_learn.course_id
+            course_usr_learn.id,
+            course_usr_learn.content_id
         FROM
-            course
-                INNER JOIN course_usr_learn ON course.id = course_usr_learn.course_id
+            course_usr_learn
+                INNER JOIN
+            course_content
+            ON
+                        course_usr_learn.course_id = course_content.course_id AND
+                        course_usr_learn.content_id = course_content.id
         WHERE
-            course_usr_learn.user_id = ${userId}
+            course_usr_learn.user_id = #{userId} AND
+            course_usr_learn.course_id = #{courseId}
+
     </select>
+
+    <select id="queryOne" resultType="CourseUsrLearn">
+        SELECT *
+        FROM course_usr_learn
+        WHERE course_id = #{courseId}
+          AND content_id = #{contentId}
+          AND user_id = #{userId}
+    </select>
+
+    <update id="update">
+        UPDATE course_usr_learn
+        SET course_id=#{courseId},
+            content_id=#{contentId},
+            user_id=#{userId},
+            learn_time=#{learnTime}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insert" useGeneratedKeys = "true" keyProperty="id">
+        INSERT INTO course_usr_learn (user_id, course_id, content_id, learn_time)
+        VALUES (#{userId}, #{courseId}, #{contentId}, #{learnTime})
+    </insert>
+
+    <delete id="delete">
+        DELETE
+        FROM course_usr_learn
+        WHERE id = #{id}
+    </delete>
 
 </mapper>

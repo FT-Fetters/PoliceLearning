@@ -7,7 +7,5 @@ public class Course {
     private int id;
     private String name;
     private String introduce;
-    private String catalogue;
     private String type;
-    private Long planTime;
 }

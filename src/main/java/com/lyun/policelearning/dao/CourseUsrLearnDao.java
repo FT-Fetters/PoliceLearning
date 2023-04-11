@@ -9,5 +9,15 @@ import java.util.List;
 @Mapper
 public interface CourseUsrLearnDao {
 
-    List<CourseUsrLearn> queryByUserId(int userId);
+    List<CourseUsrLearn> queryByUserId(long userId, long courseId);
+
+    CourseUsrLearn queryOne(long userId, long courseId, long contentId);
+
+    void update(CourseUsrLearn courseUsrLearn);
+
+    void insert(CourseUsrLearn courseUsrLearn);
+
+    void delete(int id);
+
+
 }

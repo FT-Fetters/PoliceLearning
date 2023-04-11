@@ -2,9 +2,11 @@ package com.lyun.policelearning.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.dao.CourseContentDao;
 import com.lyun.policelearning.dao.CourseDao;
 import com.lyun.policelearning.dao.CourseUsrLearnDao;
 import com.lyun.policelearning.entity.Course;
+import com.lyun.policelearning.entity.CourseContent;
 import com.lyun.policelearning.entity.CourseUsrLearn;
 import com.lyun.policelearning.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +28,15 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseUsrLearnDao courseUsrLearnDao;
 
+    @Autowired
+    private CourseContentDao courseContentDao;
+
     @Override
     public List<JSONObject> findAll(int userId) {
         List<JSONObject> courses = new ArrayList<>();
         List<Course> courseList = courseDao.findAll();
-        List<CourseUsrLearn> courseUsrLearns = courseUsrLearnDao.queryByUserId(userId);
-        Map<Integer, Long> learnMap = new HashMap<>();
-        for (CourseUsrLearn courseUsrLearn : courseUsrLearns) {
-            learnMap.put(courseUsrLearn.getCourseId(), courseUsrLearn.getLearnTime());
-        }
         for (Course course : courseList) {
-            JSONObject tmp = courseToJson(course);
-            if (userId != -1)
-                tmp.put("learn_time", learnMap.get(course.getId()) == null ? 0 : learnMap.get(course.getId()));
+            JSONObject tmp = courseToJson(course, userId);
             courses.add(tmp);
         }
         return courses;
@@ -51,6 +49,30 @@ public class CourseServiceImpl implements CourseService {
         return courseToJson(course);
     }
 
+    private JSONObject courseToJson(Course course, int userId) {
+        if (course == null) return null;
+        JSONObject res = new JSONObject();
+        res.put("id", course.getId());
+        res.put("name", course.getName());
+        res.put("introduce", course.getIntroduce());
+        res.put("type", course.getType());
+        List<CourseContent> courseContents = courseContentDao.getCourseContents(course.getId());
+        List<CourseUsrLearn> courseUsrLearns = courseUsrLearnDao.queryByUserId(userId, course.getId());
+        Map<Long, Long> learnMap = new HashMap<>();
+        for (CourseUsrLearn courseUsrLearn : courseUsrLearns) {
+            learnMap.put(courseUsrLearn.getContentId(), courseUsrLearn.getLearnTime());
+        }
+        JSONArray contents = new JSONArray();
+        for (CourseContent courseContent : courseContents) {
+            long contentId = courseContent.getId();
+            JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(courseContent));
+            json.put("learnTime", learnMap.get(contentId));
+            contents.add(json);
+        }
+        res.put("content", contents);
+        return res;
+    }
+
     private JSONObject courseToJson(Course course) {
         if (course == null) return null;
         JSONObject res = new JSONObject();
@@ -58,9 +80,7 @@ public class CourseServiceImpl implements CourseService {
         res.put("name", course.getName());
         res.put("introduce", course.getIntroduce());
         res.put("type", course.getType());
-        JSONArray catalogue = JSONArray.parseArray(course.getCatalogue());
-        res.put("catalogue", catalogue);
-        res.put("plan_time", course.getPlanTime());
+        res.put("content", courseContentDao.getCourseContents(course.getId()));
         return res;
     }
 
@@ -85,7 +105,6 @@ public class CourseServiceImpl implements CourseService {
         JSONObject courseJson = getCourseById(id);
         course.setId(courseJson.getInteger("id"));
         course.setType(type);
-        course.setCatalogue(courseJson.getString("catalogue"));
         course.setName(courseJson.getString("name"));
         course.setIntroduce(courseJson.getString("introduce"));
         courseDao.update(course);
@@ -114,7 +133,6 @@ public class CourseServiceImpl implements CourseService {
         JSONObject courseJson = getCourseById(id);
         course.setId(courseJson.getInteger("id"));
         course.setType(courseJson.getString("type"));
-        course.setCatalogue(courseJson.getString("catalogue"));
         course.setName(courseJson.getString("name"));
         course.setIntroduce(introduce);
         courseDao.update(course);
@@ -122,9 +140,9 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public boolean publish(String name, String introduce, String type, Long planTime) {
+    public boolean publish(String name, String introduce, String type) {
         if (getCourseByName(name) == null) {
-            courseDao.publish(name, introduce, type, planTime);
+            courseDao.publish(name, introduce, type);
             return true;
         } else {
             return false;
@@ -136,7 +154,6 @@ public class CourseServiceImpl implements CourseService {
         if (getCourseById(id) == null) return false;
         Course course = new Course();
         JSONObject courseJson = getCourseById(id);
-        course.setCatalogue(catalogue.toJSONString());
         course.setName(courseJson.getString("name"));
         course.setId(courseJson.getInteger("id"));
         course.setType(courseJson.getString("type"));
@@ -149,7 +166,6 @@ public class CourseServiceImpl implements CourseService {
         if (getCourseByName(name) == null) return false;
         Course course = new Course();
         JSONObject courseJson = getCourseByName(name);
-        course.setCatalogue(catalogue.toJSONString());
         course.setName(courseJson.getString("name"));
         course.setId(courseJson.getInteger("id"));
         course.setType(courseJson.getString("type"));
