@@ -11,4 +11,5 @@ public interface TopicCommentDao {
     void publish(@Param("t")TopicComment topicComment);
     void delete(int id);
     List<TopicComment> getByTid(int tid);
+    void accept(int id,boolean isAccept);
 }

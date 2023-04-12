@@ -2,6 +2,7 @@ package com.lyun.policelearning.controller.topic;
 
 import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.Topic;
+import com.lyun.policelearning.service.TopicCommentService;
 import com.lyun.policelearning.service.TopicService;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
@@ -22,6 +23,8 @@ import java.util.UUID;
 public class TopicApi {
     @Autowired
     TopicService topicService;
+    @Autowired
+    TopicCommentService topicCommentService;
     @Autowired
     private JwtConfig jwtConfig;
 
@@ -94,5 +97,32 @@ public class TopicApi {
     @RequestMapping(value = "/getById",method = RequestMethod.GET)
     public Object getById(@RequestParam int id){
         return topicService.getDetail(id);
+    }
+
+    /**
+     * 获取自己的发布的话题列表
+     */
+    @RequestMapping(value = "/my/list",method = RequestMethod.GET)
+    public Object myList(HttpServletRequest request){
+        int userId = UserUtils.getUserId(request,jwtConfig);
+        return new ResultBody<>(true,200,topicService.getMyList(userId));
+    }
+
+    /**
+     * 采纳意见
+     */
+    @RequestMapping(value = "/comment/accept",method = RequestMethod.GET)
+    public Object accept(@RequestParam int id){
+        topicCommentService.accept(id,true);
+        return new ResultBody<>(true,200,null);
+    }
+
+    /**
+     * 取消采纳意见
+     */
+    @RequestMapping(value = "/comment/cancel/accept",method = RequestMethod.GET)
+    public Object cancelAccept(@RequestParam int id){
+        topicCommentService.accept(id,false);
+        return new ResultBody<>(true,200,null);
     }
 }

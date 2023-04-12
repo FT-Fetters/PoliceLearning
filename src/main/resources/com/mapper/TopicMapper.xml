@@ -20,4 +20,5 @@
             </if>
         </trim>  ORDER BY date DESC
 </select>
+    <select id="myList" resultType="Topic">SELECT * FROM topic WHERE uid=#{uid}</select>
 </mapper>

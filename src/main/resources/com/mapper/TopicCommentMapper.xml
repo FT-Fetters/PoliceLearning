@@ -7,4 +7,5 @@
                         VALUES (#{t.uid},#{t.replay},#{t.tid},#{t.date})</insert>
     <delete id="delete">DELETE FROM topic_comment WHERE id=#{id}</delete>
     <select id="getByTid" resultType="TopicComment">SELECT * FROM topic_comment WHERE tid=#{tid} ORDER BY date DESC</select>
+    <update id="accept">UPDATE  topic_comment SET isAccept=#{isAccept} WHERE id=#{id}</update>
 </mapper>

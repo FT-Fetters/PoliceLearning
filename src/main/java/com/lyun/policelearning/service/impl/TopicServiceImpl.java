@@ -91,6 +91,19 @@ public class TopicServiceImpl implements TopicService {
         return topicCommentList;
     }
 
+    @Override
+    public Object getMyList(int uid) {
+        List<Topic> res = topicDao.myList(uid);
+        for (Topic topic : res){
+            topic.setRealName(userDao.getById(topic.getUid()).getRealname());
+            topic.setContent(null);
+            if (topic.getPicture() != null && !"".equals(topic.getPicture())){
+                topic.setPicture(Constant.BASE_URL + "api/upload/topicPicture/" + topic.getPicture());
+            }
+        }
+        return res;
+    }
+
     private PageInfo<?> getPageInfo(PageRequest pageRequest,String title) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
