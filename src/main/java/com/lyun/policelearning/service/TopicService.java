@@ -14,4 +14,5 @@ public interface TopicService {
     Object getDetail(int id);
     PageResult findPage(PageRequest pageRequest,String title);
     Object getComment(int id);
+    Object getMyList(int uid);
 }

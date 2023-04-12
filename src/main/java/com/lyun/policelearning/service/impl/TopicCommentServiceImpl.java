@@ -21,4 +21,9 @@ public class TopicCommentServiceImpl implements TopicCommentService {
     public void delete(int id) {
         topicCommentDao.delete(id);
     }
+
+    @Override
+    public void accept(int id, boolean isAccept) {
+        topicCommentDao.accept(id, isAccept);
+    }
 }

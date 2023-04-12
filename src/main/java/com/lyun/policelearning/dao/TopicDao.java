@@ -13,4 +13,5 @@ public interface TopicDao {
     void delete(int id);
     //List<Topic> all(String title);
     List<Topic> getAll(@Param("t") String title);
+    List<Topic> myList(int uid);
 }
