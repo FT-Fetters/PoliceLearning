@@ -28,7 +28,7 @@ public class CourseContentServiceImpl implements CourseContentService {
 
     @Override
     public ResultBody<?> getById(int id, int userId) {
-        if (!stateService.check(id, userId)) stateService.insert(id, userId);
+        //if (!stateService.check(id, userId)) stateService.insert(id, userId);
         return new ResultBody<>(true, 200, courseContentDao.getById(id));
     }
 

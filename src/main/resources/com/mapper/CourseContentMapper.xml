@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lyun.policelearning.dao.CourseContentDao">
 
-    <select id="getById" resultType="CourseContent">
-        SELECT *
-        FROM course_content
-        WHERE id = #{id}
-    </select>
-
     <resultMap id="getContents" type="CourseContent">
         <result property="id" column="id"/>
         <result property="courseId" column="course_id"/>
@@ -16,6 +10,12 @@
         <result property="beginTime" column="begin_time"/>
         <result property="endTime" column="end_time"/>
     </resultMap>
+
+    <select id="getById" resultMap="getContents">
+        SELECT *
+        FROM course_content
+        WHERE id = #{id}
+    </select>
 
     <select id="getCourseContents" resultMap="getContents">
         SELECT course_content.id,
