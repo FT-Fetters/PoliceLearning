@@ -1,10 +1,6 @@
 package com.lyun.policelearning.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lyun.policelearning.entity.Course;
-import com.lyun.policelearning.entity.Information;
-import com.lyun.policelearning.entity.Law;
-import com.lyun.policelearning.entity.Rule;
 import com.lyun.policelearning.service.CourseService;
 import com.lyun.policelearning.service.InformationService;
 import com.lyun.policelearning.service.LawService;

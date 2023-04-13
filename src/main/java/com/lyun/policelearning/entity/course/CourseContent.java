@@ -1,4 +1,4 @@
-package com.lyun.policelearning.entity;
+package com.lyun.policelearning.entity.course;
 
 import cn.hutool.core.date.DateTime;
 import lombok.Data;

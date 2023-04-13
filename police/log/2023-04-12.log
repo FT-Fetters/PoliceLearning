@@ -1,0 +1,11 @@
+2023-04-12 11:14:17 [error] Request method 'POST' not supported
+2023-04-12 11:14:22 [error]
+### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`policelearning`.`state`, CONSTRAINT `state_teach_id_fk` FOREIGN KEY (`tid`) REFERENCES `teach` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: INSERT INTO state(tid,uid,isView) VALUES (?,?,1)
+### Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`policelearning`.`state`, CONSTRAINT `state_teach_id_fk` FOREIGN KEY (`tid`) REFERENCES `teach` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+; Cannot add or update a child row: a foreign key constraint fails (`policelearning`.`state`, CONSTRAINT `state_teach_id_fk` FOREIGN KEY (`tid`) REFERENCES `teach` (`id`) ON DELETE CASCADE ON UPDATE CASCADE); nested exception is java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`policelearning`.`state`, CONSTRAINT `state_teach_id_fk` FOREIGN KEY (`tid`) REFERENCES `teach` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+2023-04-12 11:29:13 [get] 192.168.137.1 get course catalogue
+2023-04-12 11:41:16 [error] Required request parameter 'courseContent' for method parameter type CourseContent is not present
+2023-04-12 11:47:19 [error] Required request parameter 'courseContent' for method parameter type CourseContent is not present

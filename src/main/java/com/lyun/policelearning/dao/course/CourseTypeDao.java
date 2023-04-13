@@ -1,6 +1,6 @@
-package com.lyun.policelearning.dao;
+package com.lyun.policelearning.dao.course;
 
-import com.lyun.policelearning.entity.CourseType;
+import com.lyun.policelearning.entity.course.CourseType;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

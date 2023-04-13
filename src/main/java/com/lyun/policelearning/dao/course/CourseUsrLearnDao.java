@@ -1,7 +1,6 @@
-package com.lyun.policelearning.dao;
+package com.lyun.policelearning.dao.course;
 
-import cn.hutool.json.JSONObject;
-import com.lyun.policelearning.entity.CourseUsrLearn;
+import com.lyun.policelearning.entity.course.CourseUsrLearn;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,6 +19,10 @@ public interface CourseUsrLearnDao {
     void insert(CourseUsrLearn courseUsrLearn);
 
     void delete(int id);
+
+    void deleteByCourseId(int courseId);
+
+    void deleteByContent(int contendId);
 
 
 }

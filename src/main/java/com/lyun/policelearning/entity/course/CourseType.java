@@ -1,4 +1,4 @@
-package com.lyun.policelearning.entity;
+package com.lyun.policelearning.entity.course;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
