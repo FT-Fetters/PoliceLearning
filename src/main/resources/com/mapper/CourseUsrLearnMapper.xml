@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lyun.policelearning.dao.CourseUsrLearnDao">
+<mapper namespace="com.lyun.policelearning.dao.course.CourseUsrLearnDao">
 
     <resultMap id="timeMap" type="CourseUsrLearn">
         <result property="id" column="id"/>
@@ -67,6 +67,18 @@
         DELETE
         FROM course_usr_learn
         WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByCourseId">
+        DELETE
+        FROM course_usr_learn
+        WHERE course_id = #{courseId}
+    </delete>
+
+    <delete id="deleteByContent">
+        DELETE
+        FROM course_usr_learn
+        WHERE content_id = #{contentId}
     </delete>
 
 </mapper>

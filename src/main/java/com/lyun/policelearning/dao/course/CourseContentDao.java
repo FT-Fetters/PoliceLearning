@@ -1,7 +1,6 @@
-package com.lyun.policelearning.dao;
+package com.lyun.policelearning.dao.course;
 
-import com.lyun.policelearning.entity.CourseContent;
-import com.lyun.policelearning.utils.ResultBody;
+import com.lyun.policelearning.entity.course.CourseContent;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,6 +17,9 @@ public interface CourseContentDao {
 
     void delete(int id);
 
+    void deleteByCourseId(int courseId);
+
     List<CourseContent> getCourseContents(long courseId);
+
 
 }

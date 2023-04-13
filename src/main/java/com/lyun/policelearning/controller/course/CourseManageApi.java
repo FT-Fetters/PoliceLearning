@@ -172,15 +172,7 @@ public class CourseManageApi {
         if(id <= 0){
             return new ResultBody<>(false,500,"error id");
         }
-        JSONObject course = courseService.getCourseById(id);
-        JSONArray catalogue = course.getJSONArray("catalogue");
-        if(catalogue != null){
-            for (Object o : catalogue){
-                JSONObject json = (JSONObject) o;
-                int tid = json.getInteger("id");
-                teachService.delete(tid);
-            }
-        }
+
         courseService.delete(id);
         return new ResultBody<>(true,200,null);
     }

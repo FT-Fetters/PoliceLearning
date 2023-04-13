@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lyun.policelearning.dao.CourseDao">
+<mapper namespace="com.lyun.policelearning.dao.course.CourseDao">
     <select id="findAll" resultType="Course">SELECT * FROM course</select>
     <select id="getCourseById" resultType="Course">SELECT * FROM course WHERE id=#{id}</select>
     <select id="count" resultType="Integer">SELECT COUNT(*) FROM course</select>

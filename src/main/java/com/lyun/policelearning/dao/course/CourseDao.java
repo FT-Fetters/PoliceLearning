@@ -1,13 +1,14 @@
-package com.lyun.policelearning.dao;
+package com.lyun.policelearning.dao.course;
 
-import com.lyun.policelearning.entity.Course;
+import com.lyun.policelearning.dao.BaseDao;
+import com.lyun.policelearning.entity.course.Course;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-public interface CourseDao extends BaseDao<Course>{
+public interface CourseDao extends BaseDao<Course> {
     Course getCourseById(int id);
     Course getCourseByName(String name);
     void update(@Param("course") Course course);

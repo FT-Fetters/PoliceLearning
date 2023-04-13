@@ -2,12 +2,11 @@ package com.lyun.policelearning.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.lyun.policelearning.dao.CourseContentDao;
-import com.lyun.policelearning.dao.CourseDao;
-import com.lyun.policelearning.dao.CourseUsrLearnDao;
-import com.lyun.policelearning.entity.Course;
-import com.lyun.policelearning.entity.CourseContent;
-import com.lyun.policelearning.entity.CourseUsrLearn;
+import com.lyun.policelearning.dao.course.*;
+import com.lyun.policelearning.entity.course.Course;
+import com.lyun.policelearning.entity.course.CourseContent;
+import com.lyun.policelearning.entity.course.CourseQuestionState;
+import com.lyun.policelearning.entity.course.CourseUsrLearn;
 import com.lyun.policelearning.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseContentDao courseContentDao;
+
+    @Autowired
+    private CourseQuestionDao courseQuestionDao;
+
+    @Autowired
+    private CourseQuestionStateDao courseQuestionStateDao;
+
 
     @Override
     public List<JSONObject> findAll(int userId) {
@@ -184,6 +190,13 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void delete(int id) {
         courseDao.delete(id);
+        List<CourseContent> courseContents = courseContentDao.getCourseContents(id);
+        for (CourseContent courseContent : courseContents) {
+            courseQuestionDao.deleteByContent(courseContent.getId());
+            courseQuestionStateDao.deleteByContent(courseContent.getId());
+        }
+        courseUsrLearnDao.deleteByCourseId(id);
+        courseContentDao.deleteByCourseId(id);
     }
 
     @Override

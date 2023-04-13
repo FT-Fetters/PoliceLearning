@@ -3,8 +3,7 @@ package com.lyun.policelearning.controller.course;
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
 import com.lyun.policelearning.config.JwtConfig;
-import com.lyun.policelearning.entity.CourseContent;
-import com.lyun.policelearning.entity.CourseUsrLearn;
+import com.lyun.policelearning.entity.course.CourseContent;
 import com.lyun.policelearning.service.*;
 import com.lyun.policelearning.utils.Constant;
 import com.lyun.policelearning.utils.PathTools;
@@ -140,7 +139,7 @@ public class CourseContentApi {
 
     @Permission
     @PostMapping("/update")
-    public Object update(@RequestParam CourseContent courseContent) {
+    public Object update(@RequestBody CourseContent courseContent) {
         return courseContentService.update(courseContent);
     }
 
@@ -169,7 +168,7 @@ public class CourseContentApi {
         private long contentId;
     }
 
-    @GetMapping("/check/finished")
+    @PostMapping("/check/finished")
     public Object checkFinished(@RequestBody CheckBody body, HttpServletRequest request){
         return courseUsrLearnService.checkFinished(body.courseId, body.contentId, UserUtils.getUserId(request,jwtConfig));
     }

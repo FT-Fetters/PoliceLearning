@@ -2,10 +2,12 @@ package com.lyun.policelearning.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.lyun.policelearning.dao.CourseContentDao;
-import com.lyun.policelearning.dao.CourseUsrLearnDao;
-import com.lyun.policelearning.entity.CourseContent;
-import com.lyun.policelearning.entity.CourseUsrLearn;
+import com.lyun.policelearning.dao.course.CourseContentDao;
+import com.lyun.policelearning.dao.course.CourseQuestionDao;
+import com.lyun.policelearning.dao.course.CourseQuestionStateDao;
+import com.lyun.policelearning.dao.course.CourseUsrLearnDao;
+import com.lyun.policelearning.entity.course.CourseContent;
+import com.lyun.policelearning.entity.course.CourseUsrLearn;
 import com.lyun.policelearning.service.CourseContentService;
 import com.lyun.policelearning.service.StateService;
 import com.lyun.policelearning.utils.ResultBody;
@@ -25,6 +27,12 @@ public class CourseContentServiceImpl implements CourseContentService {
 
     @Autowired
     private CourseUsrLearnDao courseUsrLearnDao;
+
+    @Autowired
+    private CourseQuestionDao courseQuestionDao;
+
+    @Autowired
+    private CourseQuestionStateDao courseQuestionStateDao;
 
     @Override
     public ResultBody<?> getById(int id, int userId) {
@@ -52,6 +60,9 @@ public class CourseContentServiceImpl implements CourseContentService {
     @Override
     public ResultBody<?> delete(int id) {
         courseContentDao.delete(id);
+        courseUsrLearnDao.deleteByCourseId(id);
+        courseQuestionDao.deleteByContent(id);
+        courseQuestionStateDao.deleteByContent(id);
         return new ResultBody<>(true, 200, null);
     }
 

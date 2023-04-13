@@ -2,8 +2,38 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lyun.policelearning.dao.CourseQuestionDao">
+<mapper namespace="com.lyun.policelearning.dao.course.CourseQuestionDao">
 
+    <select id="queryByContentId" resultType="CourseQuestion">
+        SELECT *
+        FROM course_question
+        WHERE content_id = #{contentId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO course_question (content_id, question, answer)
+        VALUES (#{contentId}, #{question}, #{answer})
+    </insert>
+
+    <delete id="delete">
+        DELETE
+        FROM course_question
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByContent">
+        DELETE
+        FROM course_question
+        WHERE content_id = #{contentId}
+    </delete>
+
+    <update id="update">
+        UPDATE course_question
+        SET content_id=#{contentId},
+            question=#{question},
+            answer=#{answer}
+        WHERE id = #{id}
+    </update>
 
 
 </mapper>

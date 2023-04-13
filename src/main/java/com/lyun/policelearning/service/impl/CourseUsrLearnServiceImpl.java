@@ -1,9 +1,9 @@
 package com.lyun.policelearning.service.impl;
 
-import com.lyun.policelearning.dao.CourseContentDao;
-import com.lyun.policelearning.dao.CourseUsrLearnDao;
-import com.lyun.policelearning.entity.CourseContent;
-import com.lyun.policelearning.entity.CourseUsrLearn;
+import com.lyun.policelearning.dao.course.CourseContentDao;
+import com.lyun.policelearning.dao.course.CourseUsrLearnDao;
+import com.lyun.policelearning.entity.course.CourseContent;
+import com.lyun.policelearning.entity.course.CourseUsrLearn;
 import com.lyun.policelearning.service.CourseUsrLearnService;
 import com.lyun.policelearning.utils.ResultBody;
 import org.springframework.beans.factory.annotation.Autowired;
