@@ -88,7 +88,10 @@ public class CourseServiceImpl implements CourseService {
     public JSONArray getCatalogue(int id) {
         if (getCourseById(id) == null)
             return null;
-        return JSONArray.parseArray(getCourseById(id).getString("catalogue"));
+        List<CourseContent> courseContents = courseContentDao.getCourseContents(id);
+        JSONArray res = new JSONArray();
+        res.addAll(courseContents);
+        return res;
     }
 
     @Override
