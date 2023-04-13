@@ -11,5 +11,6 @@ public class Tool {
     private String title;
     private String content;
     private String date;
-    private int type;//1:司法解释  2:案例分析  3:应用场景
+    private int type;
+    private String typeName;
 }

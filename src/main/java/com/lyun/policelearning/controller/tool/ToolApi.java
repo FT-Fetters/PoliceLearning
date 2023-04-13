@@ -15,6 +15,9 @@ public class ToolApi {
     @Autowired
     ToolService toolService;
 
+    /**
+     * 根据类型和标题关键词返回文章列表
+     */
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     public Object getAll(@RequestParam int type,@RequestParam(required = false) String title){
         return new ResultBody<>(true,200,toolService.list(type,title));

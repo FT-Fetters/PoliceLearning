@@ -5,15 +5,27 @@
 <mapper namespace="com.lyun.policelearning.dao.ToolDao">
     <select id="all" resultType="Tool">SELECT * FROM tool
  <trim prefix="where" prefixOverrides="and|or">
-        <if test="title!=null and title!=''" >
-            and title like '%${title}%'
-        </if>
         <if test="type!=null and type!=''">
             and type=#{type}
         </if>
     </trim>   ORDER BY date DESC</select>
+    <select id="list" resultType="Tool">SELECT * FROM tool
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="title!=null and title!=''" >
+                and title like '%${title}%'
+            </if>
+            <if test="type!=null and type!=''">
+                and type=#{type}
+            </if>
+        </trim>   ORDER BY date DESC</select>
+    <select id="findByTitle" resultType="Tool">SELECT * FROM tool
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="title!=null and title!=''" >
+                and title like '%${title}%'
+            </if>
+        </trim>   ORDER BY date DESC</select>
     <select id="getById" resultType="Tool">SELECT * FROM tool WHERE id=#{id}</select>
     <insert id="insert">INSERT INTO tool(title,content,type,date) VALUES (#{t.title},#{t.content},#{t.type},#{t.date})</insert>
-    <update id="update">UPDATE tool SET title=#{t.title},content=#{t.content},date=#{t.date} WHERE id=#{t.id}</update>
+    <update id="update">UPDATE tool SET title=#{t.title},content=#{t.content},date=#{t.date},type=#{t.type} WHERE id=#{t.id}</update>
     <delete id="delete">DELETE FROM tool WHERE id=#{id}</delete>
 </mapper>

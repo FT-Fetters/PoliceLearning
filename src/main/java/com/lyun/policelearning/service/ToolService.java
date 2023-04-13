@@ -7,7 +7,8 @@ import com.lyun.policelearning.utils.page.PageResult;
 import java.util.List;
 
 public interface ToolService {
-    PageResult getAll(PageRequest pageRequest,int type,String title);
+    PageResult getAll(PageRequest pageRequest,int type);
+    PageResult findByTitle(PageRequest pageRequest,String title);
     Tool getById(int id);
     void insert(Tool tool);
     void update(Tool tool);

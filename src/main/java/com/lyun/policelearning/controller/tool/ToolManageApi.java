@@ -31,11 +31,20 @@ public class ToolManageApi {
      */
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     public Object all(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
-                      @RequestParam Integer type,@RequestParam(required = false) String title){
+                      @RequestParam Integer type){
         PageRequest pageRequest = new PageRequest(pageNum,pageSize);
-        return new ResultBody<>(true,200,toolService.getAll(pageRequest,type,title));
+        return new ResultBody<>(true,200,toolService.getAll(pageRequest,type));
     }
 
+    /**
+     * 根据标题关键词全局搜索
+     */
+    @RequestMapping(value = "/findByTitle",method = RequestMethod.GET)
+    public Object findByTitle(@RequestParam Integer pageNum,@RequestParam Integer pageSize,
+                              @RequestParam(required = false) String title){
+        PageRequest pageRequest = new PageRequest(pageNum,pageSize);
+        return new ResultBody<>(true,200,toolService.findByTitle(pageRequest,title));
+    }
 
     /**
      * 根据id返回具体信息
@@ -58,7 +67,7 @@ public class ToolManageApi {
     }
 
     /**
-     * 根据id更新司法 title、content、id
+     * 根据id更新司法 title、content、id、type
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public Object update(@RequestBody Tool tool){
@@ -115,6 +124,10 @@ public class ToolManageApi {
         jsonObject.put("url",imgUrl);
         return new ToolManageApi.PictureResponse(0,jsonObject);
     }
+
+
+
+
 
     @SneakyThrows
     @RequestMapping(value = "/upload/video",method = RequestMethod.POST)

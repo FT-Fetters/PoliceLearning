@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyun.policelearning.dao.ToolTypeDao">
+    <select id="all" resultType="ToolType">SELECT * FROM tool_type</select>
+    <delete id="delete">DELETE FROM tool_type WHERE id=#{id}</delete>
+    <insert id="insert">INSERT INTO tool_type(name) VALUES (#{name})</insert>
+    <select id="getById" resultType="ToolType">SELECT * FROM tool_type WHERE id=#{id}</select>
+</mapper>
