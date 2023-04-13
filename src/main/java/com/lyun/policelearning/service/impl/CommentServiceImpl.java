@@ -133,9 +133,14 @@ public class CommentServiceImpl implements CommentService {
                jsonObject.put("content",comment1.getContent());
                String title = null;
                if(comment1.getType().equals("inf")){
-                   title = informationDao.getInformationById(comment1.getHostId()).getTitle();
+                   System.out.println("***********" + comment1);
+                   if (informationDao.getInformationById(comment1.getHostId()) != null){
+                       title = informationDao.getInformationById(comment1.getHostId()).getTitle();
+                   }
                }else {
-                   title = ruleDao.getRuleById(comment1.getHostId()).getTitle();
+                   if (ruleDao.getRuleById(comment1.getHostId())!=null){
+                       title = ruleDao.getRuleById(comment1.getHostId()).getTitle();
+                   }
                }
                jsonObject.put("title",title);
                jsonObject.put("date",comment1.getDate());
