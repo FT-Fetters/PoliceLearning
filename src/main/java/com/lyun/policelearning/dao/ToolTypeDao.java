@@ -9,6 +9,7 @@ import java.util.List;
 public interface ToolTypeDao {
     List<ToolType> all();
     void delete(int id);
-    void insert(String name);
+    void insert(String name,int pid);
     ToolType getById(int id);
+    List<ToolType> getByPid(int pid);
 }

@@ -5,6 +5,7 @@
 <mapper namespace="com.lyun.policelearning.dao.ToolTypeDao">
     <select id="all" resultType="ToolType">SELECT * FROM tool_type</select>
     <delete id="delete">DELETE FROM tool_type WHERE id=#{id}</delete>
-    <insert id="insert">INSERT INTO tool_type(name) VALUES (#{name})</insert>
+    <insert id="insert">INSERT INTO tool_type(name,pid) VALUES (#{name},#{pid})</insert>
     <select id="getById" resultType="ToolType">SELECT * FROM tool_type WHERE id=#{id}</select>
+    <select id="getByPid" resultType="ToolType">SELECT * FROM tool_type WHERE pid=#{pid}</select>
 </mapper>

@@ -17,7 +17,7 @@ public class ToolTypeManageApi {
     }
 
     /**
-     * 删除工具类型
+     * 删除工具类型,底下的子集也要删除
      */
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
     public Object delete(@RequestParam Integer id){
@@ -29,8 +29,8 @@ public class ToolTypeManageApi {
      * 新增工具类型
      */
     @RequestMapping(value = "/insert",method = RequestMethod.GET)
-    public Object insert(@RequestParam String name){
-        toolTypeService.insert(name);
+    public Object insert(@RequestParam String name,@RequestParam Integer pid){
+        toolTypeService.insert(name,pid);
         return new ResultBody<>(true,200,null);
     }
 }
