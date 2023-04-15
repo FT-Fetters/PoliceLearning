@@ -34,6 +34,11 @@ public class ToolTypeServiceImpl implements ToolTypeService {
         toolTypeDao.insert(name,pid);
     }
 
+    @Override
+    public void update(String name, Integer id) {
+        toolTypeDao.update(name,id);
+    }
+
     private List<ToolType> getTree(int pid) {
         List<ToolType> res = new ArrayList<>();
         //List<SysOrg> list = unitDao.findByFid(fid);

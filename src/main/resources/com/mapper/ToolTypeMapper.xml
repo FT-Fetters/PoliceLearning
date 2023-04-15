@@ -6,6 +6,7 @@
     <select id="all" resultType="ToolType">SELECT * FROM tool_type</select>
     <delete id="delete">DELETE FROM tool_type WHERE id=#{id}</delete>
     <insert id="insert">INSERT INTO tool_type(name,pid) VALUES (#{name},#{pid})</insert>
+    <update id="update">UPDATE tool_type SET name=#{name} WHERE id=#{id}</update>
     <select id="getById" resultType="ToolType">SELECT * FROM tool_type WHERE id=#{id}</select>
     <select id="getByPid" resultType="ToolType">SELECT * FROM tool_type WHERE pid=#{pid}</select>
 </mapper>

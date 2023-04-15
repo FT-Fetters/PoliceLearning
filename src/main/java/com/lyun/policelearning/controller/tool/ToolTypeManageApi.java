@@ -33,4 +33,13 @@ public class ToolTypeManageApi {
         toolTypeService.insert(name,pid);
         return new ResultBody<>(true,200,null);
     }
+    /**
+     * 更新工具类型
+     */
+    @RequestMapping(value = "/update",method = RequestMethod.GET)
+    public Object update(@RequestParam String name,@RequestParam Integer id){
+        toolTypeService.update(name,id);
+        return new ResultBody<>(true,200,null);
+    }
+
 }

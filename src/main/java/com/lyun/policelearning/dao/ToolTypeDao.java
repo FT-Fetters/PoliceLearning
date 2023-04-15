@@ -10,6 +10,7 @@ public interface ToolTypeDao {
     List<ToolType> all();
     void delete(int id);
     void insert(String name,int pid);
+    void update(String name,int id);
     ToolType getById(int id);
     List<ToolType> getByPid(int pid);
 }
