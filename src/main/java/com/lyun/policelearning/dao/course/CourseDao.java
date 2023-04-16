@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface CourseDao extends BaseDao<Course> {
-    Course getCourseById(int id);
+    Course getCourseById(long id);
     Course getCourseByName(String name);
     void update(@Param("course") Course course);
     List<Course> getByType(String type);

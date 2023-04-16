@@ -24,9 +24,6 @@ public class CourseQuestionServiceImpl implements CourseQuestionService {
     @Override
     public ResultBody<?> getCourseQuestion(int contentId) {
         List<CourseQuestion> courseQuestions = courseQuestionDao.queryByContentId(contentId);
-        for (CourseQuestion courseQuestion : courseQuestions) {
-            courseQuestion.setAnswer(null);
-        }
         return new ResultBody<>(true, 200, courseQuestions);
     }
 
@@ -50,6 +47,9 @@ public class CourseQuestionServiceImpl implements CourseQuestionService {
 
     @Override
     public ResultBody<?> submit(List<Boolean> inputs, int contentId, int userId) {
+        CourseQuestionState contentAndUser = courseQuestionStateDao.queryByContentAndUser(contentId, userId);
+        if (contentAndUser != null)
+            return new ResultBody<>(true,-1,"用户已完成答题");
         StringBuilder inputStr = new StringBuilder();
         for (Boolean input : inputs) {
             inputStr.append(input ? "1" : "0");

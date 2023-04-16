@@ -2,10 +2,12 @@ package com.lyun.policelearning.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.lyun.policelearning.dao.UserDao;
 import com.lyun.policelearning.dao.course.CourseContentDao;
 import com.lyun.policelearning.dao.course.CourseQuestionDao;
 import com.lyun.policelearning.dao.course.CourseQuestionStateDao;
 import com.lyun.policelearning.dao.course.CourseUsrLearnDao;
+import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.entity.course.CourseContent;
 import com.lyun.policelearning.entity.course.CourseUsrLearn;
 import com.lyun.policelearning.service.CourseContentService;
@@ -33,6 +35,9 @@ public class CourseContentServiceImpl implements CourseContentService {
 
     @Autowired
     private CourseQuestionStateDao courseQuestionStateDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public ResultBody<?> getById(int id, int userId) {
@@ -78,11 +83,21 @@ public class CourseContentServiceImpl implements CourseContentService {
         for (CourseContent courseContent : courseContents) {
             int contentId = courseContent.getId();
             List<CourseUsrLearn> courseUsrLearns = courseUsrLearnDao.queryByCourseAndContent(courseId, contentId);
+            JSONArray states = new JSONArray();
+            states.addAll(courseUsrLearns);
+            for (Object state : states) {
+                JSONObject tmp = ((JSONObject) state);
+                User user = userDao.getById(tmp.getInteger("userId"));
+                if (user == null)
+                    continue;
+                tmp.put("username", user.getUsername());
+            }
             JSONObject state = new JSONObject();
             state.put("courseId", contentId);
             state.put("contentId", contentId);
             state.put("planTime", courseContent.getPlanTime());
-            state.put("state", courseUsrLearns);
+            state.put("name",courseContent.getName());
+            state.put("state", states);
             res.add(state);
         }
         return new ResultBody<>(true, 200, res);
