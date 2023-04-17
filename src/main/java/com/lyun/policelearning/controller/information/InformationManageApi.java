@@ -2,11 +2,9 @@ package com.lyun.policelearning.controller.information;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lyun.policelearning.annotation.Permission;
-import com.lyun.policelearning.controller.course.TeachApi;
 import com.lyun.policelearning.entity.Information;
 import com.lyun.policelearning.service.InformationService;
 import com.lyun.policelearning.utils.Constant;
-import com.lyun.policelearning.utils.ImageTools;
 import com.lyun.policelearning.utils.PathTools;
 import com.lyun.policelearning.utils.ResultBody;
 import com.lyun.policelearning.utils.page.PageRequest;

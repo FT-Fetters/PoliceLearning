@@ -7,7 +7,6 @@ import com.lyun.policelearning.utils.page.PageRequest;
 import com.lyun.policelearning.utils.page.PageResult;
 
 import java.util.List;
-
 public interface InformationService {
     List<JSONObject> findAll() throws Exception;
     JSONObject getInformationById(int id) throws Exception;
@@ -29,6 +28,4 @@ public interface InformationService {
     PageResult findPicture(PageRequest pageRequest);
     List<JSONObject> findPicture();
     PageResult search(PageRequest pageRequest,String word);
-
-
 }

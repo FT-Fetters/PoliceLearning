@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -54,12 +55,24 @@ public class InformationServiceImpl implements InformationService {
             if(information.getPicture() != null) {
                 String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                System.out.println(imagePath);
                 File imageFile = new File(imagePath);
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
                 if (imageFile.exists()){
-                    BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                    jsonObject.put("picture", imgBase64);
+                    if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                        //jpg
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }else {
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        BufferedImage newBufferedImage = new BufferedImage(
+                                bufferedImage.getWidth(), bufferedImage.getHeight(),
+                                BufferedImage.TYPE_INT_RGB);
+                        newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                                Color.WHITE, null);
+                        String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }
                 }else
                     jsonObject.put("picture","");
 
@@ -78,10 +91,23 @@ public class InformationServiceImpl implements InformationService {
                 String imagePath = savePath + information.getPicture();
                 System.out.println(imagePath);
                 File imageFile = new File(imagePath);
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
                 if (imageFile.exists()){
-                    BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                    jsonObject.put("picture", imgBase64);
+                    if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                        //jpg
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }else {
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        BufferedImage newBufferedImage = new BufferedImage(
+                                bufferedImage.getWidth(), bufferedImage.getHeight(),
+                                BufferedImage.TYPE_INT_RGB);
+                        newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                                Color.WHITE, null);
+                        String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }
                 }else
                     jsonObject.put("picture","");
             }
@@ -103,15 +129,28 @@ public class InformationServiceImpl implements InformationService {
         if(inf.getPicture() != null){
             String savePath = PathTools.getRunPath()+"image/";
             String imagePath = savePath + inf.getPicture();
-            System.out.println(imagePath);
             File imageFile = new File(imagePath);
+            String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
             if (imageFile.exists()){
-                BufferedImage bufferedImage = ImageIO.read(imageFile);
-                String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                information.put("picture", imgBase64);
-            }else
-                information.put("picture", "");
+                if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                    //jpg
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                    information.put("picture", imgBase64);
+                }else {
+                    BufferedImage bufferedImage = ImageIO.read(imageFile);
+                    BufferedImage newBufferedImage = new BufferedImage(
+                            bufferedImage.getWidth(), bufferedImage.getHeight(),
+                            BufferedImage.TYPE_INT_RGB);
+                    newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                            Color.WHITE, null);
+                    String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                    information.put("picture", imgBase64);
+                }
 
+            }else {
+                information.put("picture", "");
+            }
         }
         return information;
     }
@@ -181,10 +220,23 @@ public class InformationServiceImpl implements InformationService {
                 String imagePath = savePath + information.getPicture();
                 System.out.println(imagePath);
                 File imageFile = new File(imagePath);
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
                 if (imageFile.exists()){
-                    BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                    jsonObject.put("picture", imgBase64);
+                    if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                        //jpg
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }else {
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        BufferedImage newBufferedImage = new BufferedImage(
+                                bufferedImage.getWidth(), bufferedImage.getHeight(),
+                                BufferedImage.TYPE_INT_RGB);
+                        newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                                Color.WHITE, null);
+                        String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }
                 }else
                     jsonObject.put("picture","");
             }else {
@@ -209,10 +261,23 @@ public class InformationServiceImpl implements InformationService {
                 String imagePath = savePath + information.getPicture();
                 System.out.println(imagePath);
                 File imageFile = new File(imagePath);
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
                 if (imageFile.exists()){
-                    BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                    jsonObject.put("picture", imgBase64);
+                    if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                        //jpg
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }else {
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        BufferedImage newBufferedImage = new BufferedImage(
+                                bufferedImage.getWidth(), bufferedImage.getHeight(),
+                                BufferedImage.TYPE_INT_RGB);
+                        newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                                Color.WHITE, null);
+                        String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }
                 }else
                     jsonObject.put("picture","");
             }else {
@@ -274,10 +339,23 @@ public class InformationServiceImpl implements InformationService {
                 String imagePath = savePath + information.getPicture();
                 System.out.println(imagePath);
                 File imageFile = new File(imagePath);
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
                 if (imageFile.exists()){
-                    BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                    jsonObject.put("picture", imgBase64);
+                    if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                        //jpg
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }else {
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        BufferedImage newBufferedImage = new BufferedImage(
+                                bufferedImage.getWidth(), bufferedImage.getHeight(),
+                                BufferedImage.TYPE_INT_RGB);
+                        newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                                Color.WHITE, null);
+                        String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }
                 }else
                     jsonObject.put("picture","");
             } else {
@@ -313,12 +391,24 @@ public class InformationServiceImpl implements InformationService {
             if(information.getPicture() != null){
                 String savePath = PathTools.getRunPath()+"image/";
                 String imagePath = savePath + information.getPicture();
-                System.out.println(imagePath);
                 File imageFile = new File(imagePath);
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
                 if (imageFile.exists()){
-                    BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                    jsonObject.put("picture", imgBase64);
+                    if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                        //jpg
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }else {
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        BufferedImage newBufferedImage = new BufferedImage(
+                                bufferedImage.getWidth(), bufferedImage.getHeight(),
+                                BufferedImage.TYPE_INT_RGB);
+                        newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                                Color.WHITE, null);
+                        String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }
                 }else
                     jsonObject.put("picture","");
             }
@@ -345,10 +435,23 @@ public class InformationServiceImpl implements InformationService {
                 String imagePath = savePath + information.getPicture();
                 System.out.println(imagePath);
                 File imageFile = new File(imagePath);
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
                 if (imageFile.exists()){
-                    BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                    jsonObject.put("picture", imgBase64);
+                    if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                        //jpg
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }else {
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        BufferedImage newBufferedImage = new BufferedImage(
+                                bufferedImage.getWidth(), bufferedImage.getHeight(),
+                                BufferedImage.TYPE_INT_RGB);
+                        newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                                Color.WHITE, null);
+                        String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }
                 }else
                     jsonObject.put("picture","");
             }
@@ -373,12 +476,27 @@ public class InformationServiceImpl implements InformationService {
                 String imagePath = savePath + information.getPicture();
                 System.out.println(imagePath);
                 File imageFile = new File(imagePath);
+                String suffix = imagePath.substring(imagePath.lastIndexOf(".") + 1,imagePath.length());
+
                 if (imageFile.exists()){
-                    BufferedImage bufferedImage = ImageIO.read(imageFile);
-                    String imgBase64 = ImageTools.imgToBase64(bufferedImage);
-                    jsonObject.put("picture", imgBase64);
-                }else
-                    jsonObject.put("picture","");
+                    if ("jpg".equals(suffix) || "jpeg".equals(suffix)){
+                        //jpg
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        String imgBase64 = ImageTools.imgToBase64(bufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }else {
+                        BufferedImage bufferedImage = ImageIO.read(imageFile);
+                        BufferedImage newBufferedImage = new BufferedImage(
+                                bufferedImage.getWidth(), bufferedImage.getHeight(),
+                                BufferedImage.TYPE_INT_RGB);
+                        newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0,
+                                Color.WHITE, null);
+                        String imgBase64 = ImageTools.imgToBase64(newBufferedImage);
+                        jsonObject.put("picture", imgBase64);
+                    }
+                }else {
+                    jsonObject.put("picture", "");
+                }
             } else {
                 jsonObject.put("picture", null);
             }
