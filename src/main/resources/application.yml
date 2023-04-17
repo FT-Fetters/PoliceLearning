@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://ldqc.xyz/policelearning
+    url: jdbc:mysql://10.135.8.168/policelearning
     username: root
-    password: mysqlpwd
+    password: xlwc813913!
 #    url: jdbc:mysql://10.135.8.168/policelearning
 #    username: root
 #    password: xlwc813913!

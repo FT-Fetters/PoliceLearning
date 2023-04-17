@@ -7,8 +7,8 @@ public class Constant {
 
 
 
-    static protected final String PORT = "9435";
-    static protected final String HTTP = "http://cool.ldqc.xyz";
+    static protected final String PORT = "8080";
+    static protected final String HTTP = "http://10.135.8.168";
     static public final String BASE_URL = HTTP + "" + ":" + PORT + "/";
 
 }
