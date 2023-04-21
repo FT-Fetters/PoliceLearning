@@ -65,6 +65,7 @@ public class TopicApi {
         }
         File targetFile = new File(PathTools.getRunPath()+"/upload/topicPicture");
         File saveFile = new File(targetFile, filename);
+        boolean writable = saveFile.setWritable(true);
         file.transferTo(saveFile);
         return new ResultBody<>(true,200,filename);
     }
