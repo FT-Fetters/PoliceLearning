@@ -14,7 +14,7 @@ public interface UserDao extends BaseDao<User>{
     Integer count();
     void newUser(String username,String password,String nickname,String realname,Integer role,String phone,String sex,Long dept);
     void deleteUser(int id);
-    void updateUser(int id,String username,String nickname,String realname,Integer role,String phone,String sex,Long dept);
+    void updateUser(int id,String username,String nickname,String realname,Integer role,String phone,String sex,String dept);
     void changePassword(String username,String password);
     void changeNickname(String username,String nickname);
     List<User> search(@Param("word") String word);

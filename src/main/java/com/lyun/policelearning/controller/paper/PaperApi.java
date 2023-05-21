@@ -209,13 +209,13 @@ public class PaperApi {
             if (single == null)continue;
             run.setText(i + "." + single.getProblem());
             run.addCarriageReturn();
-            run.setText("A." + single.getOption_a());
+            run.setText("A." + single.getOptionA());
             run.addCarriageReturn();
-            run.setText("B." + single.getOption_b());
+            run.setText("B." + single.getOptionB());
             run.addCarriageReturn();
-            run.setText("C." + single.getOption_c());
+            run.setText("C." + single.getOptionC());
             run.addCarriageReturn();
-            run.setText("D." + single.getOption_d());
+            run.setText("D." + single.getOptionD());
             run.addCarriageReturn();
             i++;
         }
@@ -226,13 +226,13 @@ public class PaperApi {
             if (multiple == null)continue;
             run.setText(i + "." + multiple.getProblem());
             run.addCarriageReturn();
-            run.setText("A." + multiple.getOption_a());
+            run.setText("A." + multiple.getOptionA());
             run.addCarriageReturn();
-            run.setText("B." + multiple.getOption_b());
+            run.setText("B." + multiple.getOptionB());
             run.addCarriageReturn();
-            run.setText("C." + multiple.getOption_c());
+            run.setText("C." + multiple.getOptionC());
             run.addCarriageReturn();
-            run.setText("D." + multiple.getOption_d());
+            run.setText("D." + multiple.getOptionD());
             run.addCarriageReturn();
             i++;
         }
@@ -243,9 +243,9 @@ public class PaperApi {
             if (judgment == null)continue;
             run.setText(i + "." + judgment.getProblem());
             run.addCarriageReturn();
-            run.setText("A." + judgment.getOption_true());
+            run.setText("A." + judgment.getOptionTrue());
             run.addCarriageReturn();
-            run.setText("B." + judgment.getOption_false());
+            run.setText("B." + judgment.getOptionFalse());
             run.addCarriageReturn();
             i++;
         }

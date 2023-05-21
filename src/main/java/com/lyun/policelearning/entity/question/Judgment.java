@@ -13,10 +13,10 @@ public class Judgment {
     private String problem;
 
     @ExcelProperty("正确选项")
-    private String option_true;
+    private String optionTrue;
 
     @ExcelProperty("错误选项")
-    private String option_false;
+    private String optionFalse;
 
     @ExcelProperty("答案")
     private String answer;

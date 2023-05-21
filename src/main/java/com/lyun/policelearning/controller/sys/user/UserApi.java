@@ -7,6 +7,7 @@ import com.lyun.policelearning.config.JwtConfig;
 import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.UserService;
 import com.lyun.policelearning.utils.*;
+import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,19 +115,36 @@ public class UserApi {
         String sex = data.getString("sex");
         if (username == null || nickname == null || phone == null || sex == null)
             return new ResultBody<>(false,500,"miss parameter");
+        JSONObject res = new JSONObject();
         if (userService.getByUsername(username) == null){
             userService.newUser(username,"123456",nickname,nickname,2,phone,sex,null);
+            res.put("first_login",true);
         }
-        String userId = userService.getByUsername(username).getId() + "";
+        String userId = String.valueOf(userService.getByUsername(username).getId());
         String token = jwtConfig.createToken(userId);
         String nickName = userService.getByUsername(username).getNickname();
-        JSONObject res = new JSONObject();
         if (!token.equals("")){
             res.put("token",token);
             res.put("userName",username);
             res.put("nickName",nickName);
+            res.put("first_login",false);
         }
         return new ResultBody<>(true,200,res);
+    }
+
+    @Data
+    public static class RegInf{
+        private String name;
+        private String phone;
+        private String nickname;
+        private String dept;
+        private String sex;
+        private String username;
+    }
+
+    @PostMapping("/first/login/reg/inf")
+    public Object regInf(@RequestBody RegInf body){
+        return userService.regInf(body);
     }
 
 

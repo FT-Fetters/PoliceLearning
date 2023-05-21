@@ -45,9 +45,9 @@ public class ExaminationApi {
     @RequestMapping(value = "/getExam",method = RequestMethod.GET)
     public Object exam(HttpServletRequest request){
         SimulationSettings settings = simulationService.getSettings();
-        List<JSONObject> singleChoiceList = ExamUtils.sampleSingle(singleChoiceService,settings.getSin_num());
-        List<JSONObject> multipleChoiceList = ExamUtils.sampleMultiple(multipleChoiceService,settings.getMul_num());
-        List<JSONObject> judgmentList = ExamUtils.sampleJudgment(judgmentService,settings.getJud_num());
+        List<JSONObject> singleChoiceList = ExamUtils.sampleSingle(singleChoiceService,settings.getSinNum());
+        List<JSONObject> multipleChoiceList = ExamUtils.sampleMultiple(multipleChoiceService,settings.getMulNum());
+        List<JSONObject> judgmentList = ExamUtils.sampleJudgment(judgmentService,settings.getJudNum());
         JSONObject res = new JSONObject();
         res.put("single",singleChoiceList);
         res.put("multiple",multipleChoiceList);

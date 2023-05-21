@@ -115,8 +115,8 @@ public class IDocUtil implements DocUtil {
                 line = lineIter.next();
             }
         }else return;
-        tmpJud.setOption_true("正确");
-        tmpJud.setOption_false("错误");
+        tmpJud.setOptionTrue("正确");
+        tmpJud.setOptionFalse("错误");
         while (!line.startsWith("参考答案")){
             line = lineIter.next();
         }
@@ -139,13 +139,13 @@ public class IDocUtil implements DocUtil {
                 line = lineIter.next();
             }
         }else return;
-        tmpSin.setOption_a(line.substring(2));
+        tmpSin.setOptionA(line.substring(2));
         line = lineIter.next();
-        tmpSin.setOption_b(line.substring(2));
+        tmpSin.setOptionB(line.substring(2));
         line = lineIter.next();
-        tmpSin.setOption_c(line.substring(2));
+        tmpSin.setOptionC(line.substring(2));
         line = lineIter.next();
-        tmpSin.setOption_d(line.substring(2));
+        tmpSin.setOptionD(line.substring(2));
         while (!line.startsWith("参考答案")){
             line = lineIter.next();
         }
@@ -174,28 +174,28 @@ public class IDocUtil implements DocUtil {
         }
         if (line.charAt(0) != 'A')
             return;
-        tmpMul.setOption_a(line.substring(2));
+        tmpMul.setOptionA(line.substring(2));
         line = lineIter.next();
         while (line.equals("")){
             line = lineIter.next();
         }
         if (line.charAt(0) != 'B')
             return;
-        tmpMul.setOption_b(line.substring(2));
+        tmpMul.setOptionB(line.substring(2));
         line = lineIter.next();
         while (line.equals("")){
             line = lineIter.next();
         }
         if (line.charAt(0) != 'C')
             return;
-        tmpMul.setOption_c(line.substring(2));
+        tmpMul.setOptionC(line.substring(2));
         line = lineIter.next();
         while (line.equals("")){
             line = lineIter.next();
         }
         if (line.charAt(0) != 'D')
             return;
-        tmpMul.setOption_d(line.substring(2));
+        tmpMul.setOptionD(line.substring(2));
         while (!line.startsWith("参考答案")){
             line = lineIter.next();
         }

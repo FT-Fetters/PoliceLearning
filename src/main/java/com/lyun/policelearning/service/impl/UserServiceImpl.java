@@ -1,10 +1,14 @@
 package com.lyun.policelearning.service.impl;
 
 
+import com.lyun.policelearning.controller.sys.user.UserApi;
+import com.lyun.policelearning.dao.DeptDao;
 import com.lyun.policelearning.dao.RoleDao;
 import com.lyun.policelearning.dao.UserDao;
+import com.lyun.policelearning.entity.Dept;
 import com.lyun.policelearning.entity.User;
 import com.lyun.policelearning.service.UserService;
+import com.lyun.policelearning.utils.ResultBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +26,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleDao roleDao;
+
+
+    @Autowired
+    private DeptDao deptDao;
 
     @Override
     public boolean check(String username, String password) {
@@ -66,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(Integer id, String username, String nickname, String realname, Integer role,String phone,String sex,Long dept) {
-        userDao.updateUser(id,username,nickname,realname,role,phone,sex,dept);
+        userDao.updateUser(id,username,nickname,realname,role,phone,sex, String.valueOf(dept));
     }
 
     @Override
@@ -98,5 +106,21 @@ public class UserServiceImpl implements UserService {
     public boolean isAdmin(User user) {
         int role = user.getRole();
         return roleDao.findById(role).isAdmin();
+    }
+
+    @Override
+    public Object regInf(UserApi.RegInf body) {
+        User user = userDao.getByUsername(body.getUsername());
+        if (user == null) {
+            return new ResultBody<>(false,200,"unknown username");
+        }
+        Dept dept = deptDao.getByName(body.getDept());
+        if (dept == null) {
+            return new ResultBody<>(false,200,"unknown dept");
+        }
+        userDao.updateUser(user.getId(),body.getUsername()
+                ,body.getNickname(),body.getNickname(),
+                user.getRole(),body.getPhone(),body.getSex(),dept.getId());
+        return new ResultBody<>(true,200,null);
     }
 }

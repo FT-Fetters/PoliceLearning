@@ -61,10 +61,15 @@ public class TopicApi {
         filename= UUID.randomUUID()+suffixName;
         String savePath = PathTools.getRunPath()+"/upload/topicPicture/";
         if(!new File(savePath).exists()){
-            new File(savePath).mkdirs();
+            boolean mkdirs = new File(savePath).mkdirs();
+            if (!mkdirs)
+                return new ResultBody<>(true,200,"upload image fail");
         }
         File targetFile = new File(PathTools.getRunPath()+"/upload/topicPicture");
         File saveFile = new File(targetFile, filename);
+        boolean writable = saveFile.setWritable(true);
+        if (!writable)
+            return new ResultBody<>(true,200,"upload image fail");
         file.transferTo(saveFile);
         return new ResultBody<>(true,200,filename);
     }

@@ -50,10 +50,10 @@ public class ErrorBookServiceImpl implements ErrorBookService {
                     //返回选项
                     JSONObject option1 = new JSONObject();
                     option1.put("id","A");
-                    option1.put("content",judgment.getOption_true());
+                    option1.put("content",judgment.getOptionTrue());
                     JSONObject option2 = new JSONObject();
                     option2.put("id","B");
-                    option2.put("content",judgment.getOption_false());
+                    option2.put("content",judgment.getOptionFalse());
                     options.add(option1);
                     options.add(option2);
                     jsonObject.put("option",options);
@@ -73,16 +73,16 @@ public class ErrorBookServiceImpl implements ErrorBookService {
                     //返回选项
                     JSONObject option1 = new JSONObject();
                     option1.put("id","A");
-                    option1.put("content",singleChoice.getOption_a());
+                    option1.put("content",singleChoice.getOptionA());
                     JSONObject option2 = new JSONObject();
                     option2.put("id","B");
-                    option2.put("content",singleChoice.getOption_b());
+                    option2.put("content",singleChoice.getOptionB());
                     JSONObject option3 = new JSONObject();
                     option3.put("id","C");
-                    option3.put("content",singleChoice.getOption_c());
+                    option3.put("content",singleChoice.getOptionC());
                     JSONObject option4 = new JSONObject();
                     option4.put("id","D");
-                    option4.put("content",singleChoice.getOption_d());
+                    option4.put("content",singleChoice.getOptionD());
                     options.add(option1);
                     options.add(option2);
                     options.add(option3);
@@ -105,16 +105,16 @@ public class ErrorBookServiceImpl implements ErrorBookService {
                     //返回选项
                     JSONObject option1 = new JSONObject();
                     option1.put("id","A");
-                    option1.put("content",multipleChoice.getOption_a());
+                    option1.put("content",multipleChoice.getOptionA());
                     JSONObject option2 = new JSONObject();
                     option2.put("id","B");
-                    option2.put("content",multipleChoice.getOption_b());
+                    option2.put("content",multipleChoice.getOptionB());
                     JSONObject option3 = new JSONObject();
                     option3.put("id","C");
-                    option3.put("content",multipleChoice.getOption_c());
+                    option3.put("content",multipleChoice.getOptionC());
                     JSONObject option4 = new JSONObject();
                     option4.put("id","D");
-                    option4.put("content",multipleChoice.getOption_d());
+                    option4.put("content",multipleChoice.getOptionD());
                     options.add(option1);
                     options.add(option2);
                     options.add(option3);

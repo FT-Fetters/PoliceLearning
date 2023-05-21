@@ -74,10 +74,10 @@ public class MultipleChoiceServiceImpl implements MultipleChoiceService {
         for (MultipleChoice multipleChoice : multipleChoices) {
             if (
                     multipleChoice.getAnswer() != null && !multipleChoice.getAnswer().equals("")
-                            && multipleChoice.getOption_a() != null && !multipleChoice.getOption_a().equals("")
-                            && multipleChoice.getOption_b() != null && !multipleChoice.getOption_b().equals("")
-                            && multipleChoice.getOption_c() != null && !multipleChoice.getOption_c().equals("")
-                            && multipleChoice.getOption_d() != null && !multipleChoice.getOption_d().equals("")
+                            && multipleChoice.getOptionA() != null && !multipleChoice.getOptionA().equals("")
+                            && multipleChoice.getOptionB() != null && !multipleChoice.getOptionB().equals("")
+                            && multipleChoice.getOptionC() != null && !multipleChoice.getOptionC().equals("")
+                            && multipleChoice.getOptionD() != null && !multipleChoice.getOptionD().equals("")
                             && multipleChoice.getProblem() != null && !multipleChoice.getProblem().equals("")
             ){
                 try {

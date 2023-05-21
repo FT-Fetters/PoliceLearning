@@ -57,8 +57,8 @@ public class JudgmentManageApi {
         }
         Judgment judgment = new Judgment();
         judgment.setProblem(problem);
-        judgment.setOption_false(option_false);
-        judgment.setOption_true(option_true);
+        judgment.setOptionFalse(option_false);
+        judgment.setOptionTrue(option_true);
         judgment.setAnswer(answer);
         judgmentService.newQuestion(judgment);
         return new ResultBody<>(true,200,null);
@@ -82,8 +82,8 @@ public class JudgmentManageApi {
         Judgment judgment = new Judgment();
         judgment.setId(id);
         judgment.setProblem(problem);
-        judgment.setOption_false(option_false);
-        judgment.setOption_true(option_true);
+        judgment.setOptionFalse(option_false);
+        judgment.setOptionTrue(option_true);
         judgment.setAnswer(answer);
         judgmentService.updateQuestion(judgment);
         return new ResultBody<>(true,200,null);
@@ -138,8 +138,8 @@ public class JudgmentManageApi {
         Judgment judgment = new Judgment();
         judgment.setProblem("判断题问题()");
         judgment.setAnswer("1");
-        judgment.setOption_true("正确");
-        judgment.setOption_false("错误");
+        judgment.setOptionTrue("正确");
+        judgment.setOptionFalse("错误");
         judgments.add(judgment);
         response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
         EasyExcel.write(response.getOutputStream()).head(Judgment.class).sheet("模板").doWrite(judgments);

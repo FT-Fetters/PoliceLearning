@@ -58,10 +58,10 @@ public class MultipleChoiceManageApi {
         }
         MultipleChoice multipleChoice = new MultipleChoice();
         multipleChoice.setProblem(problem);
-        multipleChoice.setOption_a(option_a);
-        multipleChoice.setOption_b(option_b);
-        multipleChoice.setOption_c(option_c);
-        multipleChoice.setOption_d(option_d);
+        multipleChoice.setOptionA(option_a);
+        multipleChoice.setOptionB(option_b);
+        multipleChoice.setOptionC(option_c);
+        multipleChoice.setOptionD(option_d);
         multipleChoice.setAnswer(answer);
         multipleChoiceService.newQuestion(multipleChoice);
         return new ResultBody<>(true,200,null);
@@ -88,10 +88,10 @@ public class MultipleChoiceManageApi {
         MultipleChoice multipleChoice = multipleChoiceService.getById(id);
         multipleChoice.setId(id);
         multipleChoice.setProblem(problem);
-        multipleChoice.setOption_a(option_a);
-        multipleChoice.setOption_b(option_b);
-        multipleChoice.setOption_c(option_c);
-        multipleChoice.setOption_d(option_d);
+        multipleChoice.setOptionA(option_a);
+        multipleChoice.setOptionB(option_b);
+        multipleChoice.setOptionC(option_c);
+        multipleChoice.setOptionD(option_d);
         multipleChoice.setAnswer(answer);
         multipleChoiceService.updateQuestion(multipleChoice);
         return new ResultBody<>(true,200,null);
@@ -145,10 +145,10 @@ public class MultipleChoiceManageApi {
         List<MultipleChoice> multipleChoices = new ArrayList<>();
         MultipleChoice multipleChoice = new MultipleChoice();
         multipleChoice.setProblem("多选题问题()");
-        multipleChoice.setOption_a("选项A");
-        multipleChoice.setOption_b("选项B");
-        multipleChoice.setOption_c("选项C");
-        multipleChoice.setOption_d("选项D");
+        multipleChoice.setOptionA("选项A");
+        multipleChoice.setOptionB("选项B");
+        multipleChoice.setOptionC("选项C");
+        multipleChoice.setOptionD("选项D");
         multipleChoice.setAnswer("AB");
         multipleChoices.add(multipleChoice);
         //设置头属性  设置文件名称

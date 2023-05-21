@@ -70,10 +70,10 @@ public class SingleChoiceServiceImpl implements SingleChoiceService {
         for (SingleChoice singleChoice : singleChoices) {
             if (
                     singleChoice.getAnswer() != null && !singleChoice.getAnswer().equals("")
-                            && singleChoice.getOption_a() != null && !singleChoice.getOption_a().equals("")
-                            && singleChoice.getOption_b() != null && !singleChoice.getOption_b().equals("")
-                            && singleChoice.getOption_c() != null && !singleChoice.getOption_c().equals("")
-                            && singleChoice.getOption_d() != null && !singleChoice.getOption_d().equals("")
+                            && singleChoice.getOptionA() != null && !singleChoice.getOptionA().equals("")
+                            && singleChoice.getOptionB() != null && !singleChoice.getOptionB().equals("")
+                            && singleChoice.getOptionC() != null && !singleChoice.getOptionC().equals("")
+                            && singleChoice.getOptionD() != null && !singleChoice.getOptionD().equals("")
                             && singleChoice.getProblem() != null && !singleChoice.getProblem().equals("")
             ) {
                 try {

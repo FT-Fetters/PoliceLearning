@@ -11,13 +11,13 @@ public class SingleChoice {
     @ExcelProperty("问题")
     private String problem;
     @ExcelProperty("选项A")
-    private String option_a;
+    private String optionA;
     @ExcelProperty("选项B")
-    private String option_b;
+    private String optionB;
     @ExcelProperty("选项C")
-    private String option_c;
+    private String optionC;
     @ExcelProperty("选项D")
-    private String option_d;
+    private String optionD;
     @ExcelProperty("答案")
     private String answer;
 }

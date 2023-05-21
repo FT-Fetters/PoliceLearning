@@ -49,9 +49,9 @@ public class MockExaminationApi {
     @SneakyThrows
     @RequestMapping("/sample")
     public Object sample(HttpServletRequest request){
-        int sin_num = simulationService.getSettings().getSin_num();
-        int mul_num = simulationService.getSettings().getMul_num();
-        int jud_num = simulationService.getSettings().getJud_num();
+        int sin_num = simulationService.getSettings().getSinNum();
+        int mul_num = simulationService.getSettings().getMulNum();
+        int jud_num = simulationService.getSettings().getJudNum();
         List<JSONObject> singleChoiceList = QuestionUtils.sampleSingle(singleChoiceService,sin_num);
         List<JSONObject> multipleChoiceList = QuestionUtils.sampleMultiple(multipleChoiceService,mul_num);
         List<JSONObject> judgmentList = QuestionUtils.sampleJudgment(judgmentService,jud_num);

@@ -69,8 +69,8 @@ public class JudgmentServiceImpl implements JudgmentService {
         for (Judgment judgment : judgments) {
             if (
                     judgment.getAnswer() != null && !judgment.getAnswer().equals("")
-                    && judgment.getOption_true() != null && !judgment.getOption_true().equals("")
-                    && judgment.getOption_false() != null && !judgment.getOption_false().equals("")
+                    && judgment.getOptionTrue() != null && !judgment.getOptionTrue().equals("")
+                    && judgment.getOptionFalse() != null && !judgment.getOptionFalse().equals("")
                     && judgment.getProblem() != null && !judgment.getProblem().equals("")
             ){
                 try {

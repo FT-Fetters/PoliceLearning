@@ -58,10 +58,10 @@ public class SingleChoiceManageApi {
         }
         SingleChoice singleChoice = new SingleChoice();
         singleChoice.setProblem(problem);
-        singleChoice.setOption_a(option_a);
-        singleChoice.setOption_b(option_b);
-        singleChoice.setOption_c(option_c);
-        singleChoice.setOption_d(option_d);
+        singleChoice.setOptionA(option_a);
+        singleChoice.setOptionB(option_b);
+        singleChoice.setOptionC(option_c);
+        singleChoice.setOptionD(option_d);
         singleChoice.setAnswer(answer);
         singleChoiceService.newQuestion(singleChoice);
         return new ResultBody<>(true, 200, null);
@@ -88,10 +88,10 @@ public class SingleChoiceManageApi {
         SingleChoice singleChoice = singleChoiceService.getById(id);
         singleChoice.setId(id);
         singleChoice.setProblem(problem);
-        singleChoice.setOption_a(option_a);
-        singleChoice.setOption_b(option_b);
-        singleChoice.setOption_c(option_c);
-        singleChoice.setOption_d(option_d);
+        singleChoice.setOptionA(option_a);
+        singleChoice.setOptionB(option_b);
+        singleChoice.setOptionC(option_c);
+        singleChoice.setOptionD(option_d);
         singleChoice.setAnswer(answer);
         singleChoiceService.updateQuestion(singleChoice);
         return new ResultBody<>(true, 200, null);
@@ -143,10 +143,10 @@ public class SingleChoiceManageApi {
         List<SingleChoice> singleChoices = new ArrayList<>();
         SingleChoice singleChoice = new SingleChoice();
         singleChoice.setProblem("单选题问题()");
-        singleChoice.setOption_a("选项A");
-        singleChoice.setOption_b("选项B");
-        singleChoice.setOption_c("选项C");
-        singleChoice.setOption_d("选项D");
+        singleChoice.setOptionA("选项A");
+        singleChoice.setOptionB("选项B");
+        singleChoice.setOptionC("选项C");
+        singleChoice.setOptionD("选项D");
         singleChoice.setAnswer("A");
         singleChoices.add(singleChoice);
         response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");

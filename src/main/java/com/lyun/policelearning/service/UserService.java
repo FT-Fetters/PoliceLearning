@@ -1,6 +1,7 @@
 package com.lyun.policelearning.service;
 
 
+import com.lyun.policelearning.controller.sys.user.UserApi;
 import com.lyun.policelearning.entity.User;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserService {
     void changeNickname(String username,String nickname);
     boolean isAdmin(int id);
     boolean isAdmin(User user);
+
+    Object regInf(UserApi.RegInf body);
 }
